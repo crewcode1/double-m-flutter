@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1022184197812",
+    "project_id": "double-m-15288",
+    "storage_bucket": "double-m-15288.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022184197812:android:cd0eb84fafaf87176b51e1",
+        "android_client_info": {
+          "package_name": "com.CrewCode.doublem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0wNBt_qruiqdmvrr0_jYNHZZBkbCmL6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
