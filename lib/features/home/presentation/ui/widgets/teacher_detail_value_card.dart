@@ -24,7 +24,7 @@ class TeacherDetailValueCard extends StatelessWidget {
         color: cardColor,
         borderRadius: BorderRadius.circular(5.r),
       ),
-      height: 22.h,
+      height: 20.h,
       width: 186.w,
       padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 3.h),
       child: Row(
@@ -32,11 +32,17 @@ class TeacherDetailValueCard extends StatelessWidget {
         children: [
           Text(
             detailTitle,
-            style: context.textTheme.labelSmall?.copyWith(color: detailColor),
+            style: context.textTheme.labelSmall?.copyWith(
+              fontSize: 10,
+              color: detailColor,
+            ),
           ),
           Text(
             valueTitle,
-            style: context.textTheme.labelSmall?.copyWith(color: valueColor),
+            style: context.textTheme.labelSmall?.copyWith(
+              fontSize: 10,
+              color: valueColor,
+            ),
           ),
         ],
       ),

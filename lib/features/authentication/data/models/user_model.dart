@@ -5,19 +5,20 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
-  final String id;
-  final String email;
-  final String fullName;
-  final String phoneNumber;
+  final String? id;
+  final String? email;
+  final String? fullName;
+  final String? phoneNumber;
+  @JsonKey(name: 'profileImageUrl')
   final String? photoUrl;
   final String? specialty;
   final String? description;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final bool isActive;
-  final String language;
-  final bool darkMode;
-  final List<String> roles;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final bool? isActive;
+  final String? language;
+  final bool? darkMode;
+  final List<String>? roles;
 
   UserModel({
     required this.id,
@@ -39,10 +40,10 @@ class UserModel {
       _$UserModelFromJson(json);
 
   User toEntity() => User(
-    id: id,
-    email: email,
-    fullName: fullName,
-    phoneNumber: phoneNumber,
+    id: id ?? '#djfbakARF25asdca7',
+    email: email ?? 'example@gmail.com',
+    fullName: fullName ?? 'Full Name',
+    phoneNumber: phoneNumber ?? '01234567891',
     photoUrl: photoUrl,
     specialty: specialty,
     description: description,

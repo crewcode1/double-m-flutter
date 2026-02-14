@@ -1,19 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
 import 'package:doublem/features/home/presentation/ui/widgets/teacher_detail_value_card.dart';
-import 'package:doublem/features/teachers/presentation/ui/screens/teachers_screen.dart';
+import 'package:doublem/features/teachers/domain/entities/teacher_entity.dart';
+import 'package:doublem/features/teachers/presentation/ui/screens/teacher_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PlatformTeachersCard extends StatelessWidget {
-  const PlatformTeachersCard({super.key});
+  final TeacherEntity teacherEntity;
+  const PlatformTeachersCard({super.key, required this.teacherEntity});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(TeachersScreen.path);
+        context.push(TeacherScreen.path);
       },
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(20.r),
@@ -35,9 +38,18 @@ class PlatformTeachersCard extends StatelessWidget {
           child: Row(
             spacing: 12.w,
             children: [
-              Expanded(
-                flex: 1,
-                child: Assets.images.teacher.image(fit: BoxFit.fitHeight),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: SizedBox(
+                  width: 102.w,
+                  height: 119.h,
+                  child: teacherEntity.profileImageUrl != null
+                      ? CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: teacherEntity.profileImageUrl!,
+                        )
+                      : Assets.images.teacher.image(fit: BoxFit.fitHeight),
+                ),
               ),
 
               Expanded(
@@ -53,7 +65,7 @@ class PlatformTeachersCard extends StatelessWidget {
                     spacing: 6.h,
                     children: [
                       Text(
-                        "Dr. ahmed hassan",
+                        teacherEntity.fullName,
                         style: context.textTheme.titleLarge,
                       ),
                       TeacherDetailValueCard(
@@ -61,21 +73,21 @@ class PlatformTeachersCard extends StatelessWidget {
                         detailColor: context.colorScheme.primaryColor,
                         valueColor: context.colorScheme.greyColor,
                         detailTitle: "Specialization",
-                        valueTitle: "Physics",
+                        valueTitle: teacherEntity.specialty,
                       ),
                       TeacherDetailValueCard(
                         cardColor: context.colorScheme.lightBlueColor,
                         detailColor: context.colorScheme.primaryColor,
                         valueColor: context.colorScheme.greyColor,
                         detailTitle: "Age state",
-                        valueTitle: "University",
+                        valueTitle: teacherEntity.description,
                       ),
                       TeacherDetailValueCard(
                         cardColor: context.colorScheme.lightBrownColor,
                         detailColor: context.colorScheme.whiteColor,
                         valueColor: context.colorScheme.whiteColor,
                         detailTitle: "Number",
-                        valueTitle: "01272731714",
+                        valueTitle: teacherEntity.phoneNumber,
                       ),
                     ],
                   ),

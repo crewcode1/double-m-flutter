@@ -16,7 +16,7 @@ class CacheUtils implements AbstractCacheUtils {
     _preferences = await SharedPreferences.getInstance();
 
     if (_preferences?.getString('language') == null) {
-      await _preferences?.setString('language', 'en');
+      await _preferences?.setString('language', 'ar');
       // locale = 'en';
     }
   }

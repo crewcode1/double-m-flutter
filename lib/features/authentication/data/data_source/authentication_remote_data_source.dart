@@ -1,72 +1,158 @@
-abstract class AuthRemoteDataSource {
-  Future<AuthResponseModel> login(LoginRequest request);
-  Future<AuthResponseModel> register(RegisterRequest request);
-  Future<AuthResponseModel> biometricLogin(BiometricLoginRequest request);
+import 'package:dio/dio.dart';
+import 'package:doublem/core/constants_strings/end_points.dart';
+import 'package:doublem/core/services/abstraction/api_services.dart';
+import 'package:doublem/core/utils/implementation/cache_utils.dart';
+import 'package:doublem/features/authentication/data/models/authentication_response_model.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/biometrics_login_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/change_password_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/confirm_email_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/forgot_password_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/login_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/register_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/reset_password_request_body.dart';
+import 'package:doublem/features/authentication/data/models/user_profile_model.dart';
 
-  Future<void> forgotPassword(ForgotPasswordRequest request);
-  Future<void> resetPassword(ResetPasswordRequest request);
-  Future<void> changePassword(ChangePasswordRequest request);
-  Future<void> confirmEmail(String userId, String token);
-  Future<AuthResponseModel> refreshToken(String refreshToken);
+abstract class AuthRemoteDataSource {
+  Future<AuthResponseModel> login({required LoginRequestBody request});
+  Future<void> register({required RegisterRequestBody request});
+  Future<AuthResponseModel> biometricLogin({
+    required BiometricLoginRequestBody request,
+  });
+
+  Future<void> forgotPassword({required ForgotPasswordRequestBody request});
+  Future<void> resetPassword({required ResetPasswordRequestBody request});
+  Future<void> changePassword({required ChangePasswordRequestBody request});
+  Future<void> confirmEmail({required ConfirmEmailRequestBody request});
+  Future<AuthResponseModel> refreshToken({required String refreshToken});
+  Future<UserProfileModel> loadProfile();
+  // Future<void> updateProfile({required UpdateProileRequestBody request});
   Future<void> logout();
+
+  AuthResponseModel parsingLoginResponse(Response response) {
+    if (response.data['data'] != null) {
+      return AuthResponseModel.fromJson(response.data['data']);
+    } else {
+      throw Exception('Invalid response format: missing "data" field');
+    }
+  }
+
+  AuthResponseModel parsingBiometricsLoginResponse(Response response) {
+    return AuthResponseModel.fromJson(response.data);
+  }
+
+  UserProfileModel parsingProfile(Response response) {
+    return UserProfileModel.fromJson(response.data['data']);
+  }
 }
 
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final Dio dio;
+class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
+  final ApiServices apiServices;
 
-  AuthRemoteDataSourceImpl(this.dio);
-
-  @override
-  Future<AuthResponseModel> login(LoginRequest request) async {
-    final res = await dio.post('/login', data: request.toJson());
-    return AuthResponseModel.fromJson(res.data);
-  }
+  AuthRemoteDataSourceImpl({required this.apiServices});
 
   @override
-  Future<AuthResponseModel> register(RegisterRequest request) async {
-    final res = await dio.post('/register', data: request.toJson());
-    return AuthResponseModel.fromJson(res.data);
-  }
-
-  @override
-  Future<AuthResponseModel> biometricLogin(
-    BiometricLoginRequest request,
-  ) async {
-    final res = await dio.post('/biometric-login', data: request.toJson());
-    return AuthResponseModel.fromJson(res.data);
-  }
-
-  @override
-  Future<void> forgotPassword(ForgotPasswordRequest request) async {
-    await dio.post('/forgot-password', data: request.toJson());
-  }
-
-  @override
-  Future<void> resetPassword(ResetPasswordRequest request) async {
-    await dio.post('/reset-password', data: request.toJson());
-  }
-
-  @override
-  Future<void> changePassword(ChangePasswordRequest request) async {
-    await dio.post('/change-password', data: request.toJson());
-  }
-
-  @override
-  Future<void> confirmEmail(String userId, String token) async {
-    await dio.post('/confirm-email', data: {'userId': userId, 'token': token});
-  }
-
-  @override
-  Future<AuthResponseModel> refreshToken(String refreshToken) async {
-    final res = await dio.post(
-      '/refresh-token',
-      data: {'refreshToken': refreshToken},
+  Future<AuthResponseModel> biometricLogin({
+    required BiometricLoginRequestBody request,
+  }) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.login,
+      data: request.toJson(),
     );
-    return AuthResponseModel.fromJson(res.data);
+    return parsingBiometricsLoginResponse(response);
+  }
+
+  @override
+  Future<void> changePassword({
+    required ChangePasswordRequestBody request,
+  }) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.changePassword,
+      data: request.toJson(),
+    );
+    response.data;
+  }
+
+  @override
+  Future<void> confirmEmail({required ConfirmEmailRequestBody request}) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.login,
+      data: request.toJson(),
+    );
+    return response.data;
+  }
+
+  @override
+  Future<void> forgotPassword({
+    required ForgotPasswordRequestBody request,
+  }) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.forgotPassword,
+      data: request.toJson(),
+    );
+    return response.data;
+  }
+
+  @override
+  Future<AuthResponseModel> login({required LoginRequestBody request}) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.login,
+      data: request.toJson(),
+    );
+    return parsingLoginResponse(response);
   }
 
   @override
   Future<void> logout() async {
-    await dio.post('/logout');
+    Response response = await apiServices.post(endPoint: EndPoints.logout);
+    return response.data;
   }
+
+  @override
+  Future<AuthResponseModel> refreshToken({required String refreshToken}) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.logout,
+      query: {'refreshToken': refreshToken},
+    );
+    return response.data;
+  }
+
+  @override
+  Future<void> register({required RegisterRequestBody request}) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.register,
+      data: request.toJson(),
+    );
+    return response.data;
+  }
+
+  @override
+  Future<void> resetPassword({
+    required ResetPasswordRequestBody request,
+  }) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.resetPassword,
+      data: request.toJson(),
+    );
+    return response.data;
+  }
+
+  @override
+  Future<UserProfileModel> loadProfile() async {
+    String? userToken = CacheUtils().getString(key: 'userToken');
+    Response response = await apiServices.get(
+      endPoint: EndPoints.userProfile,
+      token: userToken,
+    );
+    return parsingProfile(response);
+  }
+
+  // @override
+  // Future<void> updateProfile({required UpdateProileRequestBody request}) async {
+  //   Response response = await apiServices.put(
+  //     endPoint: EndPoints.userProfile,
+  //     data: request.toJson(),
+  //     token: CacheUtils().getString(key: 'token'),
+  //   );
+  //   return response.data;
+  // }
 }

@@ -1,20 +1,32 @@
 import 'package:doublem/core/injection/injection.dart';
 import 'package:doublem/core/presentation/screens/splash_screen.dart';
+import 'package:doublem/features/authentication/presentation/ui/screens/forgot_password_screen.dart';
+import 'package:doublem/features/authentication/presentation/ui/screens/login_screen.dart';
+import 'package:doublem/features/course/domain/entities/course_entity.dart';
+import 'package:doublem/features/course/domain/entities/enrolled_course.dart';
+import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_bloc.dart';
+import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_event.dart';
 import 'package:doublem/features/course/presentation/ui/screens/course_screen.dart';
 import 'package:doublem/features/home/presentation/ui/screens/home_screen.dart';
-import 'package:doublem/features/login/presentation/ui/screens/forgot_password_screen.dart';
-import 'package:doublem/features/login/presentation/ui/screens/login_screen.dart';
 import 'package:doublem/features/main/presentation/ui/screens/main_screen.dart';
 import 'package:doublem/features/notifications/presentation/ui/screens/notifications_screen.dart';
 import 'package:doublem/features/profile/presentation/ui/screens/profile_screen.dart';
-import 'package:doublem/features/quizes/presentation/ui/screens/quiz_screen.dart';
-import 'package:doublem/features/quizes/presentation/ui/screens/quizzes_screen.dart';
-import 'package:doublem/features/sessions/presentation/ui/screens/session_screen.dart';
-import 'package:doublem/features/sessions/presentation/ui/screens/sessions_screen.dart';
+import 'package:doublem/features/quizzes/domain/entities/quiz_entity.dart';
+import 'package:doublem/features/quizzes/presentation/controllers/sections_and_lessons_bloc/quizzes_bloc.dart';
+import 'package:doublem/features/quizzes/presentation/controllers/sections_and_lessons_bloc/quizzes_event.dart';
+import 'package:doublem/features/quizzes/presentation/ui/screens/quiz_screen.dart';
+import 'package:doublem/features/quizzes/presentation/ui/screens/quizzes_screen.dart';
+import 'package:doublem/features/sections&lessons/domain/entities/section_entity.dart';
+import 'package:doublem/features/sections/presentation/ui/screens/section_screen.dart';
+
+import 'package:doublem/features/sections/presentation/ui/screens/sections_screen.dart';
 import 'package:doublem/features/settings/presentation/ui/screens/settings_screen.dart';
 import 'package:doublem/features/signup/presentation/controllers/bloc/signup_verification_bloc.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/signup_screen.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/verification_screen.dart';
+import 'package:doublem/features/teachers/presentation/controllers/teacher_bloc/teacher_bloc.dart';
+import 'package:doublem/features/teachers/presentation/controllers/teacher_bloc/teacher_event.dart';
+import 'package:doublem/features/teachers/presentation/ui/screens/teacher_screen.dart';
 import 'package:doublem/features/teachers/presentation/ui/screens/teachers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,13 +42,13 @@ abstract class AppRouter {
   //     GlobalKey<NavigatorState>();
   static void createRouter() {
     GoRouter goRouter = GoRouter(
-      initialLocation: SplashScreen.path,
+      initialLocation: HomeScreen.path,
       navigatorKey: _navigatorKey,
       routes: [
-        GoRoute(
-          path: SplashScreen.path,
-          pageBuilder: (context, state) => MaterialPage(child: SplashScreen()),
-        ),
+        // GoRoute(
+        //   path: SplashScreen.path,
+        //   pageBuilder: (context, state) => MaterialPage(child: SplashScreen()),
+        // ),
         GoRoute(
           path: LoginScreen.path,
           pageBuilder: (context, state) => MaterialPage(child: LoginScreen()),
@@ -44,8 +56,24 @@ abstract class AppRouter {
         ShellRoute(
           // parentNavigatorKey: _navigatorKey,
           // navigatorKey: _shellNavigatorKey,
-          pageBuilder: (context, state, child) =>
-              MaterialPage(child: MainScreen(child: child)),
+          pageBuilder: (context, state, child) => MaterialPage(
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider<TeachersBloc>(
+                  create: (context) =>
+                      getIt<TeachersBloc>()..add(LoadAllTeachersEvent()),
+                ),
+                BlocProvider<CoursesBloc>(
+                  create: (context) =>
+                      getIt<CoursesBloc>()..add(LoadAllCoursesEvent()),
+                ),
+                // BlocProvider<SectionsAndLessonsBloc>(
+                //   create: (context) => getIt<SectionsAndLessonsBloc>(),
+                // ),
+              ],
+              child: MainScreen(child: child),
+            ),
+          ),
           routes: [
             GoRoute(
               path: HomeScreen.path,
@@ -95,27 +123,72 @@ abstract class AppRouter {
           path: ProfileScreen.path,
           pageBuilder: (context, state) => MaterialPage(child: ProfileScreen()),
         ),
+        // GoRoute(
+        //   path: ProfileScreen.path,
+        //   pageBuilder: (context, state) => MaterialPage(
+        //     child: BlocProvider<AuthenticationBloc>(
+        //       create: (context) =>
+        //           getIt<AuthenticationBloc>()..add(LoadProfileRequested()),
+        //       child: ProfileScreen(),
+        //     ),
+        //   ),
+        // ),
+        GoRoute(
+          path: TeacherScreen.path,
+          pageBuilder: (context, state) => MaterialPage(child: TeacherScreen()),
+        ),
         GoRoute(
           path: CourseScreen.path,
-          pageBuilder: (context, state) => MaterialPage(child: CourseScreen()),
+          pageBuilder: (context, state) {
+            EnrolledCourse courseEntity = state.extra as EnrolledCourse;
+
+            return MaterialPage(
+              child: BlocProvider<CoursesBloc>(
+                create: (context) => getIt<CoursesBloc>()
+                  ..add(
+                    LoadCourseDetailsEvent(courseId: courseEntity.courseId),
+                  ),
+                child: CourseScreen(courseEntity: courseEntity),
+              ),
+            );
+          },
         ),
         GoRoute(
-          path: SessionsScreen.path,
-          pageBuilder: (context, state) =>
-              MaterialPage(child: SessionsScreen()),
+          path: SectionsScreen.path,
+          pageBuilder: (context, state) {
+            List<SectionEntity> sections = state.extra as List<SectionEntity>;
+            return MaterialPage(child: SectionsScreen(sections: sections));
+          },
         ),
         GoRoute(
-          path: SessionScreen.path,
-          pageBuilder: (context, state) => MaterialPage(child: SessionScreen()),
+          path: SectionScreen.path,
+          pageBuilder: (context, state) {
+            SectionEntity section = state.extra as SectionEntity;
+            return MaterialPage(child: SectionScreen(sectionEntity: section));
+          },
         ),
+
         GoRoute(
           path: QuizzesScreen.path,
-          pageBuilder: (context, state) => MaterialPage(child: QuizzesScreen()),
+          pageBuilder: (context, state) {
+            List<QuizEntity> quizzes = state.extra as List<QuizEntity>;
+            return MaterialPage(child: QuizzesScreen(quizzes: quizzes));
+          },
         ),
         GoRoute(
           path: QuizScreen.path,
-          pageBuilder: (context, state) => MaterialPage(child: QuizScreen()),
+          pageBuilder: (context, state) {
+            QuizEntity quizz = state.extra as QuizEntity;
+            return MaterialPage(
+              child: BlocProvider(
+                create: (context) =>
+                    getIt<QuizzesBloc>()..add(LoadQuizEvent(quizId: quizz.id)),
+                child: QuizScreen(quizEntity: quizz),
+              ),
+            );
+          },
         ),
+
         GoRoute(
           path: NotificationsScreen.path,
           pageBuilder: (context, state) =>

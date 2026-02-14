@@ -1,0 +1,18 @@
+import 'package:doublem/core/models/either/either.dart';
+import 'package:doublem/core/models/errors/failure_model.dart';
+import 'package:doublem/core/use_cases/generic_use_case.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/biometrics_login_request_body.dart';
+import 'package:doublem/features/authentication/domain/entities/authentication_session.dart';
+import 'package:doublem/features/authentication/domain/repositories/authentication_reository.dart';
+
+class BiometricsLoginUseCase
+    extends UseCase<AuthSession, BiometricLoginRequestBody> {
+  final AuthRepository authRepository;
+  BiometricsLoginUseCase(this.authRepository);
+  @override
+  Future<Either<Failure, AuthSession>> call({
+    BiometricLoginRequestBody? parameters,
+  }) {
+    return authRepository.biometricLogin(request: parameters!);
+  }
+}

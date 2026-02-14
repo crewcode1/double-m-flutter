@@ -1,7 +1,7 @@
 import 'package:doublem/core/enums/types/form_field_type_enum.dart';
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
-import 'package:doublem/features/login/presentation/ui/widgets/custom_form_field.dart';
+import 'package:doublem/features/authentication/presentation/ui/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 
 class SignUpFormFieldWithLabel extends StatelessWidget {
@@ -10,6 +10,8 @@ class SignUpFormFieldWithLabel extends StatelessWidget {
   final FocusNode focusNode;
   final String hint;
   final FormFieldType? formFieldType;
+  final int? maxLength;
+
   final bool? enable;
   final bool? obscureText;
   final String? initialValue;
@@ -33,6 +35,7 @@ class SignUpFormFieldWithLabel extends StatelessWidget {
     this.onEditingComplete,
     this.onPressed,
     required this.validator,
+    this.maxLength,
   });
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,7 @@ class SignUpFormFieldWithLabel extends StatelessWidget {
           child: Text(label, style: context.textTheme.bodyLarge),
         ),
         SigningFormField(
+          maxLength: maxLength,
           formFieldType: formFieldType,
           keyboardType: keyboardType,
           onEditingComplete: onEditingComplete,

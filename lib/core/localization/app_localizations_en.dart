@@ -33,6 +33,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyHaveAccount => 'Already have account ?';
 
   @override
+  String get dontHaveAccount => 'Don\'t have account ?';
+
+  @override
   String get createAccount => 'Create an account';
 
   @override
@@ -43,6 +46,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lastName => 'Last name';
+
+  @override
+  String get fullName => 'Full name';
 
   @override
   String get email => 'Email';
@@ -79,7 +85,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get students => 'Students';
 
   @override
-  String get platformTeatchers => 'Platform teachers';
+  String get platformTeachers => 'Platform teachers';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get failedToLoadData => 'Failed to load data';
+
+  @override
+  String get tapToReload => 'Tap to re-load';
 
   @override
   String get currentCourses => 'Current courses';
@@ -94,7 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get done => 'Done';
 
   @override
-  String get sessions => 'Sessions';
+  String get sections => 'Sections';
 
   @override
   String get settings => 'Settings';
@@ -128,6 +143,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterCode => 'Enter the 6-digit code ';
+
+  @override
+  String get addCousreCode => 'Add course code';
+
+  @override
+  String get addCourse => 'Add course';
 
   @override
   String get yes => 'Yes';

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'change_password_request_body.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: true)
 class ChangePasswordRequestBody {
   final String currentPassword;
   final String newPassword;

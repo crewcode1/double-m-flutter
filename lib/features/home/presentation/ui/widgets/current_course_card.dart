@@ -1,29 +1,20 @@
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
+import 'package:doublem/features/course/domain/entities/enrolled_course.dart';
 import 'package:doublem/features/course/presentation/ui/screens/course_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CurrentCourseCard extends StatelessWidget {
-  const CurrentCourseCard({super.key});
+  final EnrolledCourse courseEntity;
+  const CurrentCourseCard({super.key, required this.courseEntity});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(CourseScreen.path);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (_) => CourseScreen(
-        //       courseId: course["id"],
-        //       title: course["title"],
-        //       teacherName: course["teacher"],
-        //       description: "Course description goes here...",
-        //     ),
-        //   ),
-        // );
+        context.push(CourseScreen.path, extra: courseEntity);
       },
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(10.r),
@@ -46,16 +37,29 @@ class CurrentCourseCard extends StatelessWidget {
             ],
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Assets.images.course.image(),
               SizedBox(height: 5.h),
-              Text('Chemistry', style: context.textTheme.labelLarge),
-              Text('Mr. Ahmed', style: context.textTheme.labelLarge),
               Text(
-                '20 Days remaining',
-                style: context.textTheme.labelLarge?.copyWith(
+                courseEntity.courseTitle,
+                style: context.textTheme.labelLarge?.copyWith(fontSize: 15),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                courseEntity.teacherName,
+                style: context.textTheme.labelMedium?.copyWith(fontSize: 12),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                courseEntity.enrolledAt.toString(),
+                style: context.textTheme.labelSmall?.copyWith(
                   color: context.colorScheme.brownColor,
                 ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

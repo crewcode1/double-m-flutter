@@ -48,10 +48,7 @@ class LocalizationCubit extends Cubit<LocalizationState> {
   }
 
   String _getLanguage() {
-    if (CacheUtils().getString(key: 'language') == null) {
-      CacheUtils().setString(key: 'language', value: 'en');
-    }
-    String locale = CacheUtils().getString(key: 'language') ?? 'en';
+    String locale = CacheUtils().getString(key: 'language') ?? 'ar';
     return locale;
   }
 

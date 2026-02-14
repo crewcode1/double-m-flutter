@@ -6,6 +6,7 @@ import 'package:doublem/core/routes/app_router.dart';
 import 'package:doublem/core/theme/cubit/theming_cubit.dart';
 import 'package:doublem/core/theme/theming/theme.dart';
 import 'package:doublem/core/utils/implementation/screen_util.dart';
+import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,6 +21,9 @@ class DoubleM extends StatelessWidget {
         BlocProvider<ThemingCubit>(create: (context) => getIt<ThemingCubit>()),
         BlocProvider<LocalizationCubit>(
           create: (context) => getIt<LocalizationCubit>(),
+        ),
+        BlocProvider<AuthenticationBloc>(
+          create: (context) => getIt<AuthenticationBloc>(),
         ),
       ],
       child: BlocBuilder<ThemingCubit, ThemingState>(

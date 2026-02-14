@@ -3,7 +3,7 @@ import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/extensions/translation.dart';
 import 'package:doublem/core/injection/injection.dart';
 import 'package:doublem/core/presentation/widgets/custom_app_bar.dart';
-import 'package:doublem/features/login/presentation/ui/screens/login_screen.dart';
+import 'package:doublem/features/authentication/presentation/ui/screens/login_screen.dart';
 import 'package:doublem/core/presentation/widgets/custom_button.dart';
 import 'package:doublem/features/signup/presentation/controllers/bloc/signup_verification_bloc.dart';
 import 'package:doublem/features/authentication/presentation/ui/widgets/otp_text_field.dart';

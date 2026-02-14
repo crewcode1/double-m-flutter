@@ -1,4 +1,4 @@
-import 'package:doublem/features/login/presentation/ui/screens/login_screen.dart';
+import 'package:doublem/features/home/presentation/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(Duration(seconds: 8), () {
       if (mounted) {
-        context.go(LoginScreen.path);
+        context.go(HomeScreen.path);
       }
     });
   }

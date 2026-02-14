@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 abstract class ApiServices {
   Future<dynamic> post({
-    String? base,
+    String? baseUrl,
     String? endPoint,
     dynamic data,
     dynamic query,
@@ -15,7 +15,7 @@ abstract class ApiServices {
   });
 
   Future<dynamic> patch({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     dynamic data,
     dynamic query,
@@ -27,7 +27,7 @@ abstract class ApiServices {
   });
 
   Future<dynamic> put({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     dynamic data,
     dynamic query,
@@ -39,7 +39,7 @@ abstract class ApiServices {
   });
 
   Future<dynamic> get({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     dynamic data,
     dynamic query,
@@ -48,10 +48,10 @@ abstract class ApiServices {
     int? timeOut,
     bool isMultipart = false,
   });
-  Future<dynamic> download({required String url, required String savePath});
+  Future<dynamic> download({required String baseUrl, required String savePath});
 
   Future<dynamic> delete({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     dynamic data,
     dynamic query,

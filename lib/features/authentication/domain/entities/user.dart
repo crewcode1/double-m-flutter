@@ -8,12 +8,12 @@ class User extends Equatable {
   final String? photoUrl;
   final String? specialty;
   final String? description;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final bool isActive;
-  final String language;
-  final bool darkMode;
-  final List<String> roles;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final bool? isActive;
+  final String? language;
+  final bool? darkMode;
+  final List<String>? roles;
 
   const User({
     required this.id,

@@ -7,15 +7,15 @@ import 'package:doublem/core/services/abstraction/api_services.dart';
 class DioApiServices extends ApiServices {
   final Dio _dio;
   // String serviceKeyValue;
-  String baseUrl;
+  String baseURL;
 
   DioApiServices({
     // required this.serviceKeyValue,
-    required this.baseUrl,
+    required this.baseURL,
   }) : _dio =
            Dio(
                BaseOptions(
-                 baseUrl: baseUrl,
+                 baseUrl: baseURL,
                  receiveDataWhenStatusError: true,
                  connectTimeout: const Duration(seconds: 50),
                  receiveTimeout: const Duration(seconds: 50),
@@ -45,7 +45,7 @@ class DioApiServices extends ApiServices {
 
   @override
   Future<dynamic> get({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     dynamic data,
     dynamic query,
@@ -55,7 +55,7 @@ class DioApiServices extends ApiServices {
     bool isMultipart = false,
   }) async {
     return await _dio.get(
-      base == null ? endPoint : base + endPoint,
+      baseUrl == null ? endPoint : baseUrl + endPoint,
       queryParameters: query,
       cancelToken: cancelToken,
       options: Options(
@@ -72,7 +72,7 @@ class DioApiServices extends ApiServices {
 
   @override
   Future<dynamic> post({
-    String? base,
+    String? baseUrl,
     String? endPoint,
     dynamic data,
     dynamic query,
@@ -84,7 +84,7 @@ class DioApiServices extends ApiServices {
     Map<String, dynamic>? headers,
   }) async {
     return await _dio.post(
-      endPoint == null ? base ?? baseUrl : base ?? baseUrl + endPoint,
+      endPoint == null ? baseUrl ?? baseURL : baseUrl ?? baseURL + endPoint,
       data: data,
       queryParameters: query,
       onSendProgress: progressCallback,
@@ -106,7 +106,7 @@ class DioApiServices extends ApiServices {
 
   @override
   Future patch({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     data,
     query,
@@ -117,7 +117,7 @@ class DioApiServices extends ApiServices {
     bool isMultipart = false,
   }) async {
     return await _dio.patch(
-      base == null ? endPoint : base + endPoint,
+      baseUrl == null ? endPoint : baseUrl + endPoint,
       data: data,
       queryParameters: query,
       onSendProgress: progressCallback,
@@ -136,7 +136,7 @@ class DioApiServices extends ApiServices {
 
   @override
   Future delete({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     data,
     query,
@@ -146,7 +146,7 @@ class DioApiServices extends ApiServices {
     bool isMultipart = false,
   }) async {
     return await _dio.delete(
-      base == null ? endPoint : base + endPoint,
+      baseUrl == null ? endPoint : baseUrl + endPoint,
       data: data,
       queryParameters: query,
       cancelToken: cancelToken,
@@ -164,7 +164,7 @@ class DioApiServices extends ApiServices {
 
   @override
   Future put({
-    String? base,
+    String? baseUrl,
     required String endPoint,
     data,
     query,
@@ -175,7 +175,7 @@ class DioApiServices extends ApiServices {
     bool isMultipart = false,
   }) async {
     return await _dio.put(
-      base == null ? endPoint : base + endPoint,
+      baseUrl == null ? endPoint : baseUrl + endPoint,
       data: data,
       queryParameters: query,
       onSendProgress: progressCallback,
@@ -194,11 +194,11 @@ class DioApiServices extends ApiServices {
 
   @override
   Future<Response> download({
-    required String url,
+    required String baseUrl,
     required String? savePath,
   }) async {
     final Response response = await _dio.download(
-      url,
+      baseUrl,
       savePath,
       // options: Options(
 

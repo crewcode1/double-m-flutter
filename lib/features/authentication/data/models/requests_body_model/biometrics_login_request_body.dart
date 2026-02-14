@@ -1,18 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'biometric_login_request.g.dart';
+part 'biometrics_login_request_body.g.dart';
 
-@JsonSerializable()
-class BiometricLoginRequest {
+@JsonSerializable(createToJson: true)
+class BiometricLoginRequestBody {
   final String biometricToken;
   final String deviceId;
   final int clientType;
 
-  BiometricLoginRequest({
+  BiometricLoginRequestBody({
     required this.biometricToken,
     required this.deviceId,
     required this.clientType,
   });
 
-  Map<String, dynamic> toJson() => _$BiometricLoginRequestToJson(this);
+  Map<String, dynamic> toJson() => _$BiometricLoginRequestBodyToJson(this);
 }

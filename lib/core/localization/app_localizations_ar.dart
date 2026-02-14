@@ -33,6 +33,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get alreadyHaveAccount => 'هل لديك حساب بالفعل؟';
 
   @override
+  String get dontHaveAccount => 'ليس لديك حساب؟';
+
+  @override
   String get createAccount => 'إنشاء حساب';
 
   @override
@@ -43,6 +46,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get lastName => 'اسم العائلة';
+
+  @override
+  String get fullName => 'الاسم الكامل';
 
   @override
   String get email => 'البريد الإلكتروني';
@@ -79,7 +85,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get students => 'الطلاب';
 
   @override
-  String get platformTeatchers => 'معلمو المنصة';
+  String get platformTeachers => 'معلمو المنصة';
+
+  @override
+  String get seeAll => 'عرض الجميع';
+
+  @override
+  String get failedToLoadData => 'فشل في تحميل البيانات';
+
+  @override
+  String get tapToReload => 'اضغط لإعادة التحميل';
 
   @override
   String get currentCourses => 'الدورات الحالية';
@@ -94,7 +109,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get done => 'تم';
 
   @override
-  String get sessions => 'الجلسات';
+  String get sections => 'الجلسات';
 
   @override
   String get settings => 'الإعدادات';
@@ -128,6 +143,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterCode => 'أدخل الكود المكون من ٦ أرقام';
+
+  @override
+  String get addCousreCode => '';
+
+  @override
+  String get addCourse => 'إضافة دورة';
 
   @override
   String get yes => 'نعم';

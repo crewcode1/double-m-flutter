@@ -1,8 +1,8 @@
+import 'package:doublem/features/authentication/domain/entities/authentication_session.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'user_model.dart';
-import '../../domain/entities/auth_session.dart';
 
-part 'auth_response_model.g.dart';
+part 'authentication_response_model.g.dart';
 
 @JsonSerializable()
 class AuthResponseModel {

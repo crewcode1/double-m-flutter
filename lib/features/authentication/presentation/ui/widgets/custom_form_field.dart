@@ -1,15 +1,17 @@
 import 'package:doublem/core/enums/types/form_field_type_enum.dart';
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/injection/injection.dart';
-import 'package:doublem/features/login/presentation/controllers/password_cubit/show_password_cubit.dart';
+import 'package:doublem/features/authentication/presentation/controllers/password_cubit/show_password_cubit.dart';
 import 'package:flutter/material.dart';
 
 class SigningFormField extends StatelessWidget {
   final String hint;
   final TextEditingController? controller;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   // final GlobalKey<FormState>? formKey;
   final FormFieldType? formFieldType;
+  final int? maxLength;
+
   final bool? enable;
   final bool? obscureText;
   final String? initialValue;
@@ -27,12 +29,13 @@ class SigningFormField extends StatelessWidget {
     this.formFieldType,
     this.enable,
     this.onPressed,
-    required this.focusNode,
+    this.focusNode,
     this.textInputAction,
     this.initialValue,
     this.obscureText,
     this.onEditingComplete,
     this.validator,
+    this.maxLength,
     // this.formKey,
   });
 
@@ -41,7 +44,7 @@ class SigningFormField extends StatelessWidget {
     return TextFormField(
       onEditingComplete: onEditingComplete,
       onTapOutside: (event) {
-        focusNode.unfocus();
+        focusNode?.unfocus();
       },
       validator: validator,
       // key: formKey,
@@ -50,6 +53,7 @@ class SigningFormField extends StatelessWidget {
       textInputAction: textInputAction,
       obscureText: obscureText ?? false,
       keyboardType: keyboardType,
+      maxLength: maxLength,
       decoration: InputDecoration(
         hintText: hint,
         filled: true,

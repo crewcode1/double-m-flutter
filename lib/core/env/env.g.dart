@@ -14,7 +14,7 @@ part of 'env.dart';
 final class _Env {
   static const String serviceKey = '\'\'';
 
-  static const String baseUrl = 'http://doublem.yzz.me/api';
+  static const String baseUrl = 'http://doublem-001-site1.ktempurl.com/api/';
 
   static const String downloadBaseUrl = '\'\'';
 

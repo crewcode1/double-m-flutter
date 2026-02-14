@@ -6,11 +6,16 @@ import 'package:doublem/core/extensions/translation.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
 import 'package:doublem/core/helpers/validation_helper.dart';
 import 'package:doublem/core/injection/injection.dart';
+import 'package:doublem/core/utils/presentation_utils/loader_widget_mixin.dart';
+import 'package:doublem/core/utils/presentation_utils/loading_mixin.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/login_request_body.dart';
+import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_bloc.dart';
+import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_event.dart';
+import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_state.dart';
+import 'package:doublem/features/authentication/presentation/controllers/password_cubit/show_password_cubit.dart';
+import 'package:doublem/features/authentication/presentation/controllers/remember_me_cubit/remember_me_cubit.dart';
+import 'package:doublem/features/authentication/presentation/ui/widgets/custom_form_field.dart';
 import 'package:doublem/features/home/presentation/ui/screens/home_screen.dart';
-import 'package:doublem/features/login/presentation/controllers/password_cubit/show_password_cubit.dart';
-import 'package:doublem/features/login/presentation/controllers/remember_me_cubit/remember_me_cubit.dart';
-import 'package:doublem/features/login/presentation/ui/screens/forgot_password_screen.dart';
-import 'package:doublem/features/login/presentation/ui/widgets/custom_form_field.dart';
 import 'package:doublem/core/presentation/widgets/custom_button.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/signup_screen.dart';
 
@@ -26,7 +31,8 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with ScreenLoadingUtils<LoginScreen>, ScreenLoader<LoginScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late FocusNode _emailFocusNode;
@@ -55,178 +61,219 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget screen(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        height: 852.h,
-        padding: EdgeInsets.symmetric(horizontal: (24.5).w),
+      body: BlocListener<AuthenticationBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthLoading) {
+            startLoading();
 
-        decoration: BoxDecoration(gradient: context.colorScheme.loginGradient),
-        child: Column(
-          children: [
-            SizedBox(height: 79.h),
+            print('Loading');
+          }
 
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.high,
-                  image: Assets.images.loginBackground.provider(),
+          if (state is Authenticated) {
+            stopLoading();
+
+            context.go(HomeScreen.path);
+          }
+
+          if (state is AuthError) {
+            stopLoading();
+            showError(customMessage: state.failure.errorMessage);
+          }
+        },
+        child: Container(
+          // height: 852.h,
+          padding: EdgeInsets.symmetric(horizontal: (24.5).w),
+
+          decoration: BoxDecoration(
+            gradient: context.colorScheme.loginGradient,
+          ),
+          child: ListView(
+            padding: EdgeInsets.only(bottom: 30.h),
+            children: [
+              SizedBox(height: 79.h),
+
+              Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.high,
+                    image: Assets.images.loginBackground.provider(),
+                  ),
+                  shape: BoxShape.rectangle,
                 ),
-                shape: BoxShape.rectangle,
+                width: 312.w,
+                child: Column(
+                  children: [
+                    SizedBox(height: 146.h),
+                    Assets.images.loginLogo.image(height: 60.h, width: 60.w),
+                    SizedBox(height: 10.h),
+                    Text(
+                      context.translations.welcomeBack,
+                      style: context.textTheme.bodyLarge,
+                    ),
+                    SizedBox(height: 4.h),
+
+                    Text(
+                      context.translations.login,
+                      style: context.textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
               ),
-              width: 312.w,
-              child: Column(
-                children: [
-                  SizedBox(height: 152.h),
-                  Assets.images.loginLogo.image(height: 60.h, width: 60.w),
-                  SizedBox(height: 10.h),
-                  Text(
-                    context.translations.welcomeBack,
-                    style: context.textTheme.bodyLarge,
-                  ),
-                  SizedBox(height: 4.h),
 
-                  Text(
-                    context.translations.login,
-                    style: context.textTheme.bodyLarge,
-                  ),
-                ],
+              SizedBox(height: 49.h),
+
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SigningFormField(
+                      // formKey: _formKey,
+                      focusNode: _emailFocusNode,
+                      hint: context.translations.email,
+                      controller: _emailController,
+                      onEditingComplete: () {
+                        _emailFocusNode.nextFocus();
+                      },
+                      validator: (String? text) => ValidationHelper.validator(
+                        context: context,
+                        text: text,
+                        validationType: ValidationType.email,
+                      ),
+                    ),
+                    SizedBox(height: 14.h),
+
+                    BlocProvider(
+                      create: (context) => getIt<ShowPasswordCubit>(),
+                      child: BlocBuilder<ShowPasswordCubit, ShowPasswordState>(
+                        builder: (context, state) {
+                          return SigningFormField(
+                            obscureText: !(context
+                                .read<ShowPasswordCubit>()
+                                .showPassword),
+                            onPressed: () {
+                              context
+                                  .read<ShowPasswordCubit>()
+                                  .showOrHidePassword();
+                            },
+                            formFieldType: FormFieldType.password,
+                            focusNode: _passwordFocusNode,
+                            hint: context.translations.password,
+                            controller: _passwordController,
+                            onEditingComplete: () {
+                              _passwordFocusNode.unfocus();
+                              //TODO
+                            },
+
+                            validator: (String? text) =>
+                                ValidationHelper.validator(
+                                  context: context,
+                                  text: text,
+                                  validationType: ValidationType.password,
+                                ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            SizedBox(height: 49.h),
+              SizedBox(height: 11.h),
 
-            Form(
-              key: _formKey,
-              child: Column(
+              SizedBox(
+                height: 20.h,
+                child: Row(
+                  children: [
+                    BlocProvider(
+                      create: (context) => getIt<RememberMeCubit>(),
+                      child: BlocBuilder<RememberMeCubit, RememberMeState>(
+                        builder: (context, state) {
+                          return Checkbox(
+                            value: getIt<RememberMeCubit>().rememberMe,
+                            onChanged: (value) {
+                              getIt<RememberMeCubit>().changeRememberMe();
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    Text(
+                      context.translations.rememberMe,
+                      style: context.textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 27.h),
+
+              CustomButton(
+                title: context.translations.login,
+                onPressed: () {
+                  // context.read<AuthenticationBloc>().add(
+                  //   LoginRequested(
+                  //     LoginRequestBody(
+                  //       email: _emailController.text,
+                  //       password: _passwordController.text,
+                  //     ),
+                  //   ),
+                  // );
+                  if (_formKey.currentState!.validate()) {
+                    context.read<AuthenticationBloc>().add(
+                      LoginRequested(
+                        LoginRequestBody(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ),
+                      ),
+                    );
+                    // context.push(HomeScreen.path);
+                  }
+                },
+              ),
+
+              SizedBox(height: 11.h),
+
+              // Row(
+              //   children: [
+              //     InkWell(
+              //       onTap: () {
+              //         context.push(ForgotPasswordScreen.path);
+              //       },
+              //       child: Text(
+              //         context.translations.forgotPassword,
+              //         style: context.textTheme.bodySmall,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              SizedBox(height: 162.h),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SigningFormField(
-                    // formKey: _formKey,
-                    focusNode: _emailFocusNode,
-                    hint: context.translations.emailOrPhone,
-                    controller: _emailController,
-                    onEditingComplete: () {
-                      _emailFocusNode.nextFocus();
+                  Text(
+                    context.translations.dontHaveAccount,
+                    style: context.textTheme.labelSmall,
+                  ),
+                  SizedBox(width: 10.w),
+                  GestureDetector(
+                    onTap: () {
+                      context.push(SignupScreen.path);
                     },
-                    validator: (String? text) => ValidationHelper.validator(
-                      context: context,
-                      text: text,
-                      validationType: ValidationType.email,
-                    ),
-                  ),
-                  SizedBox(height: 14.h),
-
-                  BlocProvider(
-                    create: (context) => getIt<ShowPasswordCubit>(),
-                    child: BlocBuilder<ShowPasswordCubit, ShowPasswordState>(
-                      builder: (context, state) {
-                        return SigningFormField(
-                          obscureText:
-                              !(getIt<ShowPasswordCubit>().showPassword),
-                          onPressed: () {
-                            getIt<ShowPasswordCubit>().showOrHidePassword();
-                          },
-                          formFieldType: FormFieldType.password,
-                          focusNode: _passwordFocusNode,
-                          hint: context.translations.password,
-                          controller: _passwordController,
-                          onEditingComplete: () {
-                            _passwordFocusNode.unfocus();
-                            //TODO
-                          },
-
-                          validator: (String? text) =>
-                              ValidationHelper.validator(
-                                context: context,
-                                text: text,
-                                validationType: ValidationType.password,
-                              ),
-                        );
-                      },
+                    child: Text(
+                      context.translations.createAccount,
+                      style: context.textTheme.bodySmall,
                     ),
                   ),
                 ],
               ),
-            ),
-
-            SizedBox(height: 11.h),
-
-            SizedBox(
-              height: 20.h,
-              child: Row(
-                children: [
-                  BlocProvider(
-                    create: (context) => getIt<RememberMeCubit>(),
-                    child: BlocBuilder<RememberMeCubit, RememberMeState>(
-                      builder: (context, state) {
-                        return Checkbox(
-                          value: getIt<RememberMeCubit>().rememberMe,
-                          onChanged: (value) {
-                            getIt<RememberMeCubit>().changeRememberMe();
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  Text(
-                    context.translations.rememberMe,
-                    style: context.textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 27.h),
-
-            CustomButton(
-              title: context.translations.login,
-              onPressed: () {
-                // if (_formKey.currentState!.validate()) {
-                context.go(HomeScreen.path);
-                // }
-              },
-            ),
-
-            SizedBox(height: 11.h),
-
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    context.push(ForgotPasswordScreen.path);
-                  },
-                  child: Text(
-                    context.translations.forgotPassword,
-                    style: context.textTheme.bodySmall,
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 162.h),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  context.translations.alreadyHaveAccount,
-                  style: context.textTheme.labelSmall,
-                ),
-                SizedBox(width: 10.w),
-                GestureDetector(
-                  onTap: () {
-                    context.push(SignupScreen.path);
-                  },
-                  child: Text(
-                    context.translations.createAccount,
-                    style: context.textTheme.bodySmall,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10.h),
-          ],
+              // SizedBox(height: 30.h),
+            ],
+          ),
         ),
       ),
     );

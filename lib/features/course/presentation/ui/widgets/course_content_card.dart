@@ -4,8 +4,14 @@ import 'package:flutter/material.dart';
 
 class CourseContentCard extends StatelessWidget {
   final String title;
+  final Color? color;
   final void Function()? onTap;
-  const CourseContentCard({super.key, required this.title, this.onTap});
+  const CourseContentCard({
+    super.key,
+    required this.title,
+    this.onTap,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,7 @@ class CourseContentCard extends StatelessWidget {
       child: Container(
         height: 135.h,
         decoration: BoxDecoration(
-          color: context.colorScheme.lightBlueColor,
+          color: color ?? context.colorScheme.lightBlueColor,
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Center(child: Text(title, style: context.textTheme.bodyLarge)),

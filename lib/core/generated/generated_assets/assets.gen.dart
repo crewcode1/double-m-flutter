@@ -52,8 +52,8 @@ class $AssetsImagesGen {
   AssetGenImage get quizIcon =>
       const AssetGenImage('assets/images/quiz_icon.png');
 
-  /// File path: assets/images/session.png
-  AssetGenImage get session => const AssetGenImage('assets/images/session.png');
+  /// File path: assets/images/section.png
+  AssetGenImage get section => const AssetGenImage('assets/images/section.png');
 
   /// File path: assets/images/teacher.png
   AssetGenImage get teacher => const AssetGenImage('assets/images/teacher.png');
@@ -67,7 +67,7 @@ class $AssetsImagesGen {
     loginLogo,
     logo,
     quizIcon,
-    session,
+    section,
     teacher,
   ];
 }

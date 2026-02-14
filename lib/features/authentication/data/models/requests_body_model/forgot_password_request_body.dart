@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'forgot_password_request.g.dart';
+part 'forgot_password_request_body.g.dart';
 
-@JsonSerializable()
-class ForgotPasswordRequest {
+@JsonSerializable(createToJson: true)
+class ForgotPasswordRequestBody {
   final String email;
 
-  ForgotPasswordRequest({required this.email});
+  ForgotPasswordRequestBody({required this.email});
 
-  Map<String, dynamic> toJson() => _$ForgotPasswordRequestToJson(this);
+  Map<String, dynamic> toJson() => _$ForgotPasswordRequestBodyToJson(this);
 }

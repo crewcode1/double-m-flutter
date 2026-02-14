@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   /// **'Already have account ?'**
   String get alreadyHaveAccount;
 
+  /// No description provided for @dontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have account ?'**
+  String get dontHaveAccount;
+
   /// No description provided for @createAccount.
   ///
   /// In en, this message translates to:
@@ -169,6 +175,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last name'**
   String get lastName;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get fullName;
 
   /// No description provided for @email.
   ///
@@ -236,11 +248,29 @@ abstract class AppLocalizations {
   /// **'Students'**
   String get students;
 
-  /// No description provided for @platformTeatchers.
+  /// No description provided for @platformTeachers.
   ///
   /// In en, this message translates to:
   /// **'Platform teachers'**
-  String get platformTeatchers;
+  String get platformTeachers;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// No description provided for @failedToLoadData.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data'**
+  String get failedToLoadData;
+
+  /// No description provided for @tapToReload.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to re-load'**
+  String get tapToReload;
 
   /// No description provided for @currentCourses.
   ///
@@ -266,11 +296,11 @@ abstract class AppLocalizations {
   /// **'Done'**
   String get done;
 
-  /// No description provided for @sessions.
+  /// No description provided for @sections.
   ///
   /// In en, this message translates to:
-  /// **'Sessions'**
-  String get sessions;
+  /// **'Sections'**
+  String get sections;
 
   /// No description provided for @settings.
   ///
@@ -337,6 +367,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter the 6-digit code '**
   String get enterCode;
+
+  /// No description provided for @addCousreCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Add course code'**
+  String get addCousreCode;
+
+  /// No description provided for @addCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'Add course'**
+  String get addCourse;
 
   /// No description provided for @yes.
   ///

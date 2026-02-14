@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'reset_password_request_body.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: true)
 class ResetPasswordRequestBody {
   final String userId;
   final String token;
