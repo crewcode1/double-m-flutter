@@ -20,9 +20,12 @@ class QuizzesBloc extends Bloc<QuizzesEvent, QuizzesState> {
     LoadQuizEvent event,
     Emitter<QuizzesState> emit,
   ) async {
-    emit(QuizzesLoading());
+    emit(QuizLoading());
 
-    final result = await getQuizByIdUseCase(quizId: event.quizId);
+    final result = await getQuizByIdUseCase.call(
+      quizId: event.quizId,
+      courseId: event.courseId,
+    );
 
     result.fold(
       (failure) => emit(QuizzesError(message: failure.errorMessage)),
@@ -34,9 +37,9 @@ class QuizzesBloc extends Bloc<QuizzesEvent, QuizzesState> {
     LoadQuestionsEvent event,
     Emitter<QuizzesState> emit,
   ) async {
-    emit(QuizzesLoading());
+    emit(QuizLoading());
 
-    final result = await getQuestionsByQuizIdUseCase(quizId: event.quizId);
+    final result = await getQuestionsByQuizIdUseCase.call(quizId: event.quizId);
 
     result.fold(
       (failure) => emit(QuizzesError(message: failure.errorMessage)),

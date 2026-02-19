@@ -64,3 +64,5 @@ class ConfirmEmailRequested extends AuthEvent {
 class LogoutRequested extends AuthEvent {}
 
 class LoadProfileRequested extends AuthEvent {}
+
+class GeneratingParentCodeEvent extends AuthEvent {}

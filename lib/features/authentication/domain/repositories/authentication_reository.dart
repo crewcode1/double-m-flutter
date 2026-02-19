@@ -37,5 +37,6 @@ abstract class AuthRepository {
     required String refreshToken,
   });
   Future<Either<Failure, UserProfile>> loadProfile();
+  Future<Either<Failure, String>> generateParentCode();
   Future<Either<Failure, void>> logout();
 }

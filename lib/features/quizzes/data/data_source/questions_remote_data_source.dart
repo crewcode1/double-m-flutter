@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:doublem/core/constants_strings/end_points.dart';
 import 'package:doublem/core/services/abstraction/api_services.dart';
+import 'package:doublem/core/utils/implementation/cache_utils.dart';
 import 'package:doublem/features/quizzes/data/models/question_model.dart';
 
 abstract class QuestionsRemoteDataSource {
@@ -25,7 +26,7 @@ class QuestionsRemoteDataSourceImpl implements QuestionsRemoteDataSource {
   }) async {
     final Response response = await apiServices.get(
       endPoint: EndPoints.section,
-      token: '',
+      token: CacheUtils().getString(key: 'userToken'),
     );
     return parsingquestions(response);
   }

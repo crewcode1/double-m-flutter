@@ -5,7 +5,8 @@ abstract class QuizzesState {}
 
 class QuizzesInitial extends QuizzesState {}
 
-class QuizzesLoading extends QuizzesState {}
+// class QuizzesLoading extends QuizzesState {}
+class QuizLoading extends QuizzesState {}
 
 class QuizLoaded extends QuizzesState {
   final QuizEntity quiz;

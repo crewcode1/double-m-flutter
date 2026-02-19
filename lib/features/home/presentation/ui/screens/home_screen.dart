@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         showModalBottomSheet(
                           useRootNavigator: true,
-                          isScrollControlled: true,
+                          // isScrollControlled: true,
                           context: context,
                           builder: (BuildContext context) {
                             return BlocProvider.value(

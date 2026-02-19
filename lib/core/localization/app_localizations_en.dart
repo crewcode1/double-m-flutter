@@ -112,6 +112,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sections => 'Sections';
 
   @override
+  String get lessons => 'Lessons';
+
+  @override
+  String get noLessonsAvaliable => 'No Lessons Avaliable';
+
+  @override
+  String get noSectionsAvaliable => 'Lessons';
+
+  @override
   String get settings => 'Settings';
 
   @override
@@ -148,7 +157,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addCousreCode => 'Add course code';
 
   @override
+  String get generateParentCode => 'Generate Parent Code';
+
+  @override
+  String get close => 'Close';
+
+  @override
   String get addCourse => 'Add course';
+
+  @override
+  String get courseAddedSuccessfully => 'Course Added Successfully';
 
   @override
   String get yes => 'Yes';

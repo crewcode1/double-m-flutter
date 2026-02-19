@@ -4,13 +4,12 @@ import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/extensions/translation.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
 import 'package:doublem/core/presentation/widgets/custom_app_bar.dart';
-import 'package:doublem/features/course/domain/entities/course_entity.dart';
 import 'package:doublem/features/course/domain/entities/enrolled_course.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_bloc.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_state.dart';
 import 'package:doublem/features/course/presentation/ui/widgets/course_content_card.dart';
 import 'package:doublem/features/quizzes/presentation/ui/screens/quizzes_screen.dart';
-import 'package:doublem/features/sections/presentation/ui/screens/sections_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/sections_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -56,17 +55,18 @@ class CourseScreen extends StatelessWidget {
                                 height: 40.h,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
-                                  child:
-                                      //  courseEntity.courseImageUrl != null
-                                      //     ?
-                                      CachedNetworkImage(
-                                        imageUrl: state
-                                            .course
-                                            .teacherProfileImageUrl!,
-                                      ),
-                                  // : Assets.images.teacher.image(
-                                  //     fit: BoxFit.fitHeight,
-                                  //   ),
+                                  child: CachedNetworkImage(
+                                    placeholder: (context, str) => Assets
+                                        .images
+                                        .teacher
+                                        .image(fit: BoxFit.fitHeight),
+                                    imageUrl:
+                                        state.course.teacherProfileImageUrl,
+                                    errorWidget: (context, url, error) => Assets
+                                        .images
+                                        .teacher
+                                        .image(fit: BoxFit.fitHeight),
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 5.w),
@@ -125,7 +125,7 @@ class CourseScreen extends StatelessWidget {
                               ? null
                               : () => context.push(
                                   QuizzesScreen.path,
-                                  extra: state.course.quizzes!,
+                                  extra: state.course.quizzes,
                                 ),
                         ),
 

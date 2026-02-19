@@ -197,13 +197,7 @@ class DioApiServices extends ApiServices {
     required String baseUrl,
     required String? savePath,
   }) async {
-    final Response response = await _dio.download(
-      baseUrl,
-      savePath,
-      // options: Options(
-
-      //   headers: {'ServiceKey': serviceKeyValue}),
-    );
+    final Response response = await _dio.download(baseUrl, savePath);
     return response;
   }
 }

@@ -9,9 +9,7 @@ part of 'teacher_model.dart';
 // **************************************************************************
 
 TeacherModel _$TeacherModelFromJson(Map json) => TeacherModel(
-  teacher: json['teacher'] == null
-      ? null
-      : UserModel.fromJson(Map<String, dynamic>.from(json['teacher'] as Map)),
+  teacher: UserModel.fromJson(Map<String, dynamic>.from(json)),
   courses: (json['courses'] as List<dynamic>?)
       ?.map((e) => CourseModel.fromJson(Map<String, dynamic>.from(e as Map)))
       .toList(),

@@ -8,7 +8,7 @@ class SignupVerificationBloc
   SignupVerificationBloc() : super(SignupVerificationInitial()) {
     on<CodeSubmittedEvent>(_onVerify);
   }
-  _onVerify(CodeSubmittedEvent code, Emitter<SignupVerificationState> emit) {
+  void _onVerify(CodeSubmittedEvent code, Emitter<SignupVerificationState> emit) {
     emit(VerifyingState());
     emit(CodeVerifiedSuccessfullyState());
     emit(ErrorVerifyingCodeState(errorMessage: ''));

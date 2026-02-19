@@ -112,6 +112,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sections => 'الجلسات';
 
   @override
+  String get lessons => 'الدروس';
+
+  @override
+  String get noLessonsAvaliable => 'لا نوجد حصص متاحة';
+
+  @override
+  String get noSectionsAvaliable => 'لا نوجد سكاشن متاحة';
+
+  @override
   String get settings => 'الإعدادات';
 
   @override
@@ -148,7 +157,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addCousreCode => '';
 
   @override
+  String get generateParentCode => 'نوليد كود للاباء';
+
+  @override
+  String get close => 'أغلق';
+
+  @override
   String get addCourse => 'إضافة دورة';
+
+  @override
+  String get courseAddedSuccessfully => 'نم إضافة الكورس بنجاج';
 
   @override
   String get yes => 'نعم';

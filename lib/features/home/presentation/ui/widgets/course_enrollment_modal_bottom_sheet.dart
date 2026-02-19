@@ -1,8 +1,6 @@
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/translation.dart';
 import 'package:doublem/core/presentation/widgets/custom_button.dart';
-import 'package:doublem/core/utils/presentation_utils/loader_widget_mixin.dart';
-import 'package:doublem/core/utils/presentation_utils/loading_mixin.dart';
 import 'package:doublem/features/authentication/presentation/ui/widgets/custom_form_field.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_bloc.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_event.dart';
@@ -19,10 +17,7 @@ class AddCourseModalBottomSheet extends StatefulWidget {
       _AddCourseModalBottomSheetState();
 }
 
-class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet>
-    with
-        ScreenLoadingUtils<AddCourseModalBottomSheet>,
-        ScreenLoader<AddCourseModalBottomSheet> {
+class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
   late FocusNode focusNode;
   late TextEditingController _courseCodeController;
   @override
@@ -40,27 +35,25 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet>
   }
 
   @override
-  Widget screen(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+  Widget build(BuildContext context) {
+    return SizedBox(
+      // padding: EdgeInsets.only(
+      //   bottom: MediaQuery.of(context).viewInsets.bottom,
+      // ),
       width: 393.w,
-      height:
-          (300 +
-                  (focusNode.hasFocus
-                      ? MediaQuery.of(context).viewInsets.bottom
-                      : 0))
-              .h,
+      // height: 250.h,
+      height: focusNode.hasFocus
+          ? (300 + MediaQuery.of(context).viewInsets.bottom).h
+          : 300.h,
       child: BlocListener<CoursesBloc, CoursesState>(
         listener: (context, state) {
           if (state is CourseEnrollmentLoading) {
-            startLoading();
+            // startLoading();
           } else if (state is CourseEnrollmentError) {
-            stopLoading();
-            showError(customMessage: state.message);
+            // stopLoading();
+            // showError(customMessage: state.message);
           } else if (state is CourseEnrolled) {
-            stopLoading();
+            // stopLoading();
             context.pop();
           }
         },
@@ -79,19 +72,26 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet>
             ),
             SizedBox(height: 30.h),
 
-            CustomButton(
-              title: context.translations.addCourse,
-              onPressed:
-                  (_courseCodeController.text.isEmpty ||
-                      (_courseCodeController.text).trim().isEmpty)
-                  ? null
-                  : () {
+            BlocBuilder<CoursesBloc, CoursesState>(
+              builder: (context, state) {
+                return CustomButton(
+                  loading: state is CourseEnrollmentLoading,
+                  title: context.translations.addCourse,
+                  onPressed: () {
+                    if (state is CourseEnrollmentLoading) {
+                    } else {
+                      if ((_courseCodeController.text.isEmpty ||
+                          (_courseCodeController.text).trim().isEmpty)) {
+                      } else {}
                       context.read<CoursesBloc>().add(
                         EnrollInCourseRequestEvent(
                           courseCode: _courseCodeController.text,
                         ),
                       );
-                    },
+                    }
+                  },
+                );
+              },
             ),
           ],
         ),

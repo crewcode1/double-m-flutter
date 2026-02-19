@@ -2,19 +2,24 @@ import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
 import 'package:doublem/features/sections&lessons/domain/entities/section_entity.dart';
-import 'package:doublem/features/sections/presentation/ui/screens/section_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/widgets/lessons_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SectionsCard extends StatelessWidget {
+class SectionCard extends StatelessWidget {
   final SectionEntity sectionEntity;
-  const SectionsCard({super.key, required this.sectionEntity});
+  final int index;
+  const SectionCard({
+    super.key,
+    required this.sectionEntity,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(SectionScreen.path, extra: sectionEntity);
+        context.push(LessonsScreen.path, extra: sectionEntity.id);
       },
       child: SizedBox(
         height: 104.h,
@@ -75,7 +80,7 @@ class SectionsCard extends StatelessWidget {
                 // padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
                 child: Center(
                   child: Text(
-                    sectionEntity.id.toString(),
+                    index.toString(),
                     style: context.textTheme.bodyLarge,
                   ),
                 ),

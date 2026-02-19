@@ -5,6 +5,7 @@ import 'package:doublem/features/authentication/domain/entities/authentication_s
 import 'package:doublem/features/authentication/domain/use_cases/change_password_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/confirm_email_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/forgot_password_use_case.dart';
+import 'package:doublem/features/authentication/domain/use_cases/generating_parent_code_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/load_profile_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/login_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/logout_use_case.dart';
@@ -23,6 +24,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
   final ConfirmEmailUseCase confirmEmailUseCase;
   final LogoutUseCase logoutUseCase;
   final LoadProfileUseCase loadProfileUseCase;
+  final GeneratingParentCodeUseCase generatingParentCodeUseCase;
 
   AuthenticationBloc({
     required this.loginUseCase,
@@ -33,6 +35,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
     required this.confirmEmailUseCase,
     required this.logoutUseCase,
     required this.loadProfileUseCase,
+    required this.generatingParentCodeUseCase,
   }) : super(AuthInitial()) {
     on<LoginRequested>(_onLogin);
     on<RegisterRequested>(_onRegister);
@@ -42,6 +45,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
     on<ConfirmEmailRequested>(_onConfirmEmail);
     on<LogoutRequested>(_onLogout);
     on<LoadProfileRequested>(_onLoadProfile);
+    on<GeneratingParentCodeEvent>(_onGeneratingParentCode);
   }
 
   Future<void> _onLogin(LoginRequested event, Emitter<AuthState> emit) async {
@@ -136,10 +140,25 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _cachingLoggedInUser({required String userToken}) {
+    CacheUtils().setBool(key: 'LoggedIn', value: true);
     CacheUtils().setString(key: 'userToken', value: userToken);
   }
 
   void _clearingLoggedInUserData() {
+    CacheUtils().remove(key: 'LoggedIn');
     CacheUtils().remove(key: 'userToken');
+  }
+
+  Future<void> _onGeneratingParentCode(
+    GeneratingParentCodeEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(GeneratingParentCode());
+    final Either<Failure, String> result = await generatingParentCodeUseCase
+        .call();
+    result.fold(
+      (f) => emit(ErrorGeneratingParentCode(errorMessage: f.errorMessage)),
+      (code) => emit(ParentCodeGenerated(code: code)),
+    );
   }
 }

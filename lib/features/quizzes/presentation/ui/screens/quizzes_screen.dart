@@ -24,7 +24,7 @@ class QuizzesScreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 itemBuilder: (context, index) =>
-                    QuizCard(quizEntity: quizzes[index]),
+                    QuizCard(quizEntity: quizzes[index], index: index + 1),
                 separatorBuilder: (context, index) => SizedBox(height: 10.h),
                 itemCount: quizzes.length,
               ),

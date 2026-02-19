@@ -45,8 +45,12 @@ class SectionsAndLessonsRepositoryImpl implements SectionsAndLessonsRepository {
         sectionId: sectionId,
       );
 
-      return Either.succeed(models.map((model) => model.toEntity()).toList());
+      List<LessonEntity> lessons = models
+          .map((model) => model.toEntity())
+          .toList();
+      return Either.succeed(lessons);
     } catch (e) {
+      print(e.toString());
       if (e is DioException) {
         return Either.failed(NetworkFailureModel.fromDioError(e));
       } else {

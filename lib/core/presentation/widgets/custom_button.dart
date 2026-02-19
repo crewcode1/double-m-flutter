@@ -6,6 +6,7 @@ class CustomButton extends StatelessWidget {
   final String title;
   final bool? loading;
   final Color? color;
+  final Widget? child;
   final void Function()? onPressed;
   final double? fontSize;
   final double? height;
@@ -23,6 +24,7 @@ class CustomButton extends StatelessWidget {
     this.color,
     this.margin,
     this.padding,
+    this.child,
   });
 
   @override
@@ -40,12 +42,15 @@ class CustomButton extends StatelessWidget {
         ),
         child: Center(
           child: loading == true
-              ? CircularProgressIndicator.adaptive(backgroundColor: color)
-              : Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: context.textTheme.titleLarge,
-                ),
+              ? CircularProgressIndicator.adaptive(
+                  backgroundColor: color ?? context.colorScheme.whiteColor,
+                )
+              : child ??
+                    Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: context.textTheme.titleLarge,
+                    ),
         ),
       ),
     );

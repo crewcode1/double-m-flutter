@@ -302,6 +302,24 @@ abstract class AppLocalizations {
   /// **'Sections'**
   String get sections;
 
+  /// No description provided for @lessons.
+  ///
+  /// In en, this message translates to:
+  /// **'Lessons'**
+  String get lessons;
+
+  /// No description provided for @noLessonsAvaliable.
+  ///
+  /// In en, this message translates to:
+  /// **'No Lessons Avaliable'**
+  String get noLessonsAvaliable;
+
+  /// No description provided for @noSectionsAvaliable.
+  ///
+  /// In en, this message translates to:
+  /// **'Lessons'**
+  String get noSectionsAvaliable;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -374,11 +392,29 @@ abstract class AppLocalizations {
   /// **'Add course code'**
   String get addCousreCode;
 
+  /// No description provided for @generateParentCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate Parent Code'**
+  String get generateParentCode;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
   /// No description provided for @addCourse.
   ///
   /// In en, this message translates to:
   /// **'Add course'**
   String get addCourse;
+
+  /// No description provided for @courseAddedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Course Added Successfully'**
+  String get courseAddedSuccessfully;
 
   /// No description provided for @yes.
   ///

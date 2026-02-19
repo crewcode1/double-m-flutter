@@ -1,7 +1,6 @@
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/extensions/translation.dart';
-import 'package:doublem/core/localization/cubit/localization_cubit.dart';
 import 'package:doublem/core/presentation/widgets/custom_app_bar.dart';
 import 'package:doublem/core/utils/presentation_utils/alert_dialog.dart';
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_bloc.dart';
@@ -9,6 +8,7 @@ import 'package:doublem/features/authentication/presentation/controllers/authent
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_state.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/login_screen.dart';
 import 'package:doublem/features/profile/presentation/ui/screens/profile_screen.dart';
+import 'package:doublem/features/settings/presentation/ui/widgets/localization_setting_tile.dart';
 import 'package:doublem/features/settings/presentation/ui/widgets/setting_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,32 +42,7 @@ class SettingsScreen extends StatelessWidget {
                 trailing: Icon(Icons.arrow_forward_ios),
                 titleColor: context.colorScheme.blueColor,
               ),
-              SettingTile(
-                color: context.colorScheme.lightBlueColor,
-                title: context.translations.language,
-                trailing: PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      child: Text(context.translations.english),
-                      onTap: () {
-                        context
-                            .read<LocalizationCubit>()
-                            .changeLanguageToEnglish();
-                      },
-                    ),
-                    PopupMenuItem(
-                      child: Text(context.translations.arabic),
-                      onTap: () {
-                        context
-                            .read<LocalizationCubit>()
-                            .changeLanguageToArabic();
-                      },
-                    ),
-                  ],
-                ),
-                titleColor: context.colorScheme.blueColor,
-                onTap: () {},
-              ),
+              LoaclizationSettingTile(),
               SettingTile(
                 color: context.colorScheme.lightBlueColor,
                 title: context.translations.theme,

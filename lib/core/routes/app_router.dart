@@ -1,8 +1,7 @@
 import 'package:doublem/core/injection/injection.dart';
-import 'package:doublem/core/presentation/screens/splash_screen.dart';
+import 'package:doublem/core/utils/implementation/cache_utils.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/forgot_password_screen.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/login_screen.dart';
-import 'package:doublem/features/course/domain/entities/course_entity.dart';
 import 'package:doublem/features/course/domain/entities/enrolled_course.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_bloc.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_event.dart';
@@ -16,14 +15,19 @@ import 'package:doublem/features/quizzes/presentation/controllers/sections_and_l
 import 'package:doublem/features/quizzes/presentation/controllers/sections_and_lessons_bloc/quizzes_event.dart';
 import 'package:doublem/features/quizzes/presentation/ui/screens/quiz_screen.dart';
 import 'package:doublem/features/quizzes/presentation/ui/screens/quizzes_screen.dart';
+import 'package:doublem/features/sections&lessons/domain/entities/lesson_entity.dart';
 import 'package:doublem/features/sections&lessons/domain/entities/section_entity.dart';
-import 'package:doublem/features/sections/presentation/ui/screens/section_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_bloc.dart';
+import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_event.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/lessons_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/lesson_screen.dart';
 
-import 'package:doublem/features/sections/presentation/ui/screens/sections_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/sections_screen.dart';
 import 'package:doublem/features/settings/presentation/ui/screens/settings_screen.dart';
 import 'package:doublem/features/signup/presentation/controllers/bloc/signup_verification_bloc.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/signup_screen.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/verification_screen.dart';
+import 'package:doublem/features/splash/presentation/ui/screens/splash_screen.dart';
 import 'package:doublem/features/teachers/presentation/controllers/teacher_bloc/teacher_bloc.dart';
 import 'package:doublem/features/teachers/presentation/controllers/teacher_bloc/teacher_event.dart';
 import 'package:doublem/features/teachers/presentation/ui/screens/teacher_screen.dart';
@@ -42,13 +46,13 @@ abstract class AppRouter {
   //     GlobalKey<NavigatorState>();
   static void createRouter() {
     GoRouter goRouter = GoRouter(
-      initialLocation: HomeScreen.path,
+      initialLocation: _initialRoute(),
       navigatorKey: _navigatorKey,
       routes: [
-        // GoRoute(
-        //   path: SplashScreen.path,
-        //   pageBuilder: (context, state) => MaterialPage(child: SplashScreen()),
-        // ),
+        GoRoute(
+          path: SplashScreen.path,
+          pageBuilder: (context, state) => MaterialPage(child: SplashScreen()),
+        ),
         GoRoute(
           path: LoginScreen.path,
           pageBuilder: (context, state) => MaterialPage(child: LoginScreen()),
@@ -96,10 +100,7 @@ abstract class AppRouter {
           path: SignupScreen.path,
           pageBuilder: (context, state) => MaterialPage(child: SignupScreen()),
         ),
-        // GoRoute(
-        //   path: MainScreen.path,
-        //   pageBuilder: (context, state) => MaterialPage(child: MainScreen()),
-        // ),
+
         GoRoute(
           path: ForgotPasswordScreen.path,
           pageBuilder: (context, state) =>
@@ -123,16 +124,7 @@ abstract class AppRouter {
           path: ProfileScreen.path,
           pageBuilder: (context, state) => MaterialPage(child: ProfileScreen()),
         ),
-        // GoRoute(
-        //   path: ProfileScreen.path,
-        //   pageBuilder: (context, state) => MaterialPage(
-        //     child: BlocProvider<AuthenticationBloc>(
-        //       create: (context) =>
-        //           getIt<AuthenticationBloc>()..add(LoadProfileRequested()),
-        //       child: ProfileScreen(),
-        //     ),
-        //   ),
-        // ),
+
         GoRoute(
           path: TeacherScreen.path,
           pageBuilder: (context, state) => MaterialPage(child: TeacherScreen()),
@@ -161,10 +153,24 @@ abstract class AppRouter {
           },
         ),
         GoRoute(
-          path: SectionScreen.path,
+          path: LessonsScreen.path,
           pageBuilder: (context, state) {
-            SectionEntity section = state.extra as SectionEntity;
-            return MaterialPage(child: SectionScreen(sectionEntity: section));
+            int sectionID = state.extra as int;
+            return MaterialPage(
+              child: BlocProvider(
+                create: (context) =>
+                    getIt<SectionsAndLessonsBloc>()
+                      ..add(LoadLessonsBySectionEvent(sectionId: sectionID)),
+                child: LessonsScreen(),
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: LessonScreen.path,
+          pageBuilder: (context, state) {
+            LessonEntity lesson = state.extra as LessonEntity;
+            return MaterialPage(child: LessonScreen(lessonsEntity: lesson));
           },
         ),
 
@@ -181,8 +187,10 @@ abstract class AppRouter {
             QuizEntity quizz = state.extra as QuizEntity;
             return MaterialPage(
               child: BlocProvider(
-                create: (context) =>
-                    getIt<QuizzesBloc>()..add(LoadQuizEvent(quizId: quizz.id)),
+                create: (context) => getIt<QuizzesBloc>()
+                  ..add(
+                    LoadQuizEvent(quizId: quizz.id, courseId: quizz.courseId),
+                  ),
                 child: QuizScreen(quizEntity: quizz),
               ),
             );
@@ -194,242 +202,17 @@ abstract class AppRouter {
           pageBuilder: (context, state) =>
               MaterialPage(child: NotificationsScreen()),
         ),
-
-        // Add Login route
-        //     GoRoute(
-        //       path: AppRoutes.loginScreenPath,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: MultiBlocProvider(
-        //             providers: [
-        //               BlocProvider<ShowPasswordCubit>(
-        //                 create: (context) => getIt<ShowPasswordCubit>(),
-        //               ),
-        //               BlocProvider<LogInCubit>(
-        //                 create: (context) => getIt<LogInCubit>(),
-        //               ),
-        //             ],
-        //             child: LoginScreen(),
-        //           ),
-        //         );
-        //       },
-        //     ),
-
-        //     // Add Initial route
-        //     GoRoute(
-        //       path: AppRoutes.initialScreenPath,
-        //       pageBuilder: (context, state) {
-        //         bool? isLoggedIn = CacheUtilsImplementation.getBool("LoggedIn") ?? false;
-
-        //         if (isLoggedIn) {
-        //           UniqueKey? extra = state.extra as UniqueKey?;
-        //           bool? isManager = CacheUtilsImplementation.getBool('empType') ?? false;
-        //           return CustomTransitionPage(
-        //             transitionsBuilder: routingTransition,
-        //             child: MultiBlocProvider(
-        //               providers: [
-        //                 BlocProvider<NotificationsCubit>(
-        //                   create: (context) => getIt<NotificationsCubit>(),
-        //                 ),
-        //                 BlocProvider<SaveRequestActionCubit>(
-        //                   create: (context) => getIt<SaveRequestActionCubit>(),
-        //                 ),
-        //                 BlocProvider<GetEmployeeRequestCubit>(
-        //                   create: (context) => getIt<GetEmployeeRequestCubit>(),
-        //                 ),
-        //                 BlocProvider<GetEmployeeRequestCubit>(
-        //                   create: (context) => getIt<GetEmployeeRequestCubit>(),
-        //                 ),
-        //                 BlocProvider<ResumeWorkCubit>(
-        //                   create: (context) =>
-        //                       getIt<ResumeWorkCubit>()..getResumeWorkStatus(),
-        //                 ),
-        //               ],
-        //               child: HomeScreen(isManager: isManager, key: extra),
-        //             ),
-        //           );
-        //         } else {
-        //           return CustomTransitionPage(
-        //             transitionsBuilder: routingTransition,
-
-        //             child: MultiBlocProvider(
-        //               providers: [
-        //                 BlocProvider<ShowPasswordCubit>(
-        //                   create: (context) => getIt<ShowPasswordCubit>(),
-        //                 ),
-        //                 BlocProvider<LogInCubit>(
-        //                   create: (context) => getIt<LogInCubit>(),
-        //                 ),
-        //               ],
-        //               child: LoginScreen(),
-        //             ),
-        //           );
-        //         }
-        //       },
-        //     ),
-
-        //     // Add Home route
-        //     GoRoute(
-        //       path: AppRoutes.homeScreenPath,
-        //       pageBuilder: (context, state) {
-        //         bool? isManager = CacheUtilsImplementation.getBool('empType') ?? false;
-        //         UniqueKey? uniqueKey = state.extra as UniqueKey?;
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: MultiBlocProvider(
-        //             providers: [
-        //               BlocProvider<NotificationsCubit>(
-        //                 create: (context) => getIt<NotificationsCubit>(),
-        //               ),
-        //               BlocProvider<GetEmployeeRequestCubit>(
-        //                 create: (context) => getIt<GetEmployeeRequestCubit>(),
-        //               ),
-        //               BlocProvider<SaveRequestActionCubit>(
-        //                 create: (context) => getIt<SaveRequestActionCubit>(),
-        //               ),
-        //               BlocProvider<ResumeWorkCubit>(
-        //                 create: (context) =>
-        //                     getIt<ResumeWorkCubit>()..getResumeWorkStatus(),
-        //               ),
-        //             ],
-        //             child: HomeScreen(isManager: isManager, key: uniqueKey),
-        //           ),
-        //         );
-        //       },
-        //     ),
-
-        //     // Add Notifications route
-        //     GoRoute(
-        //       path: AppRoutes.notificationsScreenPath,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: BlocProvider<NotificationsCubit>(
-        //             create: (context) => getIt<NotificationsCubit>(),
-        //             child: NotificationsScreen(),
-        //           ),
-        //         );
-        //       },
-        //     ),
-        //     // Add History route
-        //     GoRoute(
-        //       path: AppRoutes.historyScreenPath,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: MultiBlocProvider(
-        //             providers: [
-        //               BlocProvider<GetEmployeeRequestCubit>(
-        //                 create: (context) => getIt<GetEmployeeRequestCubit>(),
-        //               ),
-        //             ],
-        //             child: HistoryScreen(),
-        //           ),
-        //         );
-        //       },
-        //     ),
-        //     // Add History route
-        //     GoRoute(
-        //       path: AppRoutes.managerHistoryScreenPath,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: MultiBlocProvider(
-        //             providers: [
-        //               BlocProvider<GetManagerHistoryCubit>(
-        //                 create: (context) => getIt<GetManagerHistoryCubit>(),
-        //               ),
-        //             ],
-        //             child: ManagerHistoryScreen(),
-        //           ),
-        //         );
-        //       },
-        //     ),
-
-        //     // Add Requests route
-        //     GoRoute(
-        //       path: AppRoutes.requestsScreenPath,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: MultiBlocProvider(
-        //             providers: [
-        //               BlocProvider<GetAvaliableRequestsTypesCubit>(
-        //                 create: (context) =>
-        //                     getIt<GetAvaliableRequestsTypesCubit>(),
-        //               ),
-        //               BlocProvider<AppBarCubit>(
-        //                 create: (context) => getIt<AppBarCubit>(),
-        //               ),
-        //             ],
-        //             child: const RequestsScreen(),
-        //           ),
-        //         );
-        //       },
-        //     ),
-        //     // Add Request Details route
-        //     GoRoute(
-        //       path: AppRoutes.requestDetailsScreenPath,
-        //       pageBuilder: (context, state) {
-        //         final Map<String, dynamic> pathParameters = state.pathParameters;
-        //         Map<String, dynamic>? extra = state.extra as Map<String, dynamic>?;
-        //         final int? approveState = extra?['approveState'] as int?;
-        //         final int? notificationID = extra?['notificationID'] as int?;
-        //         final bool? commingFromNotificationsScreen =
-        //             extra?['commingFromNotificationsScreen'] as bool?;
-
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: MultiBlocProvider(
-        //             providers: [
-        //               BlocProvider<GetRequestDetailsCubit>(
-        //                 create: (context) => getIt<GetRequestDetailsCubit>(),
-        //               ),
-        //               BlocProvider<SaveRequestActionCubit>(
-        //                 create: (context) => getIt<SaveRequestActionCubit>(),
-        //               ),
-        //             ],
-        //             child: RequestDetailsScreen(
-        //               masterId: int.parse(pathParameters['masterID']),
-        //               requestId: int.parse(pathParameters['requestID']),
-        //               actionType: int.parse(pathParameters['actionType']),
-        //               approveState: approveState,
-        //               notificationID: notificationID,
-        //               fromNotificationsScreen: commingFromNotificationsScreen,
-        //             ),
-        //           ),
-        //         );
-        //       },
-        //     ),
-
-        //     // Add Settings route
-        //     GoRoute(
-        //       path: AppRoutes.settingsScreenPath,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: const SettingsScreen(),
-        //         );
-        //       },
-        //     ),
-
-        //     GoRoute(
-        //       path: AppRoutes.clientregistrationScreen,
-        //       pageBuilder: (context, state) {
-        //         return CustomTransitionPage(
-        //           transitionsBuilder: routingTransition,
-        //           child: BlocProvider<DailyRegistrationCubit>(
-        //             create: (context) =>
-        //                 getIt<DailyRegistrationCubit>()
-        //                   ..getDailyRegistrationStatus(),
-        //             child: const DailyregistrationScreen(),
-        //           ),
-        //         );
-        //       },
-        //     ),
       ],
     );
     _routerConfigurations = goRouter;
+  }
+
+  static String _initialRoute() {
+    bool? loggedIn = CacheUtils().getBool(key: 'LoggedIn');
+    if (loggedIn == true) {
+      return SplashScreen.path;
+    } else {
+      return LoginScreen.path;
+    }
   }
 }

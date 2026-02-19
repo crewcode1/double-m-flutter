@@ -10,13 +10,16 @@ import 'package:go_router/go_router.dart';
 
 class QuizCard extends StatelessWidget {
   final QuizEntity quizEntity;
-  const QuizCard({super.key, required this.quizEntity});
+  final int index;
+  const QuizCard({super.key, required this.quizEntity, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(QuizScreen.path, extra: quizEntity);
+        if (quizEntity.isActive) {
+          context.push(QuizScreen.path, extra: quizEntity);
+        }
       },
       child: SizedBox(
         height: 113.h,
@@ -52,17 +55,19 @@ class QuizCard extends StatelessWidget {
                     /// صورة السيشن
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: quizEntity.allowReentry
-                          ? Assets.images.quizIcon.image(
-                              width: 51.w,
-                              height: 51.h,
-                              fit: BoxFit.cover,
-                            )
-                          : Assets.icons.lock.svg(
-                              width: 51.w,
-                              height: 51.h,
-                              fit: BoxFit.cover,
-                            ),
+                      child:
+                          //  quizEntity.isActive
+                          //     ?
+                          Assets.images.quizIcon.image(
+                            width: 51.w,
+                            height: 51.h,
+                            fit: BoxFit.cover,
+                          ),
+                      // : Assets.icons.lock.svg(
+                      //     width: 51.w,
+                      //     height: 51.h,
+                      //     fit: BoxFit.cover,
+                      //   ),
                     ),
                   ],
                 ),
@@ -83,49 +88,53 @@ class QuizCard extends StatelessWidget {
 
                 // padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
                 child: Center(
-                  child: Text('1', style: context.textTheme.bodyLarge),
+                  child: Text(
+                    index.toString(),
+                    style: context.textTheme.bodyLarge,
+                  ),
                 ),
               ),
             ),
-            quizEntity.isActive
-                ? PositionedDirectional(
-                    top: 0.h,
-                    end: 0.w,
-                    child: SizedBox(
-                      height: 25.h,
-                      width: 25.w,
 
-                      // padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
-                      child: Assets.icons.lock.svg(
-                        color: context.colorScheme.primaryColor,
-                      ),
-                    ),
-                  )
-                : PositionedDirectional(
-                    top: 0.h,
-                    end: 0.w,
-                    child: Container(
-                      height: 40.h,
-                      width: 40.w,
-                      decoration: BoxDecoration(
-                        color: context.colorScheme.whiteColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: context.colorScheme.greenColor,
-                          width: 2.w,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '6/10',
-                          style: context.textTheme.bodyMedium?.copyWith(
-                            color: context.colorScheme.redColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-            if (quizEntity.isActive)
+            // quizEntity.isActive
+            //     ? PositionedDirectional(
+            //         top: 0.h,
+            //         end: 0.w,
+            //         child: SizedBox(
+            //           height: 25.h,
+            //           width: 25.w,
+
+            //           // padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
+            //           child: Assets.icons.lock.svg(
+            //             color: context.colorScheme.primaryColor,
+            //           ),
+            //         ),
+            //       )
+            //     : PositionedDirectional(
+            //         top: 0.h,
+            //         end: 0.w,
+            //         child: Container(
+            //           height: 40.h,
+            //           width: 40.w,
+            //           decoration: BoxDecoration(
+            //             color: context.colorScheme.whiteColor,
+            //             shape: BoxShape.circle,
+            //             border: Border.all(
+            //               color: context.colorScheme.greenColor,
+            //               width: 2.w,
+            //             ),
+            //           ),
+            //           child: Center(
+            //             child: Text(
+            //               '6/10',
+            //               style: context.textTheme.bodyMedium?.copyWith(
+            //                 color: context.colorScheme.redColor,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            if (!quizEntity.isActive)
               ClipRRect(
                 borderRadius: BorderRadius.circular(18),
                 child: BackdropFilter(
@@ -133,6 +142,20 @@ class QuizCard extends StatelessWidget {
                   child: Container(
                     height: 120,
                     color: Colors.grey.withOpacity(0.1),
+                  ),
+                ),
+              ),
+            if (!quizEntity.isActive)
+              PositionedDirectional(
+                top: 0.h,
+                end: 0.w,
+                child: SizedBox(
+                  height: 25.h,
+                  width: 25.w,
+
+                  // padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
+                  child: Assets.icons.lock.svg(
+                    color: context.colorScheme.primaryColor,
                   ),
                 ),
               ),

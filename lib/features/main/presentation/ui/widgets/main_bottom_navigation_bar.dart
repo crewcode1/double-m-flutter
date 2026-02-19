@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 
 class MainBottomNavigationBar extends StatelessWidget {
   void _onTap({required int index, required BuildContext context}) {
-    print(index);
     switch (index) {
       case 0:
         context.go(HomeScreen.path);

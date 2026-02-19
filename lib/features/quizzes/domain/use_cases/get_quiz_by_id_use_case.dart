@@ -8,7 +8,10 @@ class GetQuizByIdUseCase {
 
   GetQuizByIdUseCase({required this.repository});
 
-  Future<Either<Failure, QuizEntity>> call({required int quizId}) {
-    return repository.getQuizById(quizId: quizId);
+  Future<Either<Failure, QuizEntity>> call({
+    required int quizId,
+    required int courseId,
+  }) {
+    return repository.getQuizById(quizId: quizId, courseId: courseId);
   }
 }

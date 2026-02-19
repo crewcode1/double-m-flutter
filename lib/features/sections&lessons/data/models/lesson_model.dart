@@ -7,12 +7,12 @@ part 'lesson_model.g.dart';
 class LessonModel {
   final int id;
   final int sectionId;
-  final String title;
-  final String description;
-  final int displayOrder;
-  final String videoUrl;
-  final String materialUrl;
-  final int durationMinutes;
+  final String? title;
+  final String? description;
+  final int? displayOrder;
+  final String? videoUrl;
+  final String? materialUrl;
+  final int? durationMinutes;
   final DateTime createdAt;
   final DateTime? updatedAt;
   final bool isCompleted;
@@ -37,12 +37,12 @@ class LessonModel {
   LessonEntity toEntity() => LessonEntity(
     id: id,
     sectionId: sectionId,
-    title: title,
-    description: description,
-    displayOrder: displayOrder,
-    videoUrl: videoUrl,
-    materialUrl: materialUrl,
-    durationMinutes: durationMinutes,
+    title: title ?? '',
+    description: description ?? '',
+    displayOrder: displayOrder ?? 0,
+    videoUrl: videoUrl ?? '',
+    materialUrl: materialUrl ?? '',
+    durationMinutes: durationMinutes ?? 30,
     createdAt: createdAt,
     updatedAt: updatedAt,
     isCompleted: isCompleted,

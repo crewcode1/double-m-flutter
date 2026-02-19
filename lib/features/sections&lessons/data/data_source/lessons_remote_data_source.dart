@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:doublem/core/constants_strings/end_points.dart';
 import 'package:doublem/core/services/abstraction/api_services.dart';
+import 'package:doublem/core/utils/implementation/cache_utils.dart';
 import 'package:doublem/features/sections&lessons/data/models/lesson_model.dart';
 
 abstract class LessonsRemoteDataSource {
@@ -25,8 +26,8 @@ class LessonsRemoteDataSourceImpl implements LessonsRemoteDataSource {
     required int sectionId,
   }) async {
     final Response response = await apiServices.get(
-      endPoint: EndPoints.lesson,
-      token: '',
+      endPoint: '${EndPoints.section}s/$sectionId/${EndPoints.lesson}',
+      token: CacheUtils().getString(key: 'userToken'),
     );
 
     return parsingLessons(response);

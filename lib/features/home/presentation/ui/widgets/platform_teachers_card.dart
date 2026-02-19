@@ -45,8 +45,15 @@ class PlatformTeachersCard extends StatelessWidget {
                   height: 119.h,
                   child: teacherEntity.profileImageUrl != null
                       ? CachedNetworkImage(
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
                           fit: BoxFit.cover,
                           imageUrl: teacherEntity.profileImageUrl!,
+                          errorWidget: (context, url, error) => Assets
+                              .images
+                              .teacher
+                              .image(fit: BoxFit.fitHeight),
                         )
                       : Assets.images.teacher.image(fit: BoxFit.fitHeight),
                 ),

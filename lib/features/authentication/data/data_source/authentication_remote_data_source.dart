@@ -25,6 +25,7 @@ abstract class AuthRemoteDataSource {
   Future<void> confirmEmail({required ConfirmEmailRequestBody request});
   Future<AuthResponseModel> refreshToken({required String refreshToken});
   Future<UserProfileModel> loadProfile();
+  Future<String> generateParentCode();
   // Future<void> updateProfile({required UpdateProileRequestBody request});
   Future<void> logout();
 
@@ -34,6 +35,12 @@ abstract class AuthRemoteDataSource {
     } else {
       throw Exception('Invalid response format: missing "data" field');
     }
+  }
+
+  String parsingParentCode(Response response) {
+    Map<String, dynamic> data = response.data['data'];
+    String code = data["code"];
+    return code;
   }
 
   AuthResponseModel parsingBiometricsLoginResponse(Response response) {
@@ -144,6 +151,17 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       token: userToken,
     );
     return parsingProfile(response);
+  }
+
+  @override
+  Future<String> generateParentCode() async {
+    String? userToken = CacheUtils().getString(key: 'userToken');
+    Response response = await apiServices.post(
+      endPoint: '${EndPoints.parent}/${EndPoints.generateParentCode}',
+      token: userToken,
+    );
+    return parsingParentCode(response);
+    // return parsingProfile(response);
   }
 
   // @override

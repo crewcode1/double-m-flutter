@@ -54,3 +54,21 @@ class ProfileLoadError extends AuthState {
   @override
   List<Object?> get props => [failure];
 }
+
+class GeneratingParentCode extends AuthState {
+  const GeneratingParentCode();
+}
+
+class ParentCodeGenerated extends AuthState {
+  final String code;
+  const ParentCodeGenerated({required this.code});
+  @override
+  List<Object?> get props => [code];
+}
+
+class ErrorGeneratingParentCode extends AuthState {
+  final String errorMessage;
+  const ErrorGeneratingParentCode({required this.errorMessage});
+  @override
+  List<Object?> get props => [errorMessage];
+}

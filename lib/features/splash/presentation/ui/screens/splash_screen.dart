@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     if (_localAuthenticationServices.authenticated && mounted) {
       WidgetsBinding.instance.removeObserver(this); // 🔑 مهم
-      context.goNamed(HomeScreen.path);
+      context.go(HomeScreen.path);
     } else {
       SystemNavigator.pop();
     }

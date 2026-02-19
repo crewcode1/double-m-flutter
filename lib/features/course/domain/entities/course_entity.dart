@@ -6,12 +6,12 @@ class CourseEntity extends Equatable {
   final int id;
   final String title;
   final String description;
-  final String? imageUrl;
+  final String imageUrl;
   final String teacherId;
   final String teacherName;
-  final String? teacherProfileImageUrl;
-  final String? category;
-  final String? level;
+  final String teacherProfileImageUrl;
+  final String category;
+  final String level;
   final int durationHours;
   final bool isPublished;
   final DateTime? publishedAt;
@@ -24,12 +24,12 @@ class CourseEntity extends Equatable {
     required this.id,
     required this.title,
     required this.description,
-    this.imageUrl,
+    required this.imageUrl,
     required this.teacherId,
     required this.teacherName,
-    this.teacherProfileImageUrl,
-    this.category,
-    this.level,
+    required this.teacherProfileImageUrl,
+    required this.category,
+    required this.level,
     required this.durationHours,
     required this.isPublished,
     this.publishedAt,

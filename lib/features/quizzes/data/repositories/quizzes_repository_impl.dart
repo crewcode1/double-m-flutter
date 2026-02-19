@@ -18,9 +18,15 @@ class QuizzesRepositoryImpl implements QuizzesRepository {
   });
 
   @override
-  Future<Either<Failure, QuizEntity>> getQuizById({required int quizId}) async {
+  Future<Either<Failure, QuizEntity>> getQuizById({
+    required int quizId,
+    required int courseId,
+  }) async {
     try {
-      final model = await quizzesRemoteDataSource.getQuizById(quizId: quizId);
+      final model = await quizzesRemoteDataSource.getQuizById(
+        quizId: quizId,
+        courseId: courseId,
+      );
       return Either.succeed(model.toEntity());
     } catch (e) {
       if (e is DioException) {

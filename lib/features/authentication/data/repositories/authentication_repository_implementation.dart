@@ -101,7 +101,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final AuthSession authSession = responseModel.toEntity();
       return Either.succeed(authSession);
     } catch (e) {
-      print('error${e} ');
+      print('error$e ');
       if (e is DioException) {
         return Either.failed(NetworkFailureModel.fromDioError(e));
       } else {
@@ -157,7 +157,7 @@ class AuthRepositoryImpl implements AuthRepository {
       // final AuthSession authSession = responseModel.toEntity();
       return Either.succeed(null);
     } catch (e) {
-      print('error${e} ');
+      print('error$e ');
 
       if (e is DioException) {
         return Either.failed(NetworkFailureModel.fromDioError(e));
@@ -191,7 +191,21 @@ class AuthRepositoryImpl implements AuthRepository {
       final UserProfile userProfile = userProfileModel.toEntity();
       return Either.succeed(userProfile);
     } catch (e) {
-      print('error${e} ');
+      if (e is DioException) {
+        return Either.failed(NetworkFailureModel.fromDioError(e));
+      } else {
+        return Either.failed(NetworkFailureModel(errorMessage: e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> generateParentCode() async {
+    try {
+      final dynamic response = await authRemoteDataSource.generateParentCode();
+      String parentCode = response;
+      return Either.succeed(parentCode);
+    } catch (e) {
       if (e is DioException) {
         return Either.failed(NetworkFailureModel.fromDioError(e));
       } else {
