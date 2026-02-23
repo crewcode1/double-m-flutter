@@ -8,12 +8,6 @@ part of 'confirm_email_request_body.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConfirmEmailRequestBody _$ConfirmEmailRequestBodyFromJson(Map json) =>
-    ConfirmEmailRequestBody(
-      userId: json['userId'] as String,
-      token: json['token'] as String,
-    );
-
 Map<String, dynamic> _$ConfirmEmailRequestBodyToJson(
   ConfirmEmailRequestBody instance,
 ) => <String, dynamic>{'userId': instance.userId, 'token': instance.token};

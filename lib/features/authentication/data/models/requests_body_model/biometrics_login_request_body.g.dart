@@ -8,13 +8,6 @@ part of 'biometrics_login_request_body.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BiometricLoginRequestBody _$BiometricLoginRequestBodyFromJson(Map json) =>
-    BiometricLoginRequestBody(
-      biometricToken: json['biometricToken'] as String,
-      deviceId: json['deviceId'] as String,
-      clientType: (json['clientType'] as num).toInt(),
-    );
-
 Map<String, dynamic> _$BiometricLoginRequestBodyToJson(
   BiometricLoginRequestBody instance,
 ) => <String, dynamic>{

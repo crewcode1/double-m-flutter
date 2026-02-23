@@ -8,13 +8,6 @@ part of 'update_profile_request_body.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpdateProileRequestBody _$UpdateProileRequestBodyFromJson(Map json) =>
-    UpdateProileRequestBody(
-      email: json['email'] as String,
-      fullName: json['fullName'] as String,
-      phoneNumber: json['phoneNumber'] as String,
-    );
-
 Map<String, dynamic> _$UpdateProileRequestBodyToJson(
   UpdateProileRequestBody instance,
 ) => <String, dynamic>{
