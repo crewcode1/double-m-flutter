@@ -96,8 +96,8 @@ class CourseScreen extends StatelessWidget {
                         /// SectionsS BUTTON
                         CourseContentCard(
                           color:
-                              (state.course.quizzes == null ||
-                                  state.course.quizzes!.isEmpty)
+                              (state.course.sections == null ||
+                                  state.course.sections!.isEmpty)
                               ? context.colorScheme.lightGreyColor
                               : null,
                           title: context.translations.sections,

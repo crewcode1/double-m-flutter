@@ -12,4 +12,15 @@ abstract class QuizzesRepository {
   Future<Either<Failure, List<QuestionEntity>>> getQuestionsByQuizId({
     required int quizId,
   });
+
+  Future<Either<Failure, bool>> startQuiz({
+    required int quizId,
+    required int courseId,
+  });
+
+  Future<Either<Failure, bool>> submitQuiz({
+    required int quizId,
+    required int courseId,
+    required Map<String, List<int>> data,
+  });
 }

@@ -5,7 +5,9 @@ import 'package:doublem/features/quizzes/data/repositories/quizzes_repository_im
 import 'package:doublem/features/quizzes/domain/repositories/quizzes_repository.dart';
 import 'package:doublem/features/quizzes/domain/use_cases/get_questions_by_quiz_id_use_case.dart';
 import 'package:doublem/features/quizzes/domain/use_cases/get_quiz_by_id_use_case.dart';
+import 'package:doublem/features/quizzes/domain/use_cases/start_and_submit_quiz_use_case.dart';
 import 'package:doublem/features/quizzes/presentation/controllers/sections_and_lessons_bloc/quizzes_bloc.dart';
+import 'package:doublem/features/quizzes/presentation/controllers/solving_quiz_cubit/solving_quiz_cubit.dart';
 
 void initQuizzesInjection() {
   // Bloc
@@ -13,14 +15,19 @@ void initQuizzesInjection() {
     () => QuizzesBloc(
       getQuizByIdUseCase: getIt(),
       getQuestionsByQuizIdUseCase: getIt(),
+      startAndSubmitQuizUseCase: getIt(),
     ),
   );
+  getIt.registerFactory<SolvingQuizCubit>(() => SolvingQuizCubit());
 
   // UseCases
   getIt.registerLazySingleton(() => GetQuizByIdUseCase(repository: getIt()));
 
   getIt.registerLazySingleton(
     () => GetQuestionsByQuizIdUseCase(repository: getIt()),
+  );
+  getIt.registerLazySingleton(
+    () => StartAndSubmitQuizUseCase(repository: getIt()),
   );
 
   // Repository

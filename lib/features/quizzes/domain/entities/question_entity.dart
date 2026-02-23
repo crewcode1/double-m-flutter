@@ -1,3 +1,4 @@
+import 'package:doublem/core/enums/types/question_type_enum.dart';
 import 'package:equatable/equatable.dart';
 import 'option_entity.dart';
 
@@ -5,7 +6,7 @@ class QuestionEntity extends Equatable {
   final int id;
   final int quizId;
   final String text;
-  final String questionType;
+  final QuestionTypeEnum questionType;
   final int points;
   final int displayOrder;
   final String? difficultyLevel;

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 
 abstract class ApiServices {
@@ -49,6 +51,7 @@ abstract class ApiServices {
     bool isMultipart = false,
   });
   Future<dynamic> download({required String baseUrl, required String savePath});
+  Future<Uint8List> loadPdf({required String fileUrl});
 
   Future<dynamic> delete({
     String? baseUrl,

@@ -1,3 +1,4 @@
+import 'package:doublem/core/services/implementation/remote_config_services.dart';
 import 'package:doublem/core/utils/implementation/app_bloc_observer.dart';
 import 'package:doublem/core/injection/injection.dart';
 import 'package:doublem/core/utils/implementation/cache_utils.dart';
@@ -10,6 +11,7 @@ Future<void> appInitialization() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheUtils.initCache();
+  await RemoteConfigService().init();
   // SystemChrome.setSystemUIOverlayStyle(
   //   const SystemUiOverlayStyle(
   //     systemNavigationBarColor: AppColors.transparent, // شريط التنقل السفلي

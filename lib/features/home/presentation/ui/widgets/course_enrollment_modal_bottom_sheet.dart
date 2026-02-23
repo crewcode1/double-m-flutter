@@ -1,6 +1,9 @@
+import 'package:doublem/core/enums/types/alert_types.dart';
 import 'package:doublem/core/extensions/screen_size.dart';
+import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/extensions/translation.dart';
 import 'package:doublem/core/presentation/widgets/custom_button.dart';
+import 'package:doublem/core/utils/presentation_utils/snack_bar.dart';
 import 'package:doublem/features/authentication/presentation/ui/widgets/custom_form_field.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_bloc.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_event.dart';
@@ -52,8 +55,17 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
           } else if (state is CourseEnrollmentError) {
             // stopLoading();
             // showError(customMessage: state.message);
+            context.pop();
+            CustomSnackBar.showSnackBar(
+              context,
+              message: state.message,
+              type: AlertType.failed,
+              color: context.colorScheme.redColor,
+              textColor: context.colorScheme.whiteColor,
+            );
           } else if (state is CourseEnrolled) {
             // stopLoading();
+
             context.pop();
           }
         },

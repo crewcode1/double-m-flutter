@@ -191,20 +191,31 @@ class _HomeScreenState extends State<HomeScreen> {
                         return (state is CoursesLoading)
                             ? CircularProgressIndicator.adaptive()
                             : (state is CoursesLoaded)
-                            ? ListView.separated(
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(width: 25.w),
-                                itemCount: state.courses.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return CurrentCourseCard(
-                                    courseEntity: state.courses[index],
-                                  );
-                                },
-                              )
+                            ? (state.courses.isEmpty)
+                                  ? Text(
+                                      context.translations.noCoursesAvaliable,
+                                      style: context.textTheme.labelLarge,
+                                    )
+                                  : ListView.separated(
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(width: 25.w),
+                                      itemCount: state.courses.length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                            return CurrentCourseCard(
+                                              courseEntity:
+                                                  state.courses[index],
+                                            );
+                                          },
+                                    )
                             : Text(
-                                state is CoursesError
-                                    ? state.message
+                                (state is CoursesError)
+                                    ? (state.message.isEmpty)
+                                          ? context
+                                                .translations
+                                                .failedToLoadData
+                                          : state.message
                                     : context.translations.failedToLoadData,
                               );
                       },

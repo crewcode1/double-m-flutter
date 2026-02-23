@@ -2,7 +2,7 @@ import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
 import 'package:doublem/features/sections&lessons/domain/entities/section_entity.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/widgets/lessons_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/lessons_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

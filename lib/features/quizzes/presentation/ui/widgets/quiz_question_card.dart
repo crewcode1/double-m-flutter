@@ -2,9 +2,11 @@ import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
 import 'package:doublem/features/quizzes/domain/entities/question_entity.dart';
+import 'package:doublem/features/quizzes/presentation/controllers/solving_quiz_cubit/solving_quiz_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class QuizQuestionCard extends StatefulWidget {
+class QuizQuestionCard extends StatelessWidget {
   final QuestionEntity questionEntity;
   final int index;
   const QuizQuestionCard({
@@ -14,23 +16,8 @@ class QuizQuestionCard extends StatefulWidget {
   });
 
   @override
-  State<QuizQuestionCard> createState() => _QuizQuestionCardState();
-}
-
-class _QuizQuestionCardState extends State<QuizQuestionCard> {
-  int answer = -1;
-  void _selectAnswer({required int index}) {
-    setState(() {
-      if (index == answer) {
-        answer = -1;
-      } else {
-        answer = (index);
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final SolvingQuizCubit cubit = context.read<SolvingQuizCubit>();
     return Column(
       children: [
         SizedBox(
@@ -59,7 +46,7 @@ class _QuizQuestionCardState extends State<QuizQuestionCard> {
                       /// عنوان السيشن
                       Expanded(
                         child: Text(
-                          widget.questionEntity.text,
+                          questionEntity.text,
                           // overflow: TextOverflow.visible,
                         ),
                       ),
@@ -84,7 +71,7 @@ class _QuizQuestionCardState extends State<QuizQuestionCard> {
                 start: 0.w,
                 child: CircleAvatar(
                   radius: 10.r,
-                  child: Text((widget.index + 1).toString()),
+                  child: Text((index + 1).toString()),
                 ),
               ),
             ],
@@ -96,18 +83,26 @@ class _QuizQuestionCardState extends State<QuizQuestionCard> {
           // height: 160.h,
           child: Column(
             children: List.generate(
-              widget.questionEntity.options.length,
+              questionEntity.options.length,
               (index) => Column(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      _selectAnswer(index: index);
+                      cubit.selectAnswer(
+                        questionType: questionEntity.questionType,
+                        questionId: questionEntity.id,
+                        answer: questionEntity.options[index].id,
+                      );
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       height: 34.h,
                       decoration: BoxDecoration(
-                        color: answer == index
+                        color:
+                            cubit.isSelected(
+                              answer: questionEntity.options[index].id,
+                              questionId: questionEntity.id,
+                            )
                             ? context.colorScheme.primaryColor
                             : context.colorScheme.lightBlueColor,
                         borderRadius: BorderRadius.circular(5.r),
@@ -119,13 +114,39 @@ class _QuizQuestionCardState extends State<QuizQuestionCard> {
                       child: Row(
                         children: [
                           CircleAvatar(
+                            backgroundColor:
+                                cubit.isSelected(
+                                  answer: questionEntity.options[index].id,
+                                  questionId: questionEntity.id,
+                                )
+                                ? context.colorScheme.lightBlueColor
+                                : context.colorScheme.primaryColor,
                             radius: 10.r,
-                            child: Text((index + 1).toString()),
+                            child: Text(
+                              (index + 1).toString(),
+                              style: context.textTheme.bodyLarge?.copyWith(
+                                color:
+                                    cubit.isSelected(
+                                      answer: questionEntity.options[index].id,
+                                      questionId: questionEntity.id,
+                                    )
+                                    ? context.colorScheme.primaryColor
+                                    : context.colorScheme.lightBlueColor,
+                              ),
+                            ),
                           ),
                           SizedBox(width: 17.w),
                           Text(
-                            widget.questionEntity.options[index].text
-                                .toString(),
+                            questionEntity.options[index].text.toString(),
+                            style: context.textTheme.bodyLarge?.copyWith(
+                              color:
+                                  cubit.isSelected(
+                                    answer: questionEntity.options[index].id,
+                                    questionId: questionEntity.id,
+                                  )
+                                  ? context.colorScheme.lightBlueColor
+                                  : context.colorScheme.primaryColor,
+                            ),
                           ),
                         ],
                       ),

@@ -55,4 +55,49 @@ class QuizzesRepositoryImpl implements QuizzesRepository {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> startQuiz({
+    required int quizId,
+    required int courseId,
+  }) async {
+    // TODO: implement startQuiz
+    try {
+      final bool success = await quizzesRemoteDataSource.startQuiz(
+        quizId: quizId,
+        courseId: courseId,
+      );
+
+      return Either.succeed(success);
+    } catch (e) {
+      if (e is DioException) {
+        return Either.failed(NetworkFailureModel.fromDioError(e));
+      } else {
+        return Either.failed(NetworkFailureModel(errorMessage: e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> submitQuiz({
+    required int quizId,
+    required int courseId,
+    required Map<String, List<int>> data,
+  }) async {
+    try {
+      final bool success = await quizzesRemoteDataSource.submitQuiz(
+        quizId: quizId,
+        courseId: courseId,
+        data: data,
+      );
+
+      return Either.succeed(success);
+    } catch (e) {
+      if (e is DioException) {
+        return Either.failed(NetworkFailureModel.fromDioError(e));
+      } else {
+        return Either.failed(NetworkFailureModel(errorMessage: e.toString()));
+      }
+    }
+  }
 }

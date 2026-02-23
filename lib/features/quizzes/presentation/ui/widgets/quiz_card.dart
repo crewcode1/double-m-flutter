@@ -159,6 +159,20 @@ class QuizCard extends StatelessWidget {
                   ),
                 ),
               ),
+            if (quizEntity.isActive && quizEntity.studentScore != null)
+              PositionedDirectional(
+                top: 0.h,
+                end: 0.w,
+                child: SizedBox(
+                  height: 40.h,
+                  width: 40.w,
+
+                  // padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
+                  child: Text(
+                    '${quizEntity.studentScore}/${quizEntity.passingScore}',
+                  ),
+                ),
+              ),
           ],
         ),
       ),

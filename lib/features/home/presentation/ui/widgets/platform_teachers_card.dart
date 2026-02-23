@@ -16,7 +16,7 @@ class PlatformTeachersCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(TeacherScreen.path);
+        context.push(TeacherScreen.path, extra: teacherEntity);
       },
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(20.r),

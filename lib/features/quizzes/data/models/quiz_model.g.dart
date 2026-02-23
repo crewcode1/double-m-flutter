@@ -22,4 +22,5 @@ QuizModel _$QuizModelFromJson(Map json) => QuizModel(
   questions: (json['questions'] as List<dynamic>?)
       ?.map((e) => QuestionModel.fromJson(Map<String, dynamic>.from(e as Map)))
       .toList(),
+  studentScore: (json['studentScore'] as num?)?.toInt(),
 );

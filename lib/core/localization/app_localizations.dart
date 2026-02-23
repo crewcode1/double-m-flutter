@@ -320,6 +320,12 @@ abstract class AppLocalizations {
   /// **'Lessons'**
   String get noSectionsAvaliable;
 
+  /// No description provided for @noCoursesAvaliable.
+  ///
+  /// In en, this message translates to:
+  /// **'No Courses Avaliable'**
+  String get noCoursesAvaliable;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -329,7 +335,7 @@ abstract class AppLocalizations {
   /// No description provided for @profile.
   ///
   /// In en, this message translates to:
-  /// **'profile'**
+  /// **'Profile'**
   String get profile;
 
   /// No description provided for @language.
@@ -403,6 +409,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @quitQuizAlertMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are You Sure You Want To Quit Quiz?'**
+  String get quitQuizAlertMessage;
 
   /// No description provided for @addCourse.
   ///

@@ -37,11 +37,15 @@ class TeacherDetailValueCard extends StatelessWidget {
               color: detailColor,
             ),
           ),
-          Text(
-            valueTitle,
-            style: context.textTheme.labelSmall?.copyWith(
-              fontSize: 10,
-              color: valueColor,
+          SizedBox(width: 20.w),
+          Flexible(
+            child: Text(
+              valueTitle,
+              style: context.textTheme.labelSmall?.copyWith(
+                fontSize: 10,
+                color: valueColor,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

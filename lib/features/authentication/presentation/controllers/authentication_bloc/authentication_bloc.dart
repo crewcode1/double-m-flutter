@@ -54,7 +54,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
       parameters: event.request,
     );
     result.fold((f) => emit(AuthError(f)), (session) {
-      _cachingLoggedInUser(userToken: session.token);
+      _cachingLoggedInUser(authSession: session);
       emit(Authenticated());
     });
   }
@@ -139,14 +139,19 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  void _cachingLoggedInUser({required String userToken}) {
+  void _cachingLoggedInUser({required AuthSession authSession}) {
     CacheUtils().setBool(key: 'LoggedIn', value: true);
-    CacheUtils().setString(key: 'userToken', value: userToken);
+    CacheUtils().setString(key: 'userToken', value: authSession.token);
+    CacheUtils().setString(
+      key: 'userPhoneNumber',
+      value: authSession.user.phoneNumber,
+    );
   }
 
   void _clearingLoggedInUserData() {
     CacheUtils().remove(key: 'LoggedIn');
     CacheUtils().remove(key: 'userToken');
+    CacheUtils().remove(key: 'userPhoneNumber');
   }
 
   Future<void> _onGeneratingParentCode(

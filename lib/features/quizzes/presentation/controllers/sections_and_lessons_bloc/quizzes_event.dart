@@ -7,6 +7,25 @@ class LoadQuizEvent extends QuizzesEvent {
   LoadQuizEvent({required this.quizId, required this.courseId});
 }
 
+class StartQuizEvent extends QuizzesEvent {
+  final int quizId;
+  final int courseId;
+
+  StartQuizEvent({required this.quizId, required this.courseId});
+}
+
+class SubmitQuizEvent extends QuizzesEvent {
+  final int quizId;
+  final int courseId;
+  final Map<String, List<int>> data;
+
+  SubmitQuizEvent({
+    required this.quizId,
+    required this.courseId,
+    required this.data,
+  });
+}
+
 class LoadQuestionsEvent extends QuizzesEvent {
   final int quizId;
 

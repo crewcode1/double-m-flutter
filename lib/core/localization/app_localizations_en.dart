@@ -121,10 +121,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noSectionsAvaliable => 'Lessons';
 
   @override
+  String get noCoursesAvaliable => 'No Courses Avaliable';
+
+  @override
   String get settings => 'Settings';
 
   @override
-  String get profile => 'profile';
+  String get profile => 'Profile';
 
   @override
   String get language => 'Language';
@@ -161,6 +164,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String get quitQuizAlertMessage => 'Are You Sure You Want To Quit Quiz?';
 
   @override
   String get addCourse => 'Add course';

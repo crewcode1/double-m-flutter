@@ -3,6 +3,8 @@ import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/extensions/translation.dart';
 import 'package:doublem/core/presentation/widgets/custom_app_bar.dart';
 import 'package:doublem/core/utils/presentation_utils/alert_dialog.dart';
+import 'package:doublem/core/utils/presentation_utils/loader_widget_mixin.dart';
+import 'package:doublem/core/utils/presentation_utils/loading_mixin.dart';
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_bloc.dart';
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_event.dart';
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_state.dart';
@@ -14,20 +16,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   static final String path = '/main_screen/settings_screen';
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen>
+    with ScreenLoadingUtils, ScreenLoader {
+  @override
+  Widget screen(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: context.translations.settings),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: BlocListener<AuthenticationBloc, AuthState>(
           listener: (context, state) {
-            if (state is Unauthenticated) {
-              context.go(LoginScreen.path);
+            if (state is AuthLoading) {
+              startLoading();
+            } else {
+              stopLoading();
+
+              if (state is Unauthenticated) {
+                stopLoading();
+                context.go(LoginScreen.path);
+              }
             }
           },
           child: Column(

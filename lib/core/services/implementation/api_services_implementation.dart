@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:doublem/core/services/abstraction/api_services.dart';
+import 'package:doublem/core/utils/implementation/cache_utils.dart';
 
 class DioApiServices extends ApiServices {
   final Dio _dio;
@@ -17,8 +19,8 @@ class DioApiServices extends ApiServices {
                BaseOptions(
                  baseUrl: baseURL,
                  receiveDataWhenStatusError: true,
-                 connectTimeout: const Duration(seconds: 50),
-                 receiveTimeout: const Duration(seconds: 50),
+                 connectTimeout: const Duration(seconds: 10),
+                 receiveTimeout: const Duration(seconds: 10),
                ),
              )
              ..interceptors.add(
@@ -199,5 +201,18 @@ class DioApiServices extends ApiServices {
   }) async {
     final Response response = await _dio.download(baseUrl, savePath);
     return response;
+  }
+
+  @override
+  Future<Uint8List> loadPdf({required String fileUrl}) async {
+    String? userToken = CacheUtils().getString(key: 'userToken');
+    final Response response = await _dio.get(
+      fileUrl,
+      options: Options(
+        responseType: ResponseType.bytes,
+        headers: {'authorization': 'Bearer $userToken'},
+      ),
+    );
+    return Uint8List.fromList(response.data);
   }
 }

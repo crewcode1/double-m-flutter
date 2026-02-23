@@ -6,6 +6,7 @@ abstract class AppColorsScheme {
   MaterialPrimaryColor get materialPrimaryColor;
   MaterialTextColor get textColor;
   Color get primaryColor => blueColor;
+  Color get lightBeigeColor => Color(0xFFF9DEB6);
   Color get beigeColor => Color(0xFFE5CAA4);
   Color get darkBeigeColor => Color(0xFFB99E78);
   Color get blackColor => Color(0xFF000000);

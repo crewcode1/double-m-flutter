@@ -6,6 +6,12 @@ import 'package:doublem/features/quizzes/data/models/quiz_model.dart';
 
 abstract class QuizzesRemoteDataSource {
   Future<QuizModel> getQuizById({required int quizId, required int courseId});
+  Future<bool> startQuiz({required int quizId, required int courseId});
+  Future<bool> submitQuiz({
+    required int quizId,
+    required int courseId,
+    required Map<String, List<int>> data,
+  });
 }
 
 class QuizzesRemoteDataSourceImpl implements QuizzesRemoteDataSource {
@@ -14,6 +20,12 @@ class QuizzesRemoteDataSourceImpl implements QuizzesRemoteDataSource {
     dynamic data = response.data['data'];
     QuizModel quizModel = QuizModel.fromJson(data);
     return quizModel;
+  }
+
+  bool postingQuiz(Response response) {
+    dynamic data = response.data['success'];
+    bool success = data as bool;
+    return success;
   }
 
   QuizzesRemoteDataSourceImpl({required this.apiServices});
@@ -29,5 +41,32 @@ class QuizzesRemoteDataSourceImpl implements QuizzesRemoteDataSource {
       token: userToken,
     );
     return parsingQuiz(response);
+  }
+
+  @override
+  Future<bool> startQuiz({required int quizId, required int courseId}) async {
+    String? userToken = CacheUtils().getString(key: 'userToken');
+    final Response response = await apiServices.post(
+      endPoint:
+          '${EndPoints.courses}s/$courseId/${EndPoints.quizzes}/$quizId/${EndPoints.start}',
+      token: userToken,
+    );
+    return postingQuiz(response);
+  }
+
+  @override
+  Future<bool> submitQuiz({
+    required int quizId,
+    required int courseId,
+    required Map<String, List<int>> data,
+  }) async {
+    String? userToken = CacheUtils().getString(key: 'userToken');
+    final Response response = await apiServices.post(
+      endPoint:
+          '${EndPoints.courses}s/$courseId/${EndPoints.quizzes}/$quizId/${EndPoints.submit}',
+      token: userToken,
+      data: data,
+    );
+    return postingQuiz(response);
   }
 }

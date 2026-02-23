@@ -14,6 +14,8 @@ class EndPoints {
   static const String redeemCourse = 'CourseAccessCodes/redeem';
   static const String teachers = 'teacher';
   static const String quiz = 'quiz';
+  static const String start = 'start';
+  static const String submit = 'submit';
   static const String quizzes = 'quizzes';
   static const String section = 'section';
   static const String lesson = 'lesson';

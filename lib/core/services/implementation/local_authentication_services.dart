@@ -19,7 +19,6 @@ class LocalAuthenticationServices {
         if (avaliableBiometrics.isNotEmpty) {
           _authenticated = await _localAuthentication.authenticate(
             localizedReason: authenticationReason,
-            // options: AuthenticationOptions(stickyAuth: true),
           );
         }
       }

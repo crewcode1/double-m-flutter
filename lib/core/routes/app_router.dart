@@ -13,12 +13,14 @@ import 'package:doublem/features/profile/presentation/ui/screens/profile_screen.
 import 'package:doublem/features/quizzes/domain/entities/quiz_entity.dart';
 import 'package:doublem/features/quizzes/presentation/controllers/sections_and_lessons_bloc/quizzes_bloc.dart';
 import 'package:doublem/features/quizzes/presentation/controllers/sections_and_lessons_bloc/quizzes_event.dart';
+import 'package:doublem/features/quizzes/presentation/controllers/solving_quiz_cubit/solving_quiz_cubit.dart';
 import 'package:doublem/features/quizzes/presentation/ui/screens/quiz_screen.dart';
 import 'package:doublem/features/quizzes/presentation/ui/screens/quizzes_screen.dart';
 import 'package:doublem/features/sections&lessons/domain/entities/lesson_entity.dart';
 import 'package:doublem/features/sections&lessons/domain/entities/section_entity.dart';
 import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_bloc.dart';
 import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_event.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/full_screen_video.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/lessons_screen.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/lesson_screen.dart';
 
@@ -28,6 +30,7 @@ import 'package:doublem/features/signup/presentation/controllers/bloc/signup_ver
 import 'package:doublem/features/authentication/presentation/ui/screens/signup_screen.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/verification_screen.dart';
 import 'package:doublem/features/splash/presentation/ui/screens/splash_screen.dart';
+import 'package:doublem/features/teachers/domain/entities/teacher_entity.dart';
 import 'package:doublem/features/teachers/presentation/controllers/teacher_bloc/teacher_bloc.dart';
 import 'package:doublem/features/teachers/presentation/controllers/teacher_bloc/teacher_event.dart';
 import 'package:doublem/features/teachers/presentation/ui/screens/teacher_screen.dart';
@@ -35,6 +38,7 @@ import 'package:doublem/features/teachers/presentation/ui/screens/teachers_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player/video_player.dart';
 
 abstract class AppRouter {
   static late RouterConfig<Object>? _routerConfigurations;
@@ -42,8 +46,7 @@ abstract class AppRouter {
       _routerConfigurations;
   static final GlobalKey<NavigatorState> _navigatorKey =
       GlobalKey<NavigatorState>();
-  // static final GlobalKey<NavigatorState> _shellNavigatorKey =
-  //     GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
   static void createRouter() {
     GoRouter goRouter = GoRouter(
       initialLocation: _initialRoute(),
@@ -71,9 +74,6 @@ abstract class AppRouter {
                   create: (context) =>
                       getIt<CoursesBloc>()..add(LoadAllCoursesEvent()),
                 ),
-                // BlocProvider<SectionsAndLessonsBloc>(
-                //   create: (context) => getIt<SectionsAndLessonsBloc>(),
-                // ),
               ],
               child: MainScreen(child: child),
             ),
@@ -106,6 +106,7 @@ abstract class AppRouter {
           pageBuilder: (context, state) =>
               MaterialPage(child: ForgotPasswordScreen()),
         ),
+
         GoRoute(
           path: VerificationScreen.path,
           pageBuilder: (context, state) {
@@ -127,7 +128,12 @@ abstract class AppRouter {
 
         GoRoute(
           path: TeacherScreen.path,
-          pageBuilder: (context, state) => MaterialPage(child: TeacherScreen()),
+          pageBuilder: (context, state) {
+            TeacherEntity teacherEntity = state.extra as TeacherEntity;
+            return MaterialPage(
+              child: TeacherScreen(teacherEntity: teacherEntity),
+            );
+          },
         ),
         GoRoute(
           path: CourseScreen.path,
@@ -150,6 +156,14 @@ abstract class AppRouter {
           pageBuilder: (context, state) {
             List<SectionEntity> sections = state.extra as List<SectionEntity>;
             return MaterialPage(child: SectionsScreen(sections: sections));
+          },
+        ),
+        GoRoute(
+          path: FullScreenVideo.path,
+          pageBuilder: (context, state) {
+            VideoPlayerController controller =
+                state.extra as VideoPlayerController;
+            return MaterialPage(child: FullScreenVideo(controller: controller));
           },
         ),
         GoRoute(
@@ -186,11 +200,21 @@ abstract class AppRouter {
           pageBuilder: (context, state) {
             QuizEntity quizz = state.extra as QuizEntity;
             return MaterialPage(
-              child: BlocProvider(
-                create: (context) => getIt<QuizzesBloc>()
-                  ..add(
-                    LoadQuizEvent(quizId: quizz.id, courseId: quizz.courseId),
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider<QuizzesBloc>(
+                    create: (context) => getIt<QuizzesBloc>()
+                      ..add(
+                        StartQuizEvent(
+                          quizId: quizz.id,
+                          courseId: quizz.courseId,
+                        ),
+                      ),
                   ),
+                  BlocProvider<SolvingQuizCubit>(
+                    create: (context) => getIt<SolvingQuizCubit>(),
+                  ),
+                ],
                 child: QuizScreen(quizEntity: quizz),
               ),
             );

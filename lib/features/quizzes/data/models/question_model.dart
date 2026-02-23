@@ -1,3 +1,4 @@
+import 'package:doublem/core/enums/types/question_type_enum.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'option_model.dart';
 import '../../domain/entities/question_entity.dart';
@@ -31,11 +32,24 @@ class QuestionModel {
   factory QuestionModel.fromJson(Map<String, dynamic> json) =>
       _$QuestionModelFromJson(json);
 
+  QuestionTypeEnum convertQuestionType({required String questionType}) {
+    switch (questionType) {
+      case 'MultipleChoice':
+        return QuestionTypeEnum.multipleChoice;
+      case 'MultipleSelect':
+        return QuestionTypeEnum.multipleSelect;
+      case 'TrueFalse':
+        return QuestionTypeEnum.trueOrFalse;
+      default:
+        return QuestionTypeEnum.multipleChoice;
+    }
+  }
+
   QuestionEntity toEntity() => QuestionEntity(
     id: id,
     quizId: quizId,
     text: text,
-    questionType: questionType,
+    questionType: convertQuestionType(questionType: questionType),
     points: points,
     displayOrder: displayOrder,
     difficultyLevel: difficultyLevel,

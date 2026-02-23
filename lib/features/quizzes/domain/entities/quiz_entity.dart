@@ -11,6 +11,7 @@ class QuizEntity extends Equatable {
   final bool allowReentry;
   final int? attemptsAllowed;
   final int passingScore;
+  final int? studentScore;
   final bool showCorrectAnswers;
   final List<QuestionEntity>? questions;
 
@@ -26,6 +27,7 @@ class QuizEntity extends Equatable {
     required this.passingScore,
     required this.showCorrectAnswers,
     this.questions,
+    this.studentScore,
   });
 
   @override

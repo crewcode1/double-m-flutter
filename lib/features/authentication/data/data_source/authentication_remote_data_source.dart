@@ -110,7 +110,11 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<void> logout() async {
-    Response response = await apiServices.post(endPoint: EndPoints.logout);
+    String? userToken = CacheUtils().getString(key: 'userToken');
+    Response response = await apiServices.post(
+      endPoint: EndPoints.logout,
+      token: userToken,
+    );
     return response.data;
   }
 

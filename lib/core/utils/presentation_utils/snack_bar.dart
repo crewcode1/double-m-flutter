@@ -11,6 +11,8 @@ class CustomSnackBar {
     double? height,
     double? width,
     String? title,
+    Color? color,
+    Color? textColor,
     bool? showCloseIcon,
     Duration? duration,
   }) {
@@ -57,7 +59,9 @@ class CustomSnackBar {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.start,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: textColor),
               ),
             ),
             Padding(
@@ -71,7 +75,7 @@ class CustomSnackBar {
             ),
           ],
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: color ?? (context).colorScheme.scaffoldBackgroundColor,
       ),
     );
   }

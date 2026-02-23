@@ -15,6 +15,7 @@ class QuizModel {
   final bool allowReentry;
   final int? attemptsAllowed;
   final int passingScore;
+  final int? studentScore;
   final bool showCorrectAnswers;
   final List<QuestionModel>? questions;
 
@@ -30,6 +31,7 @@ class QuizModel {
     required this.passingScore,
     required this.showCorrectAnswers,
     this.questions,
+    this.studentScore,
   });
 
   factory QuizModel.fromJson(Map<String, dynamic> json) =>
@@ -46,6 +48,7 @@ class QuizModel {
     attemptsAllowed: attemptsAllowed,
     passingScore: passingScore,
     showCorrectAnswers: showCorrectAnswers,
+    studentScore: studentScore,
     questions: questions?.map((e) => e.toEntity()).toList(),
   );
 }

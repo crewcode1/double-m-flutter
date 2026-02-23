@@ -18,7 +18,9 @@ class NetworkFailureModel extends Failure {
 
       case DioExceptionType.badResponse:
         return NetworkFailureModel(
-          errorMessage: error.response?.statusMessage ?? 'unExpectedError',
+          errorMessage: ((error.response?.data is Map)
+              ? (error.response?.data['message'])
+              : (error.response?.data.toString())),
         );
 
       case DioExceptionType.cancel:
