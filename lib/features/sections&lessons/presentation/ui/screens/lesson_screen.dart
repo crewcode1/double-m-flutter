@@ -43,7 +43,8 @@ class _LessonScreenState extends State<LessonScreen> {
               // ),
 
               // const SizedBox(height: 25),
-              SecurePdfScreen(pdfUrl: widget.lessonsEntity.materialUrl),
+              if (widget.lessonsEntity.materialUrl.isNotEmpty)
+                SecurePdfScreen(pdfUrl: widget.lessonsEntity.materialUrl),
               // ---------------- PDF BOX ----------------
               // Container(
               //   padding: EdgeInsets.symmetric(horizontal: 15.w),

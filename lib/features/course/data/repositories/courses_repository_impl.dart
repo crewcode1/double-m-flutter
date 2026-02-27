@@ -44,6 +44,8 @@ class CoursesRepositoryImpl implements CoursesRepository {
       );
       return Either.succeed(courseModel.toEntity());
     } catch (e) {
+      print('courses exception :$e');
+
       if (e is DioException) {
         return Either.failed(NetworkFailureModel.fromDioError(e));
       } else {

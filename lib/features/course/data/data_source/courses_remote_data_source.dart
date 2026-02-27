@@ -33,9 +33,11 @@ class CoursesRemoteDataSourceImpl implements CoursesRemoteDataSource {
   @override
   Future<List<EnrolledCourseModel>> getAllCourses() async {
     String? userToken = CacheUtils().getString(key: 'userToken');
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
     final Response response = await apiServices.get(
       endPoint: EndPoints.enrollments,
       token: userToken,
+      deviceToken: deviceToken,
     );
 
     return parsingCourses(response);
@@ -43,9 +45,12 @@ class CoursesRemoteDataSourceImpl implements CoursesRemoteDataSource {
 
   @override
   Future<CourseModel> getCourseById({required int courseId}) async {
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     final Response response = await apiServices.get(
       endPoint: '${EndPoints.courses}/$courseId',
       token: CacheUtils().getString(key: 'userToken'),
+      deviceToken: deviceToken,
     );
 
     return parsingCourse(response);

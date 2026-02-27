@@ -95,7 +95,7 @@ class QuizQuestionCard extends StatelessWidget {
                       );
                     },
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 500),
                       height: 34.h,
                       decoration: BoxDecoration(
                         color:

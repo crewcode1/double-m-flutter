@@ -25,9 +25,12 @@ class LessonsRemoteDataSourceImpl implements LessonsRemoteDataSource {
   Future<List<LessonModel>> getLessonsBySectionId({
     required int sectionId,
   }) async {
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     final Response response = await apiServices.get(
       endPoint: '${EndPoints.section}s/$sectionId/${EndPoints.lesson}',
       token: CacheUtils().getString(key: 'userToken'),
+      deviceToken: deviceToken,
     );
 
     return parsingLessons(response);

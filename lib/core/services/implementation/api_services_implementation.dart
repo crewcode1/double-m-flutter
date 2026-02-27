@@ -19,8 +19,8 @@ class DioApiServices extends ApiServices {
                BaseOptions(
                  baseUrl: baseURL,
                  receiveDataWhenStatusError: true,
-                 connectTimeout: const Duration(seconds: 10),
-                 receiveTimeout: const Duration(seconds: 10),
+                 connectTimeout: const Duration(seconds: 20),
+                 receiveTimeout: const Duration(seconds: 20),
                ),
              )
              ..interceptors.add(
@@ -52,6 +52,7 @@ class DioApiServices extends ApiServices {
     dynamic data,
     dynamic query,
     String? token,
+    String? deviceToken,
     CancelToken? cancelToken,
     int? timeOut,
     bool isMultipart = false,
@@ -67,6 +68,7 @@ class DioApiServices extends ApiServices {
           if (!isMultipart) 'Content-Type': 'application/json',
           if (!isMultipart) 'Accept': 'application/json',
           if (token != null) 'authorization': 'Bearer $token',
+          if (deviceToken != null) 'X-Device-Id': deviceToken,
         },
       ),
     );
@@ -79,6 +81,7 @@ class DioApiServices extends ApiServices {
     dynamic data,
     dynamic query,
     String? token,
+    String? deviceToken,
     ProgressCallback? progressCallback,
     CancelToken? cancelToken,
     int? timeOut,
@@ -101,6 +104,7 @@ class DioApiServices extends ApiServices {
               if (!isMultipart) 'Accept': 'application/json',
               if (!isMultipart) 'X-Requested-With': 'XMLHttpRequest',
               if (token != null) 'authorization': 'Bearer $token',
+              if (deviceToken != null) 'X-Device-Id': deviceToken,
             },
       ),
     );
@@ -113,6 +117,7 @@ class DioApiServices extends ApiServices {
     data,
     query,
     String? token,
+    String? deviceToken,
     ProgressCallback? progressCallback,
     CancelToken? cancelToken,
     int? timeOut,
@@ -131,6 +136,7 @@ class DioApiServices extends ApiServices {
           if (!isMultipart) 'Content-Type': 'application/json',
           if (!isMultipart) 'Accept': 'application/json',
           if (token != null) 'authorization': 'Bearer $token',
+          if (deviceToken != null) 'X-Device-Id': deviceToken,
         },
       ),
     );
@@ -143,6 +149,7 @@ class DioApiServices extends ApiServices {
     data,
     query,
     String? token,
+    String? deviceToken,
     CancelToken? cancelToken,
     int? timeOut,
     bool isMultipart = false,
@@ -159,6 +166,7 @@ class DioApiServices extends ApiServices {
           if (!isMultipart) 'Content-Type': 'application/json',
           if (!isMultipart) 'Accept': 'application/json',
           if (token != null) 'authorization': 'Bearer $token',
+          if (deviceToken != null) 'X-Device-Id': deviceToken,
         },
       ),
     );
@@ -171,6 +179,7 @@ class DioApiServices extends ApiServices {
     data,
     query,
     String? token,
+    String? deviceToken,
     ProgressCallback? progressCallback,
     CancelToken? cancelToken,
     int? timeOut,
@@ -189,6 +198,7 @@ class DioApiServices extends ApiServices {
           if (!isMultipart) 'Content-Type': 'application/json',
           if (!isMultipart) 'Accept': 'application/json',
           if (token != null) 'authorization': 'Bearer $token',
+          if (deviceToken != null) 'X-Device-Id': deviceToken,
         },
       ),
     );

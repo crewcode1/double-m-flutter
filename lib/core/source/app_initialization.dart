@@ -1,3 +1,4 @@
+import 'package:doublem/core/services/implementation/firebase_services.dart';
 import 'package:doublem/core/services/implementation/remote_config_services.dart';
 import 'package:doublem/core/utils/implementation/app_bloc_observer.dart';
 import 'package:doublem/core/injection/injection.dart';
@@ -11,6 +12,7 @@ Future<void> appInitialization() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheUtils.initCache();
+  await DeviceIDService.fetchToken();
   await RemoteConfigService().init();
   // SystemChrome.setSystemUIOverlayStyle(
   //   const SystemUiOverlayStyle(

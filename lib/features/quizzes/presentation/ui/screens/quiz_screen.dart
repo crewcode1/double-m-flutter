@@ -34,9 +34,12 @@ class _QuizScreenState extends State<QuizScreen>
   @override
   void initState() {
     super.initState();
-    secondsLeft = widget.quizEntity.timeLimitMinutes.inSeconds();
-    startTimer(context: context);
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -85,7 +88,9 @@ class _QuizScreenState extends State<QuizScreen>
           return;
         } else {
           dynamic state = context.read<QuizzesBloc>().state;
-          if (state is StartingQuizError) {
+          if (state is StartingQuizError ||
+              state is QuizSubmittionError ||
+              state is QuizLoadingError) {
             context.pop();
           } else {
             showAlertDialog(
@@ -123,10 +128,19 @@ class _QuizScreenState extends State<QuizScreen>
                 context.read<SolvingQuizCubit>().initializeSelectedAnswers(
                   questions: state.quiz.questions,
                 );
+                print('object:${state.quiz.timeLimitMinutes}');
+                secondsLeft =
+                    (state.quiz.timeLimitMinutes == 0
+                            ? 1
+                            : state.quiz.timeLimitMinutes)
+                        .inSeconds();
+                startTimer(context: context);
               }
             },
             builder: (context, state) {
-              if (state is StartingQuiz || state is QuizLoading) {
+              if (state is StartingQuiz ||
+                  state is QuizLoading ||
+                  state is SubmittingQuiz) {
                 return CustomLoadingWidget();
               } else if (state is StartingQuizError) {
                 return Padding(
@@ -173,6 +187,11 @@ class _QuizScreenState extends State<QuizScreen>
                     )
                   : (state is QuizLoading)
                   ? CustomLoadingWidget()
+                  : (state is QuizSubmittionError)
+                  ? Padding(
+                      padding: const EdgeInsets.all(25),
+                      child: Text(state.message),
+                    )
                   : Padding(
                       padding: const EdgeInsets.all(25),
                       child: Text(context.translations.failedToLoadData),
@@ -183,8 +202,4 @@ class _QuizScreenState extends State<QuizScreen>
       ),
     );
   }
-
-  /// -------------------------------------------
-  /// QUIZ QUESTION BOX (UI مطابق للصورة)
-  /// -------------------------------------------
 }

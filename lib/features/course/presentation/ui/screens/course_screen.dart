@@ -132,6 +132,8 @@ class CourseScreen extends StatelessWidget {
                         SizedBox(height: 200.h),
                       ],
                     )
+                  : (state is CoursesError)
+                  ? Text(state.message)
                   : Text(context.translations.failedToLoadData);
             },
           ),

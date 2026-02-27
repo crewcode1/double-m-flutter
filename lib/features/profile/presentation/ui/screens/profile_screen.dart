@@ -89,6 +89,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             );
+          } else if (state is ProfileLoadError) {
+            return Center(child: Text(state.failure.errorMessage));
           } else {
             return Center(child: Text(context.translations.failedToLoadData));
           }

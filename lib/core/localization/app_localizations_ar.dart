@@ -157,7 +157,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterCode => 'أدخل الكود المكون من ٦ أرقام';
 
   @override
-  String get addCousreCode => '';
+  String get addCousreCode => 'إضافة كود الدورة';
 
   @override
   String get generateParentCode => 'توليد كود للاباء';

@@ -123,9 +123,13 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogout(LogoutRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    await logoutUseCase.call();
-    _clearingLoggedInUserData();
-    emit(Unauthenticated());
+
+    final result = await logoutUseCase.call();
+    result.fold((failure) => emit(AuthError(failure)), (s) {
+      _clearingLoggedInUserData();
+
+      emit(Unauthenticated());
+    });
   }
 
   Future<void> _onLoadProfile(

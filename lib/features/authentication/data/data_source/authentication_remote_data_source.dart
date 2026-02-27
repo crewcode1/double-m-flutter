@@ -101,9 +101,12 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<AuthResponseModel> login({required LoginRequestBody request}) async {
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     Response response = await apiServices.post(
       endPoint: EndPoints.login,
       data: request.toJson(),
+      deviceToken: deviceToken,
     );
     return parsingLoginResponse(response);
   }
@@ -111,9 +114,12 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     String? userToken = CacheUtils().getString(key: 'userToken');
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     Response response = await apiServices.post(
       endPoint: EndPoints.logout,
       token: userToken,
+      deviceToken: deviceToken,
     );
     return response.data;
   }
@@ -149,10 +155,13 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<UserProfileModel> loadProfile() async {
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     String? userToken = CacheUtils().getString(key: 'userToken');
     Response response = await apiServices.get(
       endPoint: EndPoints.userProfile,
       token: userToken,
+      deviceToken: deviceToken,
     );
     return parsingProfile(response);
   }
@@ -160,9 +169,12 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   @override
   Future<String> generateParentCode() async {
     String? userToken = CacheUtils().getString(key: 'userToken');
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     Response response = await apiServices.post(
       endPoint: '${EndPoints.parent}/${EndPoints.generateParentCode}',
       token: userToken,
+      deviceToken: deviceToken,
     );
     return parsingParentCode(response);
     // return parsingProfile(response);

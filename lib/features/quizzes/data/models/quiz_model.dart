@@ -9,7 +9,7 @@ class QuizModel {
   final int id;
   final int courseId;
   final String title;
-  final String description;
+  final String? description;
   final bool isActive;
   final int timeLimitMinutes;
   final bool allowReentry;
@@ -41,7 +41,7 @@ class QuizModel {
     id: id,
     courseId: courseId,
     title: title,
-    description: description,
+    description: description ?? 'Description',
     isActive: isActive,
     timeLimitMinutes: timeLimitMinutes,
     allowReentry: allowReentry,

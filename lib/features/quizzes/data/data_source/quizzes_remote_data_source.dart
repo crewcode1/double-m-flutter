@@ -35,10 +35,13 @@ class QuizzesRemoteDataSourceImpl implements QuizzesRemoteDataSource {
     required int courseId,
     required int quizId,
   }) async {
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     String? userToken = CacheUtils().getString(key: 'userToken');
     final Response response = await apiServices.get(
       endPoint: '${EndPoints.courses}s/$courseId/${EndPoints.quizzes}/$quizId',
       token: userToken,
+      deviceToken: deviceToken,
     );
     return parsingQuiz(response);
   }
@@ -46,10 +49,12 @@ class QuizzesRemoteDataSourceImpl implements QuizzesRemoteDataSource {
   @override
   Future<bool> startQuiz({required int quizId, required int courseId}) async {
     String? userToken = CacheUtils().getString(key: 'userToken');
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
     final Response response = await apiServices.post(
       endPoint:
           '${EndPoints.courses}s/$courseId/${EndPoints.quizzes}/$quizId/${EndPoints.start}',
       token: userToken,
+      deviceToken: deviceToken,
     );
     return postingQuiz(response);
   }
@@ -60,12 +65,15 @@ class QuizzesRemoteDataSourceImpl implements QuizzesRemoteDataSource {
     required int courseId,
     required Map<String, List<int>> data,
   }) async {
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
+
     String? userToken = CacheUtils().getString(key: 'userToken');
     final Response response = await apiServices.post(
       endPoint:
           '${EndPoints.courses}s/$courseId/${EndPoints.quizzes}/$quizId/${EndPoints.submit}',
       token: userToken,
       data: data,
+      deviceToken: deviceToken,
     );
     return postingQuiz(response);
   }

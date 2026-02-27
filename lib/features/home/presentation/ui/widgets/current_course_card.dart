@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/generated/generated_assets/assets.gen.dart';
@@ -39,7 +40,25 @@ class CurrentCourseCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Assets.images.course.image(),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.r),
+                child: SizedBox(
+                  width: 136.w,
+                  height: 88.h,
+                  child: courseEntity.courseImageUrl.isEmpty
+                      ? Assets.images.course.image()
+                      : CachedNetworkImage(
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          fit: BoxFit.cover,
+                          imageUrl: courseEntity.courseImageUrl,
+                          errorWidget: (context, url, error) =>
+                              Assets.images.course.image(),
+                        ),
+                ),
+              ),
+
               SizedBox(height: 5.h),
               Text(
                 courseEntity.courseTitle,
