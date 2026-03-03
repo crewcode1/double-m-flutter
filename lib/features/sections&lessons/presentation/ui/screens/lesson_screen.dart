@@ -2,7 +2,8 @@ import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/presentation/widgets/custom_app_bar.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/pdf_screen.dart';
 import 'package:doublem/features/sections&lessons/domain/entities/lesson_entity.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/screens/video_player_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/video_player_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/youtube_video_player_screen.dart';
 import 'package:flutter/material.dart';
 
 class LessonScreen extends StatefulWidget {
@@ -32,7 +33,12 @@ class _LessonScreenState extends State<LessonScreen> {
               SizedBox(height: 25.h),
 
               // ---------------- MAIN IMAGE + PLAY BUTTON ----------------
-              VideoPlayerScreen(videoUrl: widget.lessonsEntity.videoUrl),
+              if (widget.lessonsEntity.videoType == 0)
+                YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
+              if (widget.lessonsEntity.videoType == 1)
+                NetworkVideoPlayerScreen(
+                  videoUrl: widget.lessonsEntity.videoUrl,
+                ),
 
               const SizedBox(height: 20),
 

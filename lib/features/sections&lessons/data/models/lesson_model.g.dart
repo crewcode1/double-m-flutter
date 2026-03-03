@@ -14,6 +14,7 @@ LessonModel _$LessonModelFromJson(Map json) => LessonModel(
   title: json['title'] as String?,
   description: json['description'] as String?,
   displayOrder: (json['displayOrder'] as num?)?.toInt(),
+  videoType: (json['videoType'] as num?)?.toInt(),
   videoUrl: json['videoUrl'] as String?,
   materialUrl: json['materialUrl'] as String?,
   durationMinutes: (json['durationMinutes'] as num?)?.toInt(),

@@ -9,6 +9,7 @@ class LessonEntity extends Equatable {
   final String videoUrl;
   final String materialUrl;
   final int durationMinutes;
+  final int videoType;
   final DateTime createdAt;
   final DateTime? updatedAt;
   final bool isCompleted;
@@ -25,6 +26,7 @@ class LessonEntity extends Equatable {
     required this.createdAt,
     this.updatedAt,
     required this.isCompleted,
+    required this.videoType,
   });
 
   @override

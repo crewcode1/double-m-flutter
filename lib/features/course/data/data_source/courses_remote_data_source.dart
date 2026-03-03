@@ -58,9 +58,12 @@ class CoursesRemoteDataSourceImpl implements CoursesRemoteDataSource {
 
   @override
   Future<void> enrollInCourse({required String courseCode}) async {
+    String? userToken = CacheUtils().getString(key: 'userToken');
+    String? deviceToken = CacheUtils().getString(key: 'deviceToken');
     final Response response = await apiServices.post(
       endPoint: EndPoints.redeemCourse,
-      token: CacheUtils().getString(key: 'userToken'),
+      token: userToken,
+      deviceToken: deviceToken,
       query: {"code": courseCode},
     );
     return response.data;

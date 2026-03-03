@@ -155,6 +155,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
   void _clearingLoggedInUserData() {
     CacheUtils().remove(key: 'LoggedIn');
     CacheUtils().remove(key: 'userToken');
+    CacheUtils().remove(key: 'deviceToken');
     CacheUtils().remove(key: 'userPhoneNumber');
   }
 

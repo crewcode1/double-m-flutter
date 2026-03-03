@@ -20,7 +20,7 @@ import 'package:doublem/features/sections&lessons/domain/entities/lesson_entity.
 import 'package:doublem/features/sections&lessons/domain/entities/section_entity.dart';
 import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_bloc.dart';
 import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_event.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/screens/full_screen_video.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_video.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/lessons_screen.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/lesson_screen.dart';
 

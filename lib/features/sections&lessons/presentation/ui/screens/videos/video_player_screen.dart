@@ -1,98 +1,45 @@
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/screens/full_screen_video.dart';
+import 'package:doublem/core/utils/mixins/moving_nuber_in_video_player_mixin.dart';
+import 'package:doublem/core/utils/mixins/video_player_custom_control_mixin.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_video.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/widgets/video_mini.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoPlayerScreen extends StatefulWidget {
+class NetworkVideoPlayerScreen extends StatefulWidget {
   final String videoUrl;
 
-  const VideoPlayerScreen({super.key, required this.videoUrl});
+  const NetworkVideoPlayerScreen({super.key, required this.videoUrl});
 
   @override
-  State<VideoPlayerScreen> createState() => VideoPlayerScreenState();
+  State<NetworkVideoPlayerScreen> createState() =>
+      NetworkVideoPlayerScreenState();
 }
 
-class VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  late VideoPlayerController _controller;
-  bool isLoading = true;
-  double currentSpeed = 1.0;
-
+class NetworkVideoPlayerScreenState extends State<NetworkVideoPlayerScreen>
+    with VideoPlayerCustomContolMixin, MovingNumberInVideoPlayerMixin {
   @override
-  void initState() {
-    super.initState();
-
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
-
-    _controller.initialize().then((_) {
-      setState(() {
-        isLoading = false;
-      });
-    });
-
-    _controller.addListener(() {
-      if (mounted) setState(() {});
-    });
+  videoPlayerControllerchildInit() {
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    movingNumberchilldDispose();
+    controller.dispose();
     super.dispose();
   }
 
-  void togglePlay() {
-    _controller.value.isPlaying ? _controller.pause() : _controller.play();
-  }
-
-  void forward10() {
-    final position = _controller.value.position;
-    final duration = _controller.value.duration;
-    _controller.seekTo(
-      position + const Duration(seconds: 10) > duration
-          ? duration
-          : position + const Duration(seconds: 10),
-    );
-  }
-
-  void backward10() {
-    final position = _controller.value.position;
-    _controller.seekTo(
-      position - const Duration(seconds: 10) < Duration.zero
-          ? Duration.zero
-          : position - const Duration(seconds: 10),
-    );
-  }
-
-  void restart() {
-    _controller.seekTo(Duration.zero);
-  }
-
-  void changeSpeed(double speed) {
-    if (currentSpeed == speed) {
-    } else {
-      currentSpeed = speed;
-      _controller.setPlaybackSpeed(speed);
-      setState(() {});
-    }
-  }
-
   void openFullScreen() async {
-    context.push(FullScreenVideo.path, extra: _controller);
-  }
-
-  String formatDuration(Duration d) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final minutes = twoDigits(d.inMinutes.remainder(60));
-    final seconds = twoDigits(d.inSeconds.remainder(60));
-    return "$minutes:$seconds";
+    context.push(FullScreenVideo.path, extra: controller);
   }
 
   @override
   Widget build(BuildContext context) {
-    final position = _controller.value.position;
-    final duration = _controller.value.duration;
+    final position = controller.value.position;
+    final duration = controller.value.duration;
 
     return SizedBox(
       child: isLoading
@@ -106,13 +53,7 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: AspectRatio(
-                        aspectRatio: _controller.value.aspectRatio,
-                        child: VideoPlayer(_controller),
-                      ),
-                    ),
+                    child: CustomVideoPlayer(controller: controller),
                   ),
                 ),
 
@@ -125,7 +66,7 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   min: 0,
                   max: duration.inSeconds.toDouble(),
                   onChanged: (value) {
-                    _controller.seekTo(Duration(seconds: value.toInt()));
+                    controller.seekTo(Duration(seconds: value.toInt()));
                   },
                 ),
 
@@ -145,7 +86,7 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     ),
                     IconButton(
                       icon: Icon(
-                        _controller.value.isPlaying
+                        controller.value.isPlaying
                             ? Icons.pause
                             : Icons.play_arrow,
                       ),

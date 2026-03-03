@@ -5,7 +5,7 @@ import 'package:doublem/core/extensions/translation.dart';
 import 'package:doublem/core/presentation/widgets/custom_app_bar.dart';
 import 'package:doublem/core/presentation/widgets/custom_button.dart';
 import 'package:doublem/core/presentation/widgets/custom_loading.dart';
-import 'package:doublem/core/utils/mixins/pagination_mixin/timer_mixin.dart';
+import 'package:doublem/core/utils/mixins/timer_mixin.dart';
 import 'package:doublem/core/utils/presentation_utils/alert_dialog.dart';
 import 'package:doublem/core/utils/presentation_utils/loader_widget_mixin.dart';
 import 'package:doublem/core/utils/presentation_utils/loading_mixin.dart';

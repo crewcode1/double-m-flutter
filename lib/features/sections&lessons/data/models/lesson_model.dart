@@ -7,6 +7,7 @@ part 'lesson_model.g.dart';
 class LessonModel {
   final int id;
   final int sectionId;
+  final int? videoType;
   final String? title;
   final String? description;
   final int? displayOrder;
@@ -29,6 +30,7 @@ class LessonModel {
     required this.createdAt,
     this.updatedAt,
     required this.isCompleted,
+    this.videoType,
   });
 
   factory LessonModel.fromJson(Map<String, dynamic> json) =>
@@ -43,6 +45,7 @@ class LessonModel {
     videoUrl: videoUrl ?? '',
     materialUrl: materialUrl ?? '',
     durationMinutes: durationMinutes ?? 30,
+    videoType: videoType ?? 3,
     createdAt: createdAt,
     updatedAt: updatedAt,
     isCompleted: isCompleted,
