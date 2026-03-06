@@ -2,7 +2,7 @@ import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/utils/mixins/moving_nuber_in_video_player_mixin.dart';
 import 'package:doublem/core/utils/mixins/video_player_custom_control_mixin.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_video.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_video_player.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/widgets/video_mini.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

@@ -1,6 +1,11 @@
 import 'dart:developer';
+import 'package:doublem/core/extensions/screen_size.dart';
+import 'package:doublem/core/extensions/theme.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_youtube_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YouTubeVideoScreen extends StatefulWidget {
   final String videoUrl;
@@ -14,42 +19,72 @@ class YouTubeVideoScreen extends StatefulWidget {
 class _YouTubeVideoScreenState extends State<YouTubeVideoScreen> {
   bool isLoading = true;
   bool hasError = false;
+  bool isFullScreen = false;
 
   late YoutubePlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-
-    final videoId = YoutubePlayerController.convertUrlToId(widget.videoUrl);
+    final videoId = YoutubePlayer.convertUrlToId(widget.videoUrl) ?? '';
     log(videoId.toString());
 
     _controller = YoutubePlayerController(
-      params: const YoutubePlayerParams(
-        showControls: true,
-        showFullscreenButton: true,
-        mute: false,
-        strictRelatedVideos: true,
-      ),
+      flags: const YoutubePlayerFlags(mute: false),
+      initialVideoId: videoId,
     );
-
-    _controller.loadVideoById(videoId: videoId!);
   }
 
   @override
   void dispose() {
-    _controller.close();
+    _controller.dispose();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
+  }
+
+  void openFullScreen() async {
+    context.push(FullScreenYoutubeVideoPlayer.path, extra: _controller);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(25),
-      child: YoutubePlayerScaffold(
-        controller: _controller,
-        builder: (context, player) =>
-            Column(children: [player, Text('Youtube Player')]),
+    return SizedBox(
+      height: (isFullScreen ? 880 : 240).h,
+      width: (isFullScreen ? 800 : 350).w,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: YoutubePlayerBuilder(
+          onEnterFullScreen: () {
+            setState(() {
+              isFullScreen = true;
+            });
+          },
+          onExitFullScreen: () {
+            setState(() {
+              isFullScreen = false;
+            });
+          },
+          player: YoutubePlayer(
+            controller: _controller,
+            showVideoProgressIndicator: false,
+            bufferIndicator: const SizedBox(),
+            progressIndicatorColor: context.colorScheme.transparent,
+            bottomActions: [
+              CurrentPosition(controller: _controller),
+              ProgressBar(
+                isExpanded: true,
+                controller: _controller,
+                colors: ProgressBarColors(
+                  backgroundColor: context.colorScheme.greyColor,
+                  playedColor: context.colorScheme.redColor,
+                  handleColor: context.colorScheme.whiteColor,
+                ),
+              ),
+              FullScreenButton(controller: _controller),
+            ],
+          ),
+          builder: (context, player) => player,
+        ),
       ),
     );
     // return isLoading

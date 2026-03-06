@@ -24,67 +24,34 @@ class _LessonScreenState extends State<LessonScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.lessonsEntity.title),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 25.h),
+      body: Column(
+        children: [
+          CustomAppBar(title: widget.lessonsEntity.title),
 
-              // ---------------- MAIN IMAGE + PLAY BUTTON ----------------
-              if (widget.lessonsEntity.videoType == 0)
-                YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
-              if (widget.lessonsEntity.videoType == 1)
-                NetworkVideoPlayerScreen(
-                  videoUrl: widget.lessonsEntity.videoUrl,
-                ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
 
-              const SizedBox(height: 20),
+              child: Column(
+                children: [
+                  if (widget.lessonsEntity.videoType == 0)
+                    YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
+                  if (widget.lessonsEntity.videoType == 1)
+                    NetworkVideoPlayerScreen(
+                      videoUrl: widget.lessonsEntity.videoUrl,
+                    ),
 
-              // ---------------- Sections TITLE ----------------
-              // Text(
-              //   widget.lessonsEntity.description,
-              //   style: context.textTheme.headlineSmall,
-              // ),
+                  const SizedBox(height: 20),
 
-              // const SizedBox(height: 25),
-              if (widget.lessonsEntity.materialUrl.isNotEmpty)
-                SecurePdfScreen(pdfUrl: widget.lessonsEntity.materialUrl),
-              // ---------------- PDF BOX ----------------
-              // Container(
-              //   padding: EdgeInsets.symmetric(horizontal: 15.w),
-              //   decoration: BoxDecoration(
-              //     color: context.colorScheme.lightBlueColor,
-              //     borderRadius: BorderRadius.circular(18),
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       // PDF ICON BOX
-              //       Icon(
-              //         Icons.document_scanner_outlined,
-              //         color: context.colorScheme.redColor,
-              //       ),
-              //       // Assets.images..image(
-              //       //   width: 55.w,
-              //       //   height: 55.h,
-              //       //   color: context.colorScheme.redColor,
-              //       // ),
-              //       const SizedBox(width: 12),
+                  if (widget.lessonsEntity.materialUrl.isNotEmpty)
+                    SecurePdfScreen(pdfUrl: widget.lessonsEntity.materialUrl),
 
-              //       // TEXT
-              //       DownloadableFileWidget(
-              //         filePathFromApi: widget.lessonsEntity.materialUrl,
-              //       ),
-
-              //       // ARROW TO OPEN PDF
-              //     ],
-              //   ),
-              // ),
-              const SizedBox(height: 40),
-            ],
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -20,11 +20,12 @@ import 'package:doublem/features/sections&lessons/domain/entities/lesson_entity.
 import 'package:doublem/features/sections&lessons/domain/entities/section_entity.dart';
 import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_bloc.dart';
 import 'package:doublem/features/sections&lessons/presentation/controllers/sections_and_lessons_bloc/sections_and_lessons_event.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_video.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_video_player.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/lessons_screen.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/lesson_screen.dart';
 
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/sections_screen.dart';
+import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_youtube_video_player.dart';
 import 'package:doublem/features/settings/presentation/ui/screens/settings_screen.dart';
 import 'package:doublem/features/signup/presentation/controllers/bloc/signup_verification_bloc.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/signup_screen.dart';
@@ -39,6 +40,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 abstract class AppRouter {
   static late RouterConfig<Object>? _routerConfigurations;
@@ -164,6 +166,16 @@ abstract class AppRouter {
             VideoPlayerController controller =
                 state.extra as VideoPlayerController;
             return MaterialPage(child: FullScreenVideo(controller: controller));
+          },
+        ),
+        GoRoute(
+          path: FullScreenYoutubeVideoPlayer.path,
+          pageBuilder: (context, state) {
+            YoutubePlayerController controller =
+                state.extra as YoutubePlayerController;
+            return MaterialPage(
+              child: FullScreenYoutubeVideoPlayer(controller: controller),
+            );
           },
         ),
         GoRoute(
