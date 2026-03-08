@@ -138,15 +138,6 @@ class _SignupScreenState extends State<SignupScreen>
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
-                SizedBox(height: 51.h),
-
-                // /// Profile image
-                // PickImageWidget(
-                //   profileImage: profileImage,
-                //   pickImage: pickImage,
-                // ),
-
-                // SizedBox(height: 37.h),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -286,9 +277,6 @@ class _SignupScreenState extends State<SignupScreen>
                 ),
                 SizedBox(height: 33.h),
 
-                // ================= FIELDS =================
-
-                // ================= BUTTON =================
                 CustomButton(
                   title: context.translations.signUp,
                   onPressed: () {
@@ -304,58 +292,7 @@ class _SignupScreenState extends State<SignupScreen>
                           ),
                         ),
                       );
-                      // context.push(VerificationScreen.path, extra: _email.text);
                     }
-
-                    /// ========== VALIDATIONS ==========
-
-                    // if (_firstName.text.isEmpty ||
-                    //     _lastName.text.isEmpty ||
-                    //     _email.text.isEmpty ||
-                    //     _phone.text.isEmpty ||
-                    //     password.text.isEmpty ||
-                    //     confirmPassword.text.isEmpty) {
-                    //   showError("Please complete all fields");
-                    //   return;
-                    // }
-
-                    // if (!_email.text.contains("@") || !_email.text.contains(".")) {
-                    //   showError("Please enter a valid _email address");
-                    //   return;
-                    // }
-
-                    // if (!isValid_Phone(_phone.text)) {
-                    //   showError("_Phone number must contain only numbers");
-                    //   return;
-                    // }
-
-                    // if (_phone.text.length < 10) {
-                    //   showError("_Phone number is too short");
-                    //   return;
-                    // }
-
-                    // if (password.text != confirmPassword.text) {
-                    //   showError("Passwords do not match");
-                    //   return;
-                    // }
-
-                    // if (profileImage == null) {
-                    //   showError("Please choose a profile image");
-                    //   return;
-                    // }
-
-                    /// ========== SAVE TO BLOC ==========
-                    // context.read<ProfileBloc>().add(
-                    //   LoadProfile(
-                    //     _firstName.text,
-                    //     _lastName.text,
-                    //     _email.text,
-                    //     _phone.text,
-                    //     profileImage,
-                    //   ),
-                    // );
-
-                    /// ========== NEXT PAGE ==========
                   },
                 ),
 
