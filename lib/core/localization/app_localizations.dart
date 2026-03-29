@@ -266,6 +266,12 @@ abstract class AppLocalizations {
   /// **'Failed to load data'**
   String get failedToLoadData;
 
+  /// No description provided for @quizSubmittedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz submitted successfully'**
+  String get quizSubmittedSuccessfully;
+
   /// No description provided for @tapToReload.
   ///
   /// In en, this message translates to:

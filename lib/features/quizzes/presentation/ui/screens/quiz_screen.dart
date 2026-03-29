@@ -48,7 +48,7 @@ class _QuizScreenState extends State<QuizScreen>
       SubmitQuizEvent(
         quizId: widget.quizEntity.id,
         courseId: widget.quizEntity.id,
-        data: context.read<SolvingQuizCubit>().selectedAnswers,
+        data: context.read<SolvingQuizCubit>().state.selectedAnswers,
       ),
     );
   }
@@ -109,6 +109,8 @@ class _QuizScreenState extends State<QuizScreen>
         appBar: CustomAppBar(title: widget.quizEntity.title),
         body: Center(
           child: BlocConsumer<QuizzesBloc, QuizzesState>(
+            buildWhen: (previous, current) =>
+                (previous is! SubmittingQuiz && current is! SubmittingQuiz),
             listener: (context, state) {
               if (state is QuizStarted) {
                 context.read<QuizzesBloc>().add(
@@ -124,11 +126,13 @@ class _QuizScreenState extends State<QuizScreen>
               } else if (state is QuizSubmitted) {
                 stopLoading();
                 context.pop();
+                showSuccess(
+                  customMessage: context.translations.quizSubmittedSuccessfully,
+                );
               } else if (state is QuizLoaded) {
                 context.read<SolvingQuizCubit>().initializeSelectedAnswers(
                   questions: state.quiz.questions,
                 );
-                print('object:${state.quiz.timeLimitMinutes}');
                 secondsLeft =
                     (state.quiz.timeLimitMinutes == 0
                             ? 1
@@ -138,9 +142,7 @@ class _QuizScreenState extends State<QuizScreen>
               }
             },
             builder: (context, state) {
-              if (state is StartingQuiz ||
-                  state is QuizLoading ||
-                  state is SubmittingQuiz) {
+              if (state is StartingQuiz || state is QuizLoading) {
                 return CustomLoadingWidget();
               } else if (state is StartingQuizError) {
                 return Padding(
@@ -154,7 +156,7 @@ class _QuizScreenState extends State<QuizScreen>
                 );
               }
 
-              return (state is QuizLoaded && state.quiz.questions != null)
+              return ((state is QuizLoaded && state.quiz.questions != null))
                   ? Column(
                       children: [
                         Center(child: Text(formattedTime)),

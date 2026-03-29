@@ -64,15 +64,16 @@ class CustomSnackBar {
                 ).textTheme.bodyMedium?.copyWith(color: textColor),
               ),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.only(start: 10.w),
-              child: IconButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                },
-                icon: const Icon(Icons.cancel),
+            if (showCloseIcon == true)
+              Padding(
+                padding: EdgeInsetsDirectional.only(start: 10.w),
+                child: IconButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  },
+                  icon: const Icon(Icons.cancel),
+                ),
               ),
-            ),
           ],
         ),
         backgroundColor: color ?? (context).colorScheme.scaffoldBackgroundColor,

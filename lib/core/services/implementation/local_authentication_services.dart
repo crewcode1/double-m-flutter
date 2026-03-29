@@ -19,11 +19,17 @@ class LocalAuthenticationServices {
         if (avaliableBiometrics.isNotEmpty) {
           _authenticated = await _localAuthentication.authenticate(
             localizedReason: authenticationReason,
+            persistAcrossBackgrounding: true, // مهم جدًا
           );
+        } else {
+          _authenticated = true;
         }
+      } else {
+        _authenticated = true;
       }
+    } else {
+      _authenticated = true;
     }
-    _localAuthentication.stopAuthentication();
     return _authenticated;
   }
 

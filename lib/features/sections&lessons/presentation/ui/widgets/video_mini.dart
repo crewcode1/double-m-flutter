@@ -15,7 +15,7 @@ class CustomVideoPlayer extends StatefulWidget {
 class _CustomVideoPlayerState extends State<CustomVideoPlayer>
     with MovingNumberInVideoPlayerMixin {
   @override
-  movingNumberchildInit() {
+  movingNumberChildInit() {
     size = Size(300.w, 240.h);
   }
 

@@ -10,7 +10,7 @@ mixin MovingNumberInVideoPlayerMixin<T extends StatefulWidget> on State<T> {
   double top = 100;
   final Random random = Random();
   late Size size;
-  void movingNumberchildInit() {}
+  void movingNumberChildInit() {}
 
   @override
   void initState() {
@@ -18,7 +18,7 @@ mixin MovingNumberInVideoPlayerMixin<T extends StatefulWidget> on State<T> {
       startMovement();
     });
     studentPhone = CacheUtils().getString(key: 'userPhoneNumber');
-    movingNumberchildInit();
+    movingNumberChildInit();
     super.initState();
   }
 

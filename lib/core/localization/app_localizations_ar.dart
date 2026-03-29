@@ -94,6 +94,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get failedToLoadData => 'فشل في تحميل البيانات';
 
   @override
+  String get quizSubmittedSuccessfully => 'تم إرسال الاختبار بنجاح';
+
+  @override
   String get tapToReload => 'اضغط لإعادة التحميل';
 
   @override

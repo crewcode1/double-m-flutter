@@ -1,10 +1,9 @@
 import 'dart:developer';
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_youtube_video_player.dart';
+import 'package:doublem/core/utils/mixins/moving_nuber_in_video_player_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YouTubeVideoScreen extends StatefulWidget {
@@ -16,7 +15,8 @@ class YouTubeVideoScreen extends StatefulWidget {
   State<YouTubeVideoScreen> createState() => _YouTubeVideoScreenState();
 }
 
-class _YouTubeVideoScreenState extends State<YouTubeVideoScreen> {
+class _YouTubeVideoScreenState extends State<YouTubeVideoScreen>
+    with MovingNumberInVideoPlayerMixin {
   bool isLoading = true;
   bool hasError = false;
   bool isFullScreen = false;
@@ -24,8 +24,8 @@ class _YouTubeVideoScreenState extends State<YouTubeVideoScreen> {
   late YoutubePlayerController _controller;
 
   @override
-  void initState() {
-    super.initState();
+  void movingNumberChildInit() {
+    size = Size(300.w, 240.h);
     final videoId = YoutubePlayer.convertUrlToId(widget.videoUrl) ?? '';
     log(videoId.toString());
 
@@ -42,10 +42,6 @@ class _YouTubeVideoScreenState extends State<YouTubeVideoScreen> {
     super.dispose();
   }
 
-  void openFullScreen() async {
-    context.push(FullScreenYoutubeVideoPlayer.path, extra: _controller);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -53,37 +49,50 @@ class _YouTubeVideoScreenState extends State<YouTubeVideoScreen> {
       width: (isFullScreen ? 800 : 350).w,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
-        child: YoutubePlayerBuilder(
-          onEnterFullScreen: () {
-            setState(() {
-              isFullScreen = true;
-            });
-          },
-          onExitFullScreen: () {
-            setState(() {
-              isFullScreen = false;
-            });
-          },
-          player: YoutubePlayer(
-            controller: _controller,
-            showVideoProgressIndicator: false,
-            bufferIndicator: const SizedBox(),
-            progressIndicatorColor: context.colorScheme.transparent,
-            bottomActions: [
-              CurrentPosition(controller: _controller),
-              ProgressBar(
-                isExpanded: true,
+        child: Stack(
+          children: [
+            YoutubePlayerBuilder(
+              onEnterFullScreen: () {
+                setState(() {
+                  isFullScreen = true;
+                });
+              },
+              onExitFullScreen: () {
+                setState(() {
+                  isFullScreen = false;
+                });
+              },
+              player: YoutubePlayer(
                 controller: _controller,
-                colors: ProgressBarColors(
-                  backgroundColor: context.colorScheme.greyColor,
-                  playedColor: context.colorScheme.redColor,
-                  handleColor: context.colorScheme.whiteColor,
-                ),
+                showVideoProgressIndicator: false,
+                bufferIndicator: const SizedBox(),
+                progressIndicatorColor: context.colorScheme.transparent,
+                bottomActions: [
+                  CurrentPosition(controller: _controller),
+                  ProgressBar(
+                    isExpanded: true,
+                    controller: _controller,
+                    colors: ProgressBarColors(
+                      backgroundColor: context.colorScheme.greyColor,
+                      playedColor: context.colorScheme.redColor,
+                      handleColor: context.colorScheme.whiteColor,
+                    ),
+                  ),
+                  FullScreenButton(controller: _controller),
+                ],
               ),
-              FullScreenButton(controller: _controller),
-            ],
-          ),
-          builder: (context, player) => player,
+              builder: (context, player) => player,
+            ),
+            AnimatedPositionedDirectional(
+              start: start,
+              top: top,
+              duration: const Duration(milliseconds: 800),
+              child: Text(
+                studentPhone.toString(),
+                style: context.textTheme.titleMedium,
+              ),
+            ),
+          ],
         ),
       ),
     );

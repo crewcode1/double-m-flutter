@@ -21,7 +21,6 @@ class _FullScreenVideoState extends State<FullScreenVideo>
     with MovingNumberInVideoPlayerMixin, VideoPlayerCustomContolMixin {
   Timer? _timer;
   @override
-  @override
   void initState() {
     controller = widget.controller;
     SystemChrome.setPreferredOrientations([

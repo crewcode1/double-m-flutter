@@ -1,7 +1,9 @@
 import 'package:doublem/core/enums/types/alert_types.dart';
+import 'package:doublem/core/enums/types/validation_type_enum.dart';
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/extensions/translation.dart';
+import 'package:doublem/core/helpers/validation_helper.dart';
 import 'package:doublem/core/presentation/widgets/custom_button.dart';
 import 'package:doublem/core/utils/presentation_utils/snack_bar.dart';
 import 'package:doublem/features/authentication/presentation/ui/widgets/custom_form_field.dart';
@@ -23,6 +25,7 @@ class AddCourseModalBottomSheet extends StatefulWidget {
 class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
   late FocusNode focusNode;
   late TextEditingController _courseCodeController;
+  late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -34,29 +37,24 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
   dispose() {
     focusNode.dispose();
     _courseCodeController.dispose();
+    _formKey.currentState?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // padding: EdgeInsets.only(
-      //   bottom: MediaQuery.of(context).viewInsets.bottom,
-      // ),
       width: 393.w,
-      // height: 250.h,
       height: focusNode.hasFocus
           ? (300 + MediaQuery.of(context).viewInsets.bottom).h
           : 300.h,
       child: BlocListener<CoursesBloc, CoursesState>(
         listener: (context, state) {
           if (state is CourseEnrollmentLoading) {
-            // startLoading();
           } else if (state is CourseEnrollmentError) {
-            // stopLoading();
-            // showError(customMessage: state.message);
             context.pop();
             CustomSnackBar.showSnackBar(
+              showCloseIcon: false,
               context,
               message: state.message,
               type: AlertType.failed,
@@ -64,8 +62,6 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
               textColor: context.colorScheme.whiteColor,
             );
           } else if (state is CourseEnrolled) {
-            // stopLoading();
-
             context.pop();
           }
         },
@@ -76,10 +72,18 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
             SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.w),
-              child: SigningFormField(
-                hint: context.translations.addCousreCode,
-                focusNode: focusNode,
-                controller: _courseCodeController,
+              child: Form(
+                key: _formKey,
+                child: SigningFormField(
+                  validator: (value) => ValidationHelper.validator(
+                    validationType: ValidationType.empty,
+                    context: context,
+                    text: value,
+                  ),
+                  hint: context.translations.addCousreCode,
+                  focusNode: focusNode,
+                  controller: _courseCodeController,
+                ),
               ),
             ),
             SizedBox(height: 30.h),
@@ -92,14 +96,13 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
                   onPressed: () {
                     if (state is CourseEnrollmentLoading) {
                     } else {
-                      if ((_courseCodeController.text.isEmpty ||
-                          (_courseCodeController.text).trim().isEmpty)) {
-                      } else {}
-                      context.read<CoursesBloc>().add(
-                        EnrollInCourseRequestEvent(
-                          courseCode: _courseCodeController.text,
-                        ),
-                      );
+                      if (_formKey.currentState!.validate()) {
+                        context.read<CoursesBloc>().add(
+                          EnrollInCourseRequestEvent(
+                            courseCode: _courseCodeController.text,
+                          ),
+                        );
+                      }
                     }
                   },
                 );

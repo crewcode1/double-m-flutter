@@ -94,6 +94,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToLoadData => 'Failed to load data';
 
   @override
+  String get quizSubmittedSuccessfully => 'Quiz submitted successfully';
+
+  @override
   String get tapToReload => 'Tap to re-load';
 
   @override

@@ -6,23 +6,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'solving_quiz_state.dart';
 
 class SolvingQuizCubit extends Cubit<SolvingQuizState> {
-  Map<String, List<int>> selectedAnswers = {};
-  SolvingQuizCubit() : super(SolvingQuizInitial());
+  SolvingQuizCubit() : super(const SolvingQuizState(selectedAnswers: {}));
+
   void initializeSelectedAnswers({required List<QuestionEntity>? questions}) {
+    final Map<String, List<int>> initial = {};
     if (questions != null) {
-      for (var i = 0; i < questions.length; i++) {
-        selectedAnswers['${questions[i].id}'] = [];
+      for (var q in questions) {
+        initial['${q.id}'] = [];
       }
     }
+    emit(SolvingQuizState(selectedAnswers: initial));
   }
 
   bool isSelected({required int questionId, required int answer}) {
-    List<int> questionAnswerList = selectedAnswers['$questionId'] ?? [];
-    if (questionAnswerList.isEmpty) {
-      return false;
-    } else {
-      return questionAnswerList.contains(answer);
-    }
+    final list = state.selectedAnswers['$questionId'] ?? [];
+    return list.contains(answer);
   }
 
   void selectAnswer({
@@ -30,42 +28,33 @@ class SolvingQuizCubit extends Cubit<SolvingQuizState> {
     required int questionId,
     required int answer,
   }) {
+    final newMap = Map<String, List<int>>.from(state.selectedAnswers);
+    final list = List<int>.from(newMap['$questionId'] ?? []);
+
     switch (questionType) {
       case QuestionTypeEnum.multipleChoice:
-        multipleChoiceLogic(answer: answer, questionId: questionId);
-      case QuestionTypeEnum.multipleSelect:
-        multipleSelectLogic(answer: answer, questionId: questionId);
       case QuestionTypeEnum.trueOrFalse:
-        multipleChoiceLogic(answer: answer, questionId: questionId);
+        if (list.contains(answer)) {
+          list.clear();
+        } else {
+          list
+            ..clear()
+            ..add(answer);
+        }
+        break;
+
+      case QuestionTypeEnum.multipleSelect:
+        if (list.contains(answer)) {
+          list.remove(answer);
+        } else {
+          list.add(answer);
+        }
+        break;
     }
-    // print(selectedAnswers);
-  }
 
-  void multipleChoiceLogic({required int questionId, required int answer}) {
-    emit(SelectAnswerState(answer: answer));
+    newMap['$questionId'] = list;
 
-    List<int> questionAnswerList = selectedAnswers['$questionId'] ?? [];
-    if (questionAnswerList.isEmpty) {
-      questionAnswerList.add(answer);
-    } else {
-      if (questionAnswerList.contains(answer)) {
-        questionAnswerList.clear();
-      } else {
-        questionAnswerList[0] = answer;
-      }
-    }
-  }
-
-  void multipleSelectLogic({required int questionId, required int answer}) {
-    emit(SelectAnswerState(answer: answer));
-
-    List<int> questionAnswerList = selectedAnswers['$questionId'] ?? [];
-
-    final int index = questionAnswerList.indexOf(answer);
-    if (index != -1) {
-      questionAnswerList.remove(answer);
-    } else {
-      questionAnswerList.add(answer);
-    }
+    // 👈 emit بعد التعديل
+    emit(SolvingQuizState(selectedAnswers: newMap));
   }
 }
