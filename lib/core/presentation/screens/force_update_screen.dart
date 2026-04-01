@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:doublem/core/constants_strings/keys_strings.dart';
 import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/presentation/widgets/radial_container.dart';
+import 'package:doublem/core/utils/implementation/screen_util.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,7 +26,9 @@ class ForceUpdateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ForceUpdateWidget(onPressed: _launchStore);
+    return ScreenUtilInit(
+      child: MaterialApp(home: ForceUpdateWidget(onPressed: _launchStore)),
+    );
   }
 }
 

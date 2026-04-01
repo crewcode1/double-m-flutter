@@ -9,7 +9,7 @@ import 'package:doublem/features/profile/presentation/ui/widgets/parent_code_wid
 import 'package:doublem/features/profile/presentation/ui/widgets/profile_detail_with_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   static final String path = '/profile_screen';
@@ -20,12 +20,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  Future pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  // Future pickImage() async {
+  //   final ImagePicker picker = ImagePicker();
+  //   final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    if (image != null) {}
-  }
+  //   if (image != null) {}
+  // }
 
   @override
   void initState() {

@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: BlocListener<CoursesBloc, CoursesState>(
           listener: (context, state) {
-            if (state is CoursesLoaded) {
+            if (state is CourseEnrolled) {
               context.read<CoursesBloc>().add(LoadAllCoursesEvent());
             }
           },

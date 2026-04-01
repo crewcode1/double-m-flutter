@@ -21,7 +21,7 @@ import 'package:doublem/features/authentication/presentation/ui/widgets/sign_up_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 
 class SignupScreen extends StatefulWidget {
   static const String path = '/signup_screen';
@@ -50,16 +50,16 @@ class _SignupScreenState extends State<SignupScreen>
   File? profileImage;
 
   /// Pick Image
-  Future pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  // Future pickImage() async {
+  //   final ImagePicker picker = ImagePicker();
+  //   final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    if (image != null) {
-      setState(() {
-        profileImage = File(image.path);
-      });
-    }
-  }
+  //   if (image != null) {
+  //     setState(() {
+  //       profileImage = File(image.path);
+  //     });
+  //   }
+  // }
 
   /// Snackbar errors
   // void showError(String message) {
@@ -119,8 +119,6 @@ class _SignupScreenState extends State<SignupScreen>
           listener: (context, state) {
             if (state is AuthLoading) {
               startLoading();
-
-              print('Loading');
             }
 
             if (state is Authenticated) {
