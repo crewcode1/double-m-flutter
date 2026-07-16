@@ -40,7 +40,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 abstract class AppRouter {
   static late RouterConfig<Object>? _routerConfigurations;
@@ -168,16 +167,16 @@ abstract class AppRouter {
             return MaterialPage(child: FullScreenVideo(controller: controller));
           },
         ),
-        GoRoute(
-          path: FullScreenYoutubeVideoPlayer.path,
-          pageBuilder: (context, state) {
-            YoutubePlayerController controller =
-                state.extra as YoutubePlayerController;
-            return MaterialPage(
-              child: FullScreenYoutubeVideoPlayer(controller: controller),
-            );
-          },
-        ),
+        // GoRoute(
+        //   path: FullScreenYoutubeVideoPlayer.path,
+        //   pageBuilder: (context, state) {
+        //     YoutubePlayerController controller =
+        //         state.extra as YoutubePlayerController;
+        //     return MaterialPage(
+        //       child: FullScreenYoutubeVideoPlayer(controller: controller),
+        //     );
+        //   },
+        // ),
         GoRoute(
           path: LessonsScreen.path,
           pageBuilder: (context, state) {
