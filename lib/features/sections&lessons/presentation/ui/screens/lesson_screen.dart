@@ -40,9 +40,7 @@ class _LessonScreenState extends State<LessonScreen> {
                     NetworkVideoPlayerScreen(
                       videoUrl: widget.lessonsEntity.videoUrl,
                     ),
-
                   const SizedBox(height: 20),
-
                   if (widget.lessonsEntity.materialUrl.isNotEmpty)
                     SecurePdfScreen(pdfUrl: widget.lessonsEntity.materialUrl),
 
