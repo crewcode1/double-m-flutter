@@ -34,8 +34,8 @@ class _LessonScreenState extends State<LessonScreen> {
 
               child: Column(
                 children: [
-                  if (widget.lessonsEntity.videoType == 0)
-                    YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
+                  // if (widget.lessonsEntity.videoType == 0)
+                  //   YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
                   if (widget.lessonsEntity.videoType == 1)
                     NetworkVideoPlayerScreen(
                       videoUrl: widget.lessonsEntity.videoUrl,
