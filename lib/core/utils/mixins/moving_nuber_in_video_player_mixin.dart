@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/utils/implementation/cache_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ mixin MovingNumberInVideoPlayerMixin<T extends StatefulWidget> on State<T> {
 
   @override
   void initState() {
+    size = Size(300.w, 240.h);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       startMovement();
     });

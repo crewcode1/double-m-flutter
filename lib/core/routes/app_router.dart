@@ -25,7 +25,6 @@ import 'package:doublem/features/sections&lessons/presentation/ui/screens/lesson
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/lesson_screen.dart';
 
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/sections_screen.dart';
-import 'package:doublem/features/sections&lessons/presentation/ui/screens/videos/full_screen_youtube_video_player.dart';
 import 'package:doublem/features/settings/presentation/ui/screens/settings_screen.dart';
 import 'package:doublem/features/signup/presentation/controllers/bloc/signup_verification_bloc.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/signup_screen.dart';

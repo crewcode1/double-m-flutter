@@ -19,16 +19,33 @@ class _YouTubeVideoScreenState extends State<YouTubeVideoScreen>
     with MovingNumberInVideoPlayerMixin {
   late final YoutubePlayerController _controller;
 
+  String extractVideoId({required String url}) {
+    final uri = Uri.parse(url);
+
+    if (uri.host.contains('youtu.be')) {
+      return uri.pathSegments.first;
+    }
+
+    return uri.queryParameters['v'] ?? '';
+  }
+
   @override
   void movingNumberChildInit() {
-    size = Size(300.w, 240.h);
+    final videoId = extractVideoId(url: widget.videoUrl);
 
-    final videoId = YoutubePlayerController.convertUrlToId(widget.videoUrl);
+    _controller = YoutubePlayerController.fromVideoId(
+      videoId: videoId,
+      autoPlay: false,
+      params: const YoutubePlayerParams(
+        showControls: true,
+        showFullscreenButton: true,
+      ),
+    );
 
     log('Video Id = $videoId');
 
     _controller = YoutubePlayerController.fromVideoId(
-      videoId: videoId!,
+      videoId: videoId,
       autoPlay: false,
       params: const YoutubePlayerParams(
         showControls: true,

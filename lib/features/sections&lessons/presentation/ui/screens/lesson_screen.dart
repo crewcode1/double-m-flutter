@@ -34,16 +34,16 @@ class _LessonScreenState extends State<LessonScreen> {
 
               child: Column(
                 children: [
-                  // if (widget.lessonsEntity.videoType == 0)
-                  //   YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
+                  if (widget.lessonsEntity.videoType == 0)
+                    YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
                   if (widget.lessonsEntity.videoType == 1)
                     NetworkVideoPlayerScreen(
                       videoUrl: widget.lessonsEntity.videoUrl,
                     ),
                   const SizedBox(height: 20),
+
                   if (widget.lessonsEntity.materialUrl.isNotEmpty)
                     SecurePdfScreen(pdfUrl: widget.lessonsEntity.materialUrl),
-
                   const SizedBox(height: 40),
                 ],
               ),
