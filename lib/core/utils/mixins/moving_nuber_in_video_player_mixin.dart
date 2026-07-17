@@ -25,12 +25,15 @@ mixin MovingNumberInVideoPlayerMixin<T extends StatefulWidget> on State<T> {
   }
 
   void startMovement() {
-    _timer = Timer.periodic((const Duration(seconds: 5)), (_) {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 5), (_) {
       moveRandomly();
     });
   }
 
   void moveRandomly() {
+    if (!mounted) return;
+
     const widgetWidth = 100;
     const widgetHeight = 60;
     final maxLeft = (size.width) - widgetWidth;
@@ -41,7 +44,15 @@ mixin MovingNumberInVideoPlayerMixin<T extends StatefulWidget> on State<T> {
     });
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _timer = null;
+    super.dispose();
+  }
+
   void movingNumberchilldDispose() {
     _timer?.cancel();
+    _timer = null;
   }
 }

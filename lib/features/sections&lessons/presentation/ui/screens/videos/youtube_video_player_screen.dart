@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/utils/mixins/moving_nuber_in_video_player_mixin.dart';
 import 'package:flutter/material.dart';
@@ -39,18 +37,6 @@ class _YouTubeVideoScreenState extends State<YouTubeVideoScreen>
       params: const YoutubePlayerParams(
         showControls: true,
         showFullscreenButton: true,
-      ),
-    );
-
-    log('Video Id = $videoId');
-
-    _controller = YoutubePlayerController.fromVideoId(
-      videoId: videoId,
-      autoPlay: false,
-      params: const YoutubePlayerParams(
-        showControls: true,
-        showFullscreenButton: true,
-        mute: false,
       ),
     );
   }
