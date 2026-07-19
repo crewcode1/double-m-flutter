@@ -14,7 +14,6 @@ LessonModel _$LessonModelFromJson(Map json) => LessonModel(
   title: json['title'] as String?,
   description: json['description'] as String?,
   displayOrder: (json['displayOrder'] as num?)?.toInt(),
-  videoType: (json['videoType'] as num?)?.toInt(),
   videoUrl: json['videoUrl'] as String?,
   materialUrl: json['materialUrl'] as String?,
   durationMinutes: (json['durationMinutes'] as num?)?.toInt(),
@@ -23,4 +22,5 @@ LessonModel _$LessonModelFromJson(Map json) => LessonModel(
       ? null
       : DateTime.parse(json['updatedAt'] as String),
   isCompleted: json['isCompleted'] as bool,
+  videoType: (json['videoType'] as num?)?.toInt(),
 );

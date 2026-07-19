@@ -58,7 +58,12 @@ abstract class AppRouter {
         ),
         GoRoute(
           path: LoginScreen.path,
-          pageBuilder: (context, state) => MaterialPage(child: LoginScreen()),
+          pageBuilder: (context, state) => MaterialPage(
+            child: BlocProvider<SignupVerificationBloc>(
+              create: (context) => getIt<SignupVerificationBloc>(),
+              child: LoginScreen(),
+            ),
+          ),
         ),
         ShellRoute(
           // parentNavigatorKey: _navigatorKey,
@@ -115,7 +120,7 @@ abstract class AppRouter {
               child: BlocProvider<SignupVerificationBloc>(
                 create: (context) => getIt<SignupVerificationBloc>(),
                 child: VerificationScreen(
-                  email: email ?? 'ahmedelmaghraby@gmail.com',
+                  email: email ?? 'developer@gmail.com',
                 ),
               ),
             );

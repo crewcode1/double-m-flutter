@@ -62,6 +62,7 @@ class _AddCourseModalBottomSheetState extends State<AddCourseModalBottomSheet> {
               textColor: context.colorScheme.whiteColor,
             );
           } else if (state is CourseEnrolled) {
+            context.read<CoursesBloc>().add(LoadAllCoursesEvent());
             context.pop();
           }
         },

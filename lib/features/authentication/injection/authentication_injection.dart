@@ -11,7 +11,9 @@ import 'package:doublem/features/authentication/domain/use_cases/load_profile_us
 import 'package:doublem/features/authentication/domain/use_cases/login_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/logout_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/register_use_case.dart';
+import 'package:doublem/features/authentication/domain/use_cases/resend_verification_otp_use_case.dart';
 import 'package:doublem/features/authentication/domain/use_cases/reset_password_use_case.dart';
+import 'package:doublem/features/authentication/domain/use_cases/verify_email_use_case.dart';
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_bloc.dart';
 
 void initAuthenticationInjection() {
@@ -51,6 +53,12 @@ void initAuthenticationInjection() {
   );
   getIt.registerLazySingleton<ConfirmEmailUseCase>(
     () => ConfirmEmailUseCase(authRepository: getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<VerifyEmailUseCase>(
+    () => VerifyEmailUseCase(authRepository: getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton<ResendVerificationOtpUseCase>(
+    () => ResendVerificationOtpUseCase(authRepository: getIt<AuthRepository>()),
   );
   getIt.registerLazySingleton<GeneratingParentCodeUseCase>(
     () => GeneratingParentCodeUseCase(authRepository: getIt<AuthRepository>()),

@@ -10,7 +10,9 @@ import 'package:doublem/features/authentication/data/models/requests_body_model/
 import 'package:doublem/features/authentication/data/models/requests_body_model/forgot_password_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/login_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/register_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/resend_verification_otp_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/reset_password_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/verify_email_request_body.dart';
 import 'package:doublem/features/authentication/data/models/user_profile_model.dart';
 import 'package:doublem/features/authentication/domain/entities/authentication_session.dart';
 import 'package:doublem/features/authentication/domain/entities/user_profile.dart';
@@ -101,7 +103,6 @@ class AuthRepositoryImpl implements AuthRepository {
       final AuthSession authSession = responseModel.toEntity();
       return Either.succeed(authSession);
     } catch (e) {
-      print('error$e ');
       if (e is DioException) {
         return Either.failed(NetworkFailureModel.fromDioError(e));
       } else {
@@ -157,8 +158,38 @@ class AuthRepositoryImpl implements AuthRepository {
       // final AuthSession authSession = responseModel.toEntity();
       return Either.succeed(null);
     } catch (e) {
-      print('error$e ');
+      if (e is DioException) {
+        return Either.failed(NetworkFailureModel.fromDioError(e));
+      } else {
+        return Either.failed(NetworkFailureModel(errorMessage: e.toString()));
+      }
+    }
+  }
 
+  @override
+  Future<Either<Failure, void>> verifyEmail({
+    required VerifyEmailRequestBody request,
+  }) async {
+    try {
+      await authRemoteDataSource.verifyEmail(request: request);
+      return Either.succeed(null);
+    } catch (e) {
+      if (e is DioException) {
+        return Either.failed(NetworkFailureModel.fromDioError(e));
+      } else {
+        return Either.failed(NetworkFailureModel(errorMessage: e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> resendVerificationOtp({
+    required ResendVerificationOtpRequestBody request,
+  }) async {
+    try {
+      await authRemoteDataSource.resendVerificationOtp(request: request);
+      return Either.succeed(null);
+    } catch (e) {
       if (e is DioException) {
         return Either.failed(NetworkFailureModel.fromDioError(e));
       } else {

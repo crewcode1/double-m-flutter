@@ -14,10 +14,12 @@ import 'package:doublem/features/authentication/presentation/controllers/authent
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_state.dart';
 import 'package:doublem/features/authentication/presentation/controllers/password_cubit/show_password_cubit.dart';
 import 'package:doublem/features/authentication/presentation/controllers/remember_me_cubit/remember_me_cubit.dart';
+import 'package:doublem/features/authentication/presentation/ui/screens/verification_screen.dart';
 import 'package:doublem/features/authentication/presentation/ui/widgets/custom_form_field.dart';
 import 'package:doublem/features/home/presentation/ui/screens/home_screen.dart';
 import 'package:doublem/core/presentation/widgets/custom_button.dart';
 import 'package:doublem/features/authentication/presentation/ui/screens/signup_screen.dart';
+import 'package:doublem/features/signup/presentation/controllers/bloc/signup_verification_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,8 +70,6 @@ class _LoginScreenState extends State<LoginScreen>
         listener: (context, state) {
           if (state is AuthLoading) {
             startLoading();
-
-            print('Loading');
           }
 
           if (state is Authenticated) {
@@ -90,8 +90,7 @@ class _LoginScreenState extends State<LoginScreen>
           decoration: BoxDecoration(
             gradient: context.colorScheme.loginGradient,
           ),
-          child: ListView(
-            padding: EdgeInsets.only(bottom: 30.h),
+          child: Column(
             children: [
               SizedBox(height: 79.h),
 
@@ -185,42 +184,77 @@ class _LoginScreenState extends State<LoginScreen>
               SizedBox(height: 11.h),
 
               SizedBox(
-                height: 20.h,
+                height: 40.h,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BlocProvider(
-                      create: (context) => getIt<RememberMeCubit>(),
-                      child: BlocBuilder<RememberMeCubit, RememberMeState>(
-                        builder: (context, state) {
-                          return Checkbox(
-                            value: getIt<RememberMeCubit>().rememberMe,
-                            onChanged: (value) {
-                              getIt<RememberMeCubit>().changeRememberMe();
+                    Row(
+                      children: [
+                        BlocProvider(
+                          create: (context) => getIt<RememberMeCubit>(),
+                          child: BlocBuilder<RememberMeCubit, RememberMeState>(
+                            builder: (context, state) {
+                              return Checkbox(
+                                value: getIt<RememberMeCubit>().rememberMe,
+                                onChanged: (value) {
+                                  getIt<RememberMeCubit>().changeRememberMe();
+                                },
+                              );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                        Text(
+                          context.translations.rememberMe,
+                          style: context.textTheme.bodySmall,
+                        ),
+                      ],
                     ),
-                    Text(
-                      context.translations.rememberMe,
-                      style: context.textTheme.bodySmall,
+                    BlocConsumer<
+                      SignupVerificationBloc,
+                      SignupVerificationState
+                    >(
+                      listener: (context, state) {
+                        if (state is ResendSuccessState) {
+                          showSuccess(customMessage: state.message);
+                          context.push(
+                            VerificationScreen.path,
+                            extra: _emailController.text.trim(),
+                          );
+                        }
+                        if (state is ResendErrorState) {
+                          showError(customMessage: state.errorMessage);
+                        }
+                      },
+                      builder: (context, state) {
+                        return CustomButton(
+                          loading: state is ResendLoadingState,
+                          width: 150.w,
+                          color: context.colorScheme.greenColor,
+                          title: context.translations.verifyEmail,
+                          onPressed: () {
+                            if (_formKey.currentState!.fields.first
+                                .validate()) {
+                              context.read<SignupVerificationBloc>().add(
+                                ResendOtpPressedEvent(
+                                  email: _emailController.text.trim(),
+                                ),
+                              );
+                            } else {
+                              ;
+                            }
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
+
               SizedBox(height: 27.h),
 
               CustomButton(
                 title: context.translations.login,
                 onPressed: () {
-                  // context.read<AuthenticationBloc>().add(
-                  //   LoginRequested(
-                  //     LoginRequestBody(
-                  //       email: _emailController.text,
-                  //       password: _passwordController.text,
-                  //     ),
-                  //   ),
-                  // );
                   if (_formKey.currentState!.validate()) {
                     context.read<AuthenticationBloc>().add(
                       LoginRequested(
@@ -235,22 +269,7 @@ class _LoginScreenState extends State<LoginScreen>
                 },
               ),
 
-              SizedBox(height: 11.h),
-
-              // Row(
-              //   children: [
-              //     InkWell(
-              //       onTap: () {
-              //         context.push(ForgotPasswordScreen.path);
-              //       },
-              //       child: Text(
-              //         context.translations.forgotPassword,
-              //         style: context.textTheme.bodySmall,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              SizedBox(height: 162.h),
+              SizedBox(height: 100.h),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

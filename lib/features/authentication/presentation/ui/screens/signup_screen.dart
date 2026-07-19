@@ -15,7 +15,7 @@ import 'package:doublem/features/authentication/presentation/controllers/authent
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_event.dart';
 import 'package:doublem/features/authentication/presentation/controllers/authentication_bloc/authentication_state.dart';
 import 'package:doublem/features/authentication/presentation/controllers/password_cubit/show_password_cubit.dart';
-import 'package:doublem/features/authentication/presentation/ui/screens/login_screen.dart';
+import 'package:doublem/features/authentication/presentation/ui/screens/verification_screen.dart';
 
 import 'package:doublem/features/authentication/presentation/ui/widgets/sign_up_form_field_with_label.dart';
 import 'package:flutter/material.dart';
@@ -109,10 +109,24 @@ class _SignupScreenState extends State<SignupScreen>
     super.dispose();
   }
 
+  void register() {
+    context.read<AuthenticationBloc>().add(
+      RegisterRequested(
+        RegisterRequestBody(
+          email: _email.text,
+          password: _password.text,
+          fullName: '${_firstName.text} ${_lastName.text}',
+          phoneNumber: _phone.text,
+          role: 'student',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget screen(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(title: context.translations.signUp),
       body: SafeArea(
         child: BlocListener<AuthenticationBloc, AuthState>(
@@ -124,7 +138,10 @@ class _SignupScreenState extends State<SignupScreen>
             if (state is Authenticated) {
               stopLoading();
 
-              context.go(LoginScreen.path);
+              context.pushReplacement(
+                VerificationScreen.path,
+                extra: _email.text.trim(),
+              );
             }
 
             if (state is AuthError) {
@@ -132,171 +149,191 @@ class _SignupScreenState extends State<SignupScreen>
               showError(customMessage: state.failure.errorMessage);
             }
           },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    spacing: 18.h,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SignUpFormFieldWithLabel(
-                        label: context.translations.firstName,
-                        controller: _firstName,
-                        focusNode: _firstNameFocusNode,
-                        hint: context.translations.firstName,
-                        keyboardType: TextInputType.text,
-                        onEditingComplete: () {
-                          _lastNameFocusNode.requestFocus();
-                        },
-                        validator: (String? text) => ValidationHelper.validator(
-                          context: context,
-                          text: text,
-                          validationType: ValidationType.firstName,
-                        ),
-                      ),
-                      SignUpFormFieldWithLabel(
-                        label: context.translations.lastName,
-                        controller: _lastName,
-                        focusNode: _lastNameFocusNode,
-                        hint: context.translations.lastName,
-                        keyboardType: TextInputType.text,
-                        onEditingComplete: () {
-                          _emailFocusNode.requestFocus();
-                        },
-                        validator: (String? text) => ValidationHelper.validator(
-                          context: context,
-                          text: text,
-                          validationType: ValidationType.lastName,
-                        ),
-                      ),
-                      SignUpFormFieldWithLabel(
-                        label: context.translations.email,
-                        controller: _email,
-                        focusNode: _emailFocusNode,
-                        hint: context.translations.email,
-                        keyboardType: TextInputType.text,
-                        onEditingComplete: () {
-                          _emailFocusNode.requestFocus();
-                        },
-                        validator: (String? text) => ValidationHelper.validator(
-                          context: context,
-                          text: text,
-                          validationType: ValidationType.email,
-                        ),
-                      ),
-                      SignUpFormFieldWithLabel(
-                        maxLength: 11,
-                        label: context.translations.phone,
-                        controller: _phone,
-                        focusNode: _phoneFocusNode,
-                        hint: context.translations.phone,
-                        keyboardType: TextInputType.phone,
-                        onEditingComplete: () {
-                          _emailFocusNode.requestFocus();
-                        },
-                        validator: (String? text) => ValidationHelper.validator(
-                          context: context,
-                          text: text,
-                          validationType: ValidationType.phone,
-                        ),
-                      ),
-                      BlocProvider(
-                        create: (context) => getIt<ShowPasswordCubit>(),
-                        child:
-                            BlocBuilder<ShowPasswordCubit, ShowPasswordState>(
-                              builder: (context, state) {
-                                return SignUpFormFieldWithLabel(
-                                  label: context.translations.password,
-                                  controller: _password,
-                                  focusNode: _passwordFocusNode,
-                                  hint: context.translations.password,
-                                  keyboardType: TextInputType.text,
-                                  formFieldType: FormFieldType.password,
-                                  obscureText: !(context
-                                      .read<ShowPasswordCubit>()
-                                      .showPassword),
-                                  onPressed: () {
-                                    context
-                                        .read<ShowPasswordCubit>()
-                                        .showOrHidePassword();
-                                  },
-                                  onEditingComplete: () {
-                                    _emailFocusNode.requestFocus();
-                                  },
-                                  validator: (String? text) =>
-                                      ValidationHelper.validator(
-                                        context: context,
-                                        text: text,
-                                        validationType: ValidationType.password,
-                                      ),
-                                );
-                              },
-                            ),
-                      ),
-                      BlocProvider(
-                        create: (context) => getIt<ShowPasswordCubit>(),
-                        child:
-                            BlocBuilder<ShowPasswordCubit, ShowPasswordState>(
-                              builder: (context, state) {
-                                return SignUpFormFieldWithLabel(
-                                  label: context.translations.confirmPassword,
-                                  controller: _confirmPassword,
-                                  focusNode: _confirmPasswordFocusNode,
-                                  hint: context.translations.confirmPassword,
-                                  keyboardType: TextInputType.text,
-                                  formFieldType: FormFieldType.password,
-                                  obscureText: !(context
-                                      .read<ShowPasswordCubit>()
-                                      .showPassword),
-                                  onPressed: () {
-                                    context
-                                        .read<ShowPasswordCubit>()
-                                        .showOrHidePassword();
-                                  },
-                                  onEditingComplete: () {
-                                    _emailFocusNode.requestFocus();
-                                  },
-                                  validator: (String? text) =>
-                                      ValidationHelper.validator(
-                                        context: context,
-                                        text: text,
-                                        validationType:
-                                            ValidationType.confirmPassword,
-                                      ),
-                                );
-                              },
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 33.h),
-
-                CustomButton(
-                  title: context.translations.signUp,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      context.read<AuthenticationBloc>().add(
-                        RegisterRequested(
-                          RegisterRequestBody(
-                            email: _email.text,
-                            password: _password.text,
-                            fullName: '${_firstName.text} ${_lastName.text}',
-                            phoneNumber: _phone.text,
-                            role: 'student',
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: EdgeInsets.only(bottom: 24.h),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            spacing: 18.h,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SignUpFormFieldWithLabel(
+                                label: context.translations.firstName,
+                                controller: _firstName,
+                                focusNode: _firstNameFocusNode,
+                                hint: context.translations.firstName,
+                                keyboardType: TextInputType.text,
+                                onEditingComplete: () {
+                                  _lastNameFocusNode.requestFocus();
+                                },
+                                validator: (String? text) =>
+                                    ValidationHelper.validator(
+                                      context: context,
+                                      text: text,
+                                      validationType: ValidationType.firstName,
+                                    ),
+                              ),
+                              SignUpFormFieldWithLabel(
+                                label: context.translations.lastName,
+                                controller: _lastName,
+                                focusNode: _lastNameFocusNode,
+                                hint: context.translations.lastName,
+                                keyboardType: TextInputType.text,
+                                onEditingComplete: () {
+                                  _emailFocusNode.requestFocus();
+                                },
+                                validator: (String? text) =>
+                                    ValidationHelper.validator(
+                                      context: context,
+                                      text: text,
+                                      validationType: ValidationType.lastName,
+                                    ),
+                              ),
+                              SignUpFormFieldWithLabel(
+                                label: context.translations.email,
+                                controller: _email,
+                                focusNode: _emailFocusNode,
+                                hint: context.translations.email,
+                                keyboardType: TextInputType.text,
+                                onEditingComplete: () {
+                                  _phoneFocusNode.requestFocus();
+                                },
+                                validator: (String? text) =>
+                                    ValidationHelper.validator(
+                                      context: context,
+                                      text: text,
+                                      validationType: ValidationType.email,
+                                    ),
+                              ),
+                              SignUpFormFieldWithLabel(
+                                maxLength: 11,
+                                label: context.translations.phone,
+                                controller: _phone,
+                                focusNode: _phoneFocusNode,
+                                hint: context.translations.phone,
+                                keyboardType: TextInputType.phone,
+                                onEditingComplete: () {
+                                  _passwordFocusNode.requestFocus();
+                                },
+                                validator: (String? text) =>
+                                    ValidationHelper.validator(
+                                      context: context,
+                                      text: text,
+                                      validationType: ValidationType.phone,
+                                    ),
+                              ),
+                              BlocProvider(
+                                create: (context) => getIt<ShowPasswordCubit>(),
+                                child:
+                                    BlocBuilder<
+                                      ShowPasswordCubit,
+                                      ShowPasswordState
+                                    >(
+                                      builder: (context, state) {
+                                        return SignUpFormFieldWithLabel(
+                                          label: context.translations.password,
+                                          controller: _password,
+                                          focusNode: _passwordFocusNode,
+                                          hint: context.translations.password,
+                                          keyboardType: TextInputType.text,
+                                          formFieldType: FormFieldType.password,
+                                          obscureText: !(context
+                                              .read<ShowPasswordCubit>()
+                                              .showPassword),
+                                          onPressed: () {
+                                            context
+                                                .read<ShowPasswordCubit>()
+                                                .showOrHidePassword();
+                                          },
+                                          onEditingComplete: () {
+                                            _confirmPasswordFocusNode
+                                                .requestFocus();
+                                          },
+                                          validator: (String? text) =>
+                                              ValidationHelper.validator(
+                                                context: context,
+                                                text: text,
+                                                validationType:
+                                                    ValidationType.password,
+                                              ),
+                                        );
+                                      },
+                                    ),
+                              ),
+                              BlocProvider(
+                                create: (context) => getIt<ShowPasswordCubit>(),
+                                child:
+                                    BlocBuilder<
+                                      ShowPasswordCubit,
+                                      ShowPasswordState
+                                    >(
+                                      builder: (context, state) {
+                                        return SignUpFormFieldWithLabel(
+                                          label: context
+                                              .translations
+                                              .confirmPassword,
+                                          controller: _confirmPassword,
+                                          focusNode: _confirmPasswordFocusNode,
+                                          hint: context
+                                              .translations
+                                              .confirmPassword,
+                                          keyboardType: TextInputType.text,
+                                          formFieldType: FormFieldType.password,
+                                          obscureText: !(context
+                                              .read<ShowPasswordCubit>()
+                                              .showPassword),
+                                          onPressed: () {
+                                            context
+                                                .read<ShowPasswordCubit>()
+                                                .showOrHidePassword();
+                                          },
+                                          onEditingComplete: () {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              register();
+                                            }
+                                          },
+                                          validator: (String? text) =>
+                                              ValidationHelper.validator(
+                                                context: context,
+                                                text: text,
+                                                validationType: ValidationType
+                                                    .confirmPassword,
+                                              ),
+                                        );
+                                      },
+                                    ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    }
-                  },
-                ),
+                        SizedBox(height: 33.h),
 
-                SizedBox(height: 35.h),
-              ],
-            ),
+                        CustomButton(
+                          title: context.translations.signUp,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              register();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

@@ -24,13 +24,16 @@ class SettingTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.r),
         color: color,
       ),
-      child: ListTile(
-        title: Text(
-          title,
-          style: context.textTheme.bodyMedium?.copyWith(color: titleColor),
+      child: Material(
+        color: Colors.transparent,
+        child: ListTile(
+          title: Text(
+            title,
+            style: context.textTheme.bodyMedium?.copyWith(color: titleColor),
+          ),
+          trailing: trailing,
+          onTap: onTap,
         ),
-        trailing: trailing,
-        onTap: onTap,
       ),
     );
   }

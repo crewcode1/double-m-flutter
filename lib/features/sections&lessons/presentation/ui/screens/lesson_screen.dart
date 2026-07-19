@@ -33,12 +33,21 @@ class _LessonScreenState extends State<LessonScreen> {
               padding: EdgeInsets.symmetric(horizontal: 15.w),
 
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   if (widget.lessonsEntity.videoType == 0)
-                    YouTubeVideoScreen(videoUrl: widget.lessonsEntity.videoUrl),
+                    SizedBox(
+                      height: 240.h,
+                      child: YouTubeVideoScreen(
+                        videoUrl: widget.lessonsEntity.videoUrl,
+                      ),
+                    ),
                   if (widget.lessonsEntity.videoType == 1)
-                    NetworkVideoPlayerScreen(
-                      videoUrl: widget.lessonsEntity.videoUrl,
+                    SizedBox(
+                      height: 450.h,
+                      child: NetworkVideoPlayerScreen(
+                        videoUrl: widget.lessonsEntity.videoUrl,
+                      ),
                     ),
                   const SizedBox(height: 20),
 

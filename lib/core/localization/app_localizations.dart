@@ -221,8 +221,20 @@ abstract class AppLocalizations {
   /// No description provided for @verificationValidationTime.
   ///
   /// In en, this message translates to:
-  /// **'Please note that the verification code is only valid for 60 seconds. resend?'**
+  /// **'Please note that the verification code is only valid for 60 seconds.'**
   String get verificationValidationTime;
+
+  /// No description provided for @codeVerifiedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Code verified successfully'**
+  String get codeVerifiedSuccessfully;
+
+  /// No description provided for @resend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get resend;
 
   /// No description provided for @send.
   ///
@@ -235,6 +247,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
+
+  /// No description provided for @nSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 seconds} =1{1 second} other{{count} seconds}}'**
+  String nSeconds(num count);
+
+  /// No description provided for @verifyEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify E-mail'**
+  String get verifyEmail;
 
   /// No description provided for @teachers.
   ///

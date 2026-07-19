@@ -8,6 +8,8 @@ class EndPoints {
   static const String refreshToken = 'auth/refresh-token';
   static const String forgotPassword = 'auth/forgot-password';
   static const String confirmEmail = 'auth/confirm-email';
+  static const String verifyEmail = 'auth/verify-email';
+  static const String resendVerificationOtp = 'auth/resend-verification-otp';
   static const String userProfile = 'user/profile';
   static const String courses = 'course';
   static const String enrollments = 'enrollment/my-enrollments';

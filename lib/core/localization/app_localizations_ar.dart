@@ -70,13 +70,35 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get verificationValidationTime =>
-      'يرجى ملاحظة أن رمز التحقق صالح لمدة 60 ثانية فقط. إعادة الإرسال؟';
+      'يرجى ملاحظة أن رمز التحقق صالح لمدة 60 ثانية فقط. ';
+
+  @override
+  String get codeVerifiedSuccessfully => ' تم التحقق من الرمز بنجاح';
+
+  @override
+  String get resend => 'إعادة إرسال';
 
   @override
   String get send => 'إرسال';
 
   @override
   String get home => 'الرئيسية';
+
+  @override
+  String nSeconds(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ثوان',
+      two: 'ثانيتان',
+      one: 'ثانية',
+      zero: 'صفر ثوان',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get verifyEmail => 'التحقق من البريد';
 
   @override
   String get teachers => 'المعلمون';

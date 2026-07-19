@@ -62,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BlocListener<CoursesBloc, CoursesState>(
           listener: (context, state) {
             if (state is CourseEnrolled) {
+              print('course enrolled successfully');
               context.read<CoursesBloc>().add(LoadAllCoursesEvent());
             }
           },
@@ -171,13 +172,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       IconButton(
                         onPressed: () {
+                          final coursesBloc = context.read<CoursesBloc>();
                           showModalBottomSheet(
                             useRootNavigator: true,
                             // isScrollControlled: true,
                             context: context,
                             builder: (BuildContext context) {
                               return BlocProvider.value(
-                                value: getIt<CoursesBloc>(),
+                                value: coursesBloc,
                                 child: AddCourseModalBottomSheet(),
                               );
                             },
@@ -231,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+                SliverToBoxAdapter(child: SizedBox(height: 19.h)),
               ],
             ),
           ),

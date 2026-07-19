@@ -9,7 +9,9 @@ import 'package:doublem/features/authentication/data/models/requests_body_model/
 import 'package:doublem/features/authentication/data/models/requests_body_model/forgot_password_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/login_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/register_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/resend_verification_otp_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/reset_password_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/verify_email_request_body.dart';
 import 'package:doublem/features/authentication/data/models/user_profile_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -23,6 +25,10 @@ abstract class AuthRemoteDataSource {
   Future<void> resetPassword({required ResetPasswordRequestBody request});
   Future<void> changePassword({required ChangePasswordRequestBody request});
   Future<void> confirmEmail({required ConfirmEmailRequestBody request});
+  Future<void> verifyEmail({required VerifyEmailRequestBody request});
+  Future<void> resendVerificationOtp({
+    required ResendVerificationOtpRequestBody request,
+  });
   Future<AuthResponseModel> refreshToken({required String refreshToken});
   Future<UserProfileModel> loadProfile();
   Future<String> generateParentCode();
@@ -137,6 +143,26 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   Future<void> register({required RegisterRequestBody request}) async {
     Response response = await apiServices.post(
       endPoint: EndPoints.register,
+      data: request.toJson(),
+    );
+    return response.data;
+  }
+
+  @override
+  Future<void> verifyEmail({required VerifyEmailRequestBody request}) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.verifyEmail,
+      data: request.toJson(),
+    );
+    return response.data;
+  }
+
+  @override
+  Future<void> resendVerificationOtp({
+    required ResendVerificationOtpRequestBody request,
+  }) async {
+    Response response = await apiServices.post(
+      endPoint: EndPoints.resendVerificationOtp,
       data: request.toJson(),
     );
     return response.data;

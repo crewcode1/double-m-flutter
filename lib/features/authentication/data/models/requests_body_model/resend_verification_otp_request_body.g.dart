@@ -2,15 +2,16 @@
 
 // ignore_for_file: prefer_const_declarations
 
-part of 'forgot_password_request_body.dart';
+part of 'resend_verification_otp_request_body.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ForgotPasswordRequestBody _$ForgotPasswordRequestBodyFromJson(Map json) =>
-    ForgotPasswordRequestBody(email: json['email'] as String);
+ResendVerificationOtpRequestBody _$ResendVerificationOtpRequestBodyFromJson(
+  Map json,
+) => ResendVerificationOtpRequestBody(email: json['email'] as String);
 
-Map<String, dynamic> _$ForgotPasswordRequestBodyToJson(
-  ForgotPasswordRequestBody instance,
+Map<String, dynamic> _$ResendVerificationOtpRequestBodyToJson(
+  ResendVerificationOtpRequestBody instance,
 ) => <String, dynamic>{'email': instance.email};

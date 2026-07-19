@@ -70,13 +70,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verificationValidationTime =>
-      'Please note that the verification code is only valid for 60 seconds. resend?';
+      'Please note that the verification code is only valid for 60 seconds.';
+
+  @override
+  String get codeVerifiedSuccessfully => 'Code verified successfully';
+
+  @override
+  String get resend => 'Resend';
 
   @override
   String get send => 'Send';
 
   @override
   String get home => 'Home';
+
+  @override
+  String nSeconds(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seconds',
+      one: '1 second',
+      zero: '0 seconds',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get verifyEmail => 'Verify E-mail';
 
   @override
   String get teachers => 'Teachers';

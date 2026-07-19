@@ -6,7 +6,9 @@ import 'package:doublem/features/authentication/data/models/requests_body_model/
 import 'package:doublem/features/authentication/data/models/requests_body_model/forgot_password_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/login_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/register_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/resend_verification_otp_request_body.dart';
 import 'package:doublem/features/authentication/data/models/requests_body_model/reset_password_request_body.dart';
+import 'package:doublem/features/authentication/data/models/requests_body_model/verify_email_request_body.dart';
 import 'package:doublem/features/authentication/domain/entities/authentication_session.dart';
 import 'package:doublem/features/authentication/domain/entities/user_profile.dart';
 
@@ -32,6 +34,12 @@ abstract class AuthRepository {
   });
   Future<Either<Failure, void>> confirmEmail({
     required ConfirmEmailRequestBody request,
+  });
+  Future<Either<Failure, void>> verifyEmail({
+    required VerifyEmailRequestBody request,
+  });
+  Future<Either<Failure, void>> resendVerificationOtp({
+    required ResendVerificationOtpRequestBody request,
   });
   Future<Either<Failure, AuthSession>> refreshToken({
     required String refreshToken,
