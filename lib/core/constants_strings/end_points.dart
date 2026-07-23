@@ -24,4 +24,5 @@ class EndPoints {
   static const String parent = 'parent';
   static const String generateParentCode = 'generate-link-code';
   static const String notifications = 'Notifications';
+  static const String liveSessions = 'ExtraSession';
 }

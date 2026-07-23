@@ -7,6 +7,7 @@ import 'package:doublem/features/course/presentation/controllers/course_bloc/cou
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_event.dart';
 import 'package:doublem/features/course/presentation/ui/screens/course_screen.dart';
 import 'package:doublem/features/home/presentation/ui/screens/home_screen.dart';
+import 'package:doublem/features/live_sessions/presentation/ui/screens/live_sessions_screen.dart';
 import 'package:doublem/features/main/presentation/ui/screens/main_screen.dart';
 import 'package:doublem/features/notifications/presentation/ui/screens/notifications_screen.dart';
 import 'package:doublem/features/profile/presentation/ui/screens/profile_screen.dart';
@@ -161,6 +162,13 @@ abstract class AppRouter {
           pageBuilder: (context, state) {
             List<SectionEntity> sections = state.extra as List<SectionEntity>;
             return MaterialPage(child: SectionsScreen(sections: sections));
+          },
+        ),
+        GoRoute(
+          path: LiveSessionsScreen.path,
+          pageBuilder: (context, state) {
+            int courseId = state.extra as int;
+            return MaterialPage(child: LiveSessionsScreen(courseId: courseId));
           },
         ),
         GoRoute(

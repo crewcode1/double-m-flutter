@@ -137,6 +137,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sections => 'الجلسات';
 
   @override
+  String get liveSessions => 'الجلسات المباشرة';
+
+  @override
   String get lessons => 'الدروس';
 
   @override
@@ -226,4 +229,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get arabic => 'العربية';
+
+  @override
+  String get date => 'التاريخ';
+
+  @override
+  String get time => 'الوقت';
+
+  @override
+  String get capacity => 'السعة';
+
+  @override
+  String get teacher => 'المعلم';
+
+  @override
+  String get meetingUrl => 'رابط الاجتماع';
+
+  @override
+  String get cancelled => 'ملغي';
+
+  @override
+  String get ended => 'منتهي';
+
+  @override
+  String get join => 'انضم';
+
+  @override
+  String get noLiveSessionsYet => 'لا توجد جلسات مباشرة بعد';
+
+  @override
+  String get seats => 'مقعد';
+
+  @override
+  String get status => 'الحالة';
 }

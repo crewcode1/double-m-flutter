@@ -136,6 +136,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sections => 'Sections';
 
   @override
+  String get liveSessions => 'Live sessions';
+
+  @override
   String get lessons => 'Lessons';
 
   @override
@@ -225,4 +228,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get arabic => 'Arabic';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get capacity => 'Capacity';
+
+  @override
+  String get teacher => 'Teacher';
+
+  @override
+  String get meetingUrl => 'Meeting URL';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get ended => 'Ended';
+
+  @override
+  String get join => 'Join';
+
+  @override
+  String get noLiveSessionsYet => 'No live sessions yet';
+
+  @override
+  String get seats => 'seats';
+
+  @override
+  String get status => 'Status';
 }

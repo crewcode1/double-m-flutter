@@ -38,6 +38,7 @@
     "quizzes": "الاختبارات",
     "done": "تم",
     "sections": "الجلسات",
+    "liveSessions": "الجلسات المباشرة",
     "lessons": "الدروس",
     "settings": "الإعدادات",
     "noLessonsAvaliable": "لا توجد حصص متاحة",
@@ -67,5 +68,16 @@
     "lightTheme": "النهاري",
     "darkTheme": "الليلي",
     "english": "الإنجليزية",
-    "arabic": "العربية"
+    "arabic": "العربية",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "capacity": "السعة",
+    "teacher": "المعلم",
+    "meetingUrl": "رابط الاجتماع",
+    "cancelled": "ملغي",
+    "ended": "منتهي",
+    "join": "انضم",
+    "noLiveSessionsYet": "لا توجد جلسات مباشرة بعد",
+    "seats": "مقعد",
+    "status": "الحالة"
 }

@@ -48,10 +48,10 @@ class NetworkVideoPlayerScreenState extends State<NetworkVideoPlayerScreen>
               children: [
                 /// Video with BorderRadius + Shadow
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: CustomVideoPlayer(controller: controller),
                   ),
@@ -74,7 +74,7 @@ class NetworkVideoPlayerScreenState extends State<NetworkVideoPlayerScreen>
                   "${formatDuration(position)} / ${formatDuration(duration)}",
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
 
                 /// Control Buttons
                 Row(
@@ -214,7 +214,7 @@ class NetworkVideoPlayerScreenState extends State<NetworkVideoPlayerScreen>
                   ],
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
 
                 /// Speed Control
               ],

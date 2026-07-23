@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SliverToBoxAdapter(child: SizedBox(height: 19.h)),
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: 182.h,
+                    height: 190.h,
                     child: Center(
                       child: BlocBuilder<CoursesBloc, CoursesState>(
                         builder: (context, state) {
@@ -233,7 +233,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(child: SizedBox(height: 19.h)),
               ],
             ),
           ),

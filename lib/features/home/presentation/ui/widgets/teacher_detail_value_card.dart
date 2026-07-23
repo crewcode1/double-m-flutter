@@ -33,7 +33,7 @@ class TeacherDetailValueCard extends StatelessWidget {
           Text(
             detailTitle,
             style: context.textTheme.labelSmall?.copyWith(
-              fontSize: 10,
+                fontSize: 10.sp,
               color: detailColor,
             ),
           ),
@@ -42,7 +42,7 @@ class TeacherDetailValueCard extends StatelessWidget {
             child: Text(
               valueTitle,
               style: context.textTheme.labelSmall?.copyWith(
-                fontSize: 10,
+              fontSize: 10.sp,
                 color: valueColor,
               ),
               overflow: TextOverflow.ellipsis,

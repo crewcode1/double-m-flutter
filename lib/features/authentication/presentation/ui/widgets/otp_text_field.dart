@@ -92,7 +92,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
                   .colorScheme
                   .primaryColor // لما يكتب رقم → المربع أسود
             : context.colorScheme.lightBlueColor, // الطبيعي
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
         border: Border.all(
           color: hasValue
               ? context
@@ -111,7 +111,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white, // رقم أبيض
-          fontSize: 22,
+          fontSize: 22.sp,
           fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(counterText: "", border: InputBorder.none),

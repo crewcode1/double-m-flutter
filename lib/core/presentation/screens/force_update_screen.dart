@@ -42,7 +42,7 @@ class ForceUpdateWidget extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -8,6 +8,7 @@ import 'package:doublem/features/course/domain/entities/enrolled_course.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_bloc.dart';
 import 'package:doublem/features/course/presentation/controllers/course_bloc/courses_state.dart';
 import 'package:doublem/features/course/presentation/ui/widgets/course_content_card.dart';
+import 'package:doublem/features/live_sessions/presentation/ui/screens/live_sessions_screen.dart';
 import 'package:doublem/features/quizzes/presentation/ui/screens/quizzes_screen.dart';
 import 'package:doublem/features/sections&lessons/presentation/ui/screens/sections_screen.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,6 @@ class CourseScreen extends StatelessWidget {
                   ? CircularProgressIndicator.adaptive()
                   : (state is CourseDetailsLoaded)
                   ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(height: 48.h),
 
@@ -54,7 +54,7 @@ class CourseScreen extends StatelessWidget {
                               SizedBox(
                                 height: 40.h,
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
+                                  borderRadius: BorderRadius.circular(50.r),
                                   child: CachedNetworkImage(
                                     placeholder: (context, str) => Assets
                                         .images
@@ -92,6 +92,7 @@ class CourseScreen extends StatelessWidget {
                             style: context.textTheme.bodyMedium,
                           ),
                         ),
+                        SizedBox(height: 15.h),
 
                         /// SectionsS BUTTON
                         CourseContentCard(
@@ -113,12 +114,12 @@ class CourseScreen extends StatelessWidget {
 
                         SizedBox(height: 15.h),
                         CourseContentCard(
+                          title: context.translations.quizzes,
                           color:
                               (state.course.quizzes == null ||
                                   state.course.quizzes!.isEmpty)
-                              ? context.colorScheme.greyColor
+                              ? context.colorScheme.lightGreyColor
                               : null,
-                          title: context.translations.quizzes,
                           onTap:
                               (state.course.quizzes == null ||
                                   state.course.quizzes!.isEmpty)
@@ -128,8 +129,18 @@ class CourseScreen extends StatelessWidget {
                                   extra: state.course.quizzes,
                                 ),
                         ),
+                        SizedBox(height: 15.h),
+                        CourseContentCard(
+                          title: context.translations.liveSessions,
+                          onTap: () {
+                            context.push(
+                              LiveSessionsScreen.path,
+                              extra: state.course.id,
+                            );
+                          },
+                        ),
 
-                        SizedBox(height: 200.h),
+                        SizedBox(height: 100.h),
                       ],
                     )
                   : (state is CoursesError)

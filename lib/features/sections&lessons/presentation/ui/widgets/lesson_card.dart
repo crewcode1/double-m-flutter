@@ -35,7 +35,7 @@ class LessonCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 16.h),
                 decoration: BoxDecoration(
                   color: context.colorScheme.whiteColor,
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,11 +50,11 @@ class LessonCard extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10.w),
 
                     /// صورة السيشن
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                       child: Assets.images.section.image(
                         width: 73.w,
                         height: 73.h,

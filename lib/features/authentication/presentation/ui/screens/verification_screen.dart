@@ -124,7 +124,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -133,7 +133,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 context.translations.enterCode,
                 style: context.textTheme.bodyLarge,
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 25.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(6, (i) {
@@ -146,14 +146,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   );
                 }),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Wrap(
                 children: [
                   Text(
                     context.translations.verificationValidationTime,
                     style: TextStyle(
                       color: context.colorScheme.blueColor,
-                      fontSize: 14,
+                        fontSize: 14.sp,
                     ),
                   ),
                   GestureDetector(
@@ -167,13 +167,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             ? context.colorScheme.blueColor
                             : Colors.grey,
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                      fontSize: 14.sp,
                       ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 40.h),
               BlocBuilder<SignupVerificationBloc, SignupVerificationState>(
                 builder: (context, state) {
                   final isLoading =

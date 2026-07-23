@@ -1,3 +1,4 @@
+import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:flutter/material.dart';
 
 class QuizResultScreen extends StatelessWidget {
@@ -20,20 +21,20 @@ class QuizResultScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF6EEDC),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
 
               Row(
-                children: const [
-                  Icon(Icons.arrow_back, size: 30, color: Color(0xFF08263A)),
-                  SizedBox(width: 18),
+                children: [
+                  Icon(Icons.arrow_back, size: 30.r, color: Color(0xFF08263A)),
+                  SizedBox(width: 18.w),
                   Text(
                     "Quizzes",
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF08263A),
                     ),
@@ -45,10 +46,10 @@ class QuizResultScreen extends StatelessWidget {
 
               /// RESULT BOX
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
                   color: passed ? Colors.green.shade300 : Colors.red.shade300,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Row(
                   children: [
@@ -63,19 +64,19 @@ class QuizResultScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    const Expanded(
+                    SizedBox(width: 12.w),
+                    Expanded(
                       child: Text(
                         "Testing your understanding...Testing your understanding...",
                         style: TextStyle(
                           color: Color(0xFF08263A),
-                          fontSize: 17,
+                          fontSize: 17.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(6),
+                      padding: EdgeInsets.all(6.w),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
@@ -92,18 +93,18 @@ class QuizResultScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 25),
+              SizedBox(height: 25.h),
 
               /// NEXT QUIZZES LIST
               ...List.generate(5, (i) {
                 bool locked = i > 0; // only first quiz unlocked
 
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
+                  margin: EdgeInsets.only(bottom: 12.w),
+                  padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFE1E1E6),
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(18.r),
                   ),
                   child: Row(
                     children: [
@@ -115,26 +116,26 @@ class QuizResultScreen extends StatelessWidget {
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      const Expanded(
+                      SizedBox(width: 12.w),
+                      Expanded(
                         child: Text(
                           "Testing your understanding...Testing your understanding...",
                           style: TextStyle(
                             color: Color(0xFF08263A),
-                            fontSize: 17,
+                            fontSize: 17.sp,
                           ),
                         ),
                       ),
                       Icon(
                         locked ? Icons.lock : Icons.help_outline,
                         color: const Color(0xFF08263A),
-                      )
+                      ),
                     ],
                   ),
                 );
               }),
 
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
             ],
           ),
         ),

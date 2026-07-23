@@ -1,3 +1,4 @@
+import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/utils/mixins/moving_nuber_in_video_player_mixin.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class _YouTubeVideoScreenState extends State<YouTubeVideoScreen>
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(25),
+      borderRadius: BorderRadius.circular(25.r),
       child: Stack(
         children: [
           AspectRatio(

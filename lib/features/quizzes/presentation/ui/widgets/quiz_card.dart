@@ -35,7 +35,7 @@ class QuizCard extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
                 decoration: BoxDecoration(
                   color: context.colorScheme.lightBlueColor,
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,11 +50,11 @@ class QuizCard extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10.w),
 
                     /// صورة السيشن
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                       child:
                           //  quizEntity.isActive
                           //     ?
@@ -136,11 +136,11 @@ class QuizCard extends StatelessWidget {
             //       ),
             if (!quizEntity.isActive)
               ClipRRect(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(18.r),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 2.2, sigmaY: 2.2),
                   child: Container(
-                    height: 120,
+                    height: 120.h,
                     color: Colors.grey.withOpacity(0.1),
                   ),
                 ),

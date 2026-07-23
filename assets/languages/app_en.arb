@@ -38,6 +38,7 @@
     "quizzes": "Quizzes",
     "done": "Done",
     "sections": "Sections",
+    "liveSessions": "Live sessions",
     "lessons": "Lessons",
     "noLessonsAvaliable": "No Lessons Avaliable",
     "noSectionsAvaliable": "Lessons",
@@ -67,5 +68,16 @@
     "lightTheme": "Light",
     "darkTheme": "Dark",
     "english": "English",
-    "arabic": "Arabic"
+    "arabic": "Arabic",
+    "date": "Date",
+    "time": "Time",
+    "capacity": "Capacity",
+    "teacher": "Teacher",
+    "meetingUrl": "Meeting URL",
+    "cancelled": "Cancelled",
+    "ended": "Ended",
+    "join": "Join",
+    "noLiveSessionsYet": "No live sessions yet",
+    "seats": "seats",
+    "status": "Status"
 }

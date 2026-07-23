@@ -65,7 +65,7 @@ class PlatformTeachersCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 7.h),
                   decoration: BoxDecoration(
                     color: context.colorScheme.darkBeigeColor,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                   ),
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,

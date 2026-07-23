@@ -62,13 +62,13 @@ class CurrentCourseCard extends StatelessWidget {
               SizedBox(height: 5.h),
               Text(
                 courseEntity.courseTitle,
-                style: context.textTheme.labelLarge?.copyWith(fontSize: 15),
+                style: context.textTheme.labelLarge?.copyWith(fontSize: 15.sp),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
                 courseEntity.teacherName,
-                style: context.textTheme.labelMedium?.copyWith(fontSize: 12),
+                style: context.textTheme.labelMedium?.copyWith(fontSize: 12.sp),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),

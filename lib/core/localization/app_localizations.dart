@@ -332,6 +332,12 @@ abstract class AppLocalizations {
   /// **'Sections'**
   String get sections;
 
+  /// No description provided for @liveSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Live sessions'**
+  String get liveSessions;
+
   /// No description provided for @lessons.
   ///
   /// In en, this message translates to:
@@ -511,6 +517,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Arabic'**
   String get arabic;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// No description provided for @capacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Capacity'**
+  String get capacity;
+
+  /// No description provided for @teacher.
+  ///
+  /// In en, this message translates to:
+  /// **'Teacher'**
+  String get teacher;
+
+  /// No description provided for @meetingUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting URL'**
+  String get meetingUrl;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @ended.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended'**
+  String get ended;
+
+  /// No description provided for @join.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get join;
+
+  /// No description provided for @noLiveSessionsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No live sessions yet'**
+  String get noLiveSessionsYet;
+
+  /// No description provided for @seats.
+  ///
+  /// In en, this message translates to:
+  /// **'seats'**
+  String get seats;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
 }
 
 class _AppLocalizationsDelegate

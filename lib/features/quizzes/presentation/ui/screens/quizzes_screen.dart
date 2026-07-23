@@ -31,7 +31,7 @@ class QuizzesScreen extends StatelessWidget {
             ),
 
             /// QUIZ ITEMS LIST
-            const SizedBox(height: 35),
+            SizedBox(height: 35.h),
           ],
         ),
       ),

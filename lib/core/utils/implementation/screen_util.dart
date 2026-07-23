@@ -1,17 +1,25 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 
-class ScreenUtilInit extends StatelessWidget {
-  final MaterialApp child;
-  late Size designSize;
+class ScreenUtilInit extends StatefulWidget {
+  final Widget child;
   static late double screenWidth;
   static late double screenHeight;
   static late double textSize;
   static late double radius;
+  const ScreenUtilInit({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  State<ScreenUtilInit> createState() => _ScreenUtilInitState();
+}
+
+class _ScreenUtilInitState extends State<ScreenUtilInit>
+    with WidgetsBindingObserver {
+  late Size designSize;
   static late double mediaQueryWidth;
   static late double mediaQueryHeight;
-  static late double mediaQuerytextSize;
 
   void _setUpDesignSize(double width) {
     if (width < 600) {
@@ -23,11 +31,23 @@ class ScreenUtilInit extends StatelessWidget {
     }
   }
 
-  ScreenUtilInit({
-    super.key,
-    //  required this.designSize,
-    required this.child,
-  });
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -36,14 +56,15 @@ class ScreenUtilInit extends StatelessWidget {
     _setUpDesignSize(mediaQueryWidth);
 
     /// نسبة العرض
-    screenWidth = mediaQueryWidth / designSize.width;
+    ScreenUtilInit.screenWidth = mediaQueryWidth / designSize.width;
 
     /// نسبة الارتفاع
-    screenHeight = mediaQueryHeight / designSize.height;
+    ScreenUtilInit.screenHeight = mediaQueryHeight / designSize.height;
 
     /// نختار المتوسط بينهم للـ radius عشان يطلع متوازن
-    radius = (screenWidth + screenHeight) / 2;
-    textSize = mediaQuery.textScaler.scale(1.0);
-    return child;
+    ScreenUtilInit.radius =
+        (ScreenUtilInit.screenWidth + ScreenUtilInit.screenHeight) / 2;
+    ScreenUtilInit.textSize = mediaQuery.textScaler.scale(1.0);
+    return widget.child;
   }
 }

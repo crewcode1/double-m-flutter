@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:doublem/core/extensions/screen_size.dart';
 import 'package:doublem/core/extensions/theme.dart';
 import 'package:doublem/core/utils/implementation/cache_utils.dart';
 import 'package:doublem/core/utils/mixins/video_player_custom_control_mixin.dart';
@@ -205,17 +206,17 @@ class _FullScreenVideoState extends State<FullScreenVideo>
                                       children: [
                                         Text(
                                           _formatDuration(value.position),
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 12,
+                                            fontSize: 12.sp,
                                           ),
                                         ),
                                         const Spacer(),
                                         Text(
                                           _formatDuration(value.duration),
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 12,
+                                            fontSize: 12.sp,
                                           ),
                                         ),
                                       ],

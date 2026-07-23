@@ -47,7 +47,7 @@ class PickImageWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.grey,
                 ),
-                child: Icon(Icons.add, color: Colors.white, size: 20),
+                child: Icon(Icons.add, color: Colors.white, size: 20.r),
               ),
             ),
           ),
